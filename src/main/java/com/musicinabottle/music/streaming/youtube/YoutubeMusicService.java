@@ -16,7 +16,7 @@ public class YoutubeMusicService {
     public YoutubeMusic getYoutubeMusic(String youtubeMusicUrl) throws YoutubeMusicNotFoundException, IOException, InvalidYoutubeMusicIdException, InvalidYoutubeMusicUrlException {
         String youtubeId = musicIdExtractor.extractId(youtubeMusicUrl);
         return youtubeMusicRepository.findByYoutubeId(youtubeId)
-                .orElse(createNewYoutubeMusic(youtubeMusicUrl));
+                .orElse(createNewYoutubeMusic(youtubeId));
     }
 
     private YoutubeMusic createNewYoutubeMusic(String youtubeId) throws YoutubeMusicNotFoundException, IOException, InvalidYoutubeMusicIdException {

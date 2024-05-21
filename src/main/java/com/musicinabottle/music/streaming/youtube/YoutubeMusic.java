@@ -1,4 +1,4 @@
-package com.musicinabottle.music;
+package com.musicinabottle.music.streaming.youtube;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -17,4 +17,10 @@ public class YoutubeMusic {
 
     @Column(name = "youtube_id", unique = true, nullable = false)
     private String youtubeId;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "thumbnail_url", nullable = false)
+    private String thumbnailUrl;
 }

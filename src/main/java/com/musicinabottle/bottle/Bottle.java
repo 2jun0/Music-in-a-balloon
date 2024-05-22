@@ -1,7 +1,11 @@
 package com.musicinabottle.bottle;
 
-import com.musicinabottle.music.Music;
+import com.musicinabottle.music.streaming.StreamingMusicType;
+import com.musicinabottle.music.streaming.youtube.YoutubeMusic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,10 +14,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 @Builder
 @Entity(name = "bottle")
 public class Bottle {
@@ -22,7 +24,11 @@ public class Bottle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "music_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "uploaded_streaming_music_type", nullable = false)
+    private StreamingMusicType uploadedStreamingMusicType;
+
+    @JoinColumn(name = "youtube_music_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Music music;
+    private YoutubeMusic youtubeMusic;
 }

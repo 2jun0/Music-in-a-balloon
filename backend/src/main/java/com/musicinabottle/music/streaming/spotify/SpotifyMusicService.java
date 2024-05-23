@@ -15,7 +15,7 @@ public class SpotifyMusicService {
     private final SpotifyMusicRepository spotifyMusicRepository;
     private final SpotifyMusicIdExtractor musicIdExtractor;
     private final SpotifyApi spotifyApi;
-
+    
     public SpotifyMusic getSpotifyMusic(String spotifyMusicUrl)
             throws IOException, ParseException, SpotifyWebApiException {
         String spotifyId = musicIdExtractor.extractId(spotifyMusicUrl);

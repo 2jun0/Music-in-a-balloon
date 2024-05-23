@@ -9,7 +9,7 @@ import com.google.api.services.youtube.YouTube.Videos;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +23,17 @@ public class YoutubeApi {
     private final YouTube youtube = new YouTube.Builder(httpTransport, jsonFactory, request -> {
     }).build();
 
-    public Optional<Video> getVideo(String videoId) throws IOException {
+    public Video getVideo(String videoId) throws IOException {
         Videos.List list = youtube.videos().list("snippet");
         list.setKey(apiKey);
         list.setId(videoId);
         VideoListResponse videoListResponse = list.execute();
-        return videoListResponse.getItems().stream().findFirst();
+        List<Video> items = videoListResponse.getItems();
+
+        if (items.isEmpty()) {
+            throw new InvalidYoutubeMusicException();
+        }
+
+        return items.getFirst();
     }
 }

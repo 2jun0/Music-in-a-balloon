@@ -13,13 +13,13 @@ public class YoutubeMusicService {
     private final YoutubeMusicIdExtractor musicIdExtractor;
     private final YoutubeApi youtubeApi;
 
-    public YoutubeMusic getYoutubeMusic(String youtubeMusicUrl) throws YoutubeMusicNotFoundException, IOException, InvalidYoutubeMusicIdException, InvalidYoutubeMusicUrlException {
+    public YoutubeMusic getYoutubeMusic(String youtubeMusicUrl) throws IOException {
         String youtubeId = musicIdExtractor.extractId(youtubeMusicUrl);
         return youtubeMusicRepository.findByYoutubeId(youtubeId)
                 .orElse(createNewYoutubeMusic(youtubeId));
     }
 
-    private YoutubeMusic createNewYoutubeMusic(String youtubeId) throws YoutubeMusicNotFoundException, IOException, InvalidYoutubeMusicIdException {
+    private YoutubeMusic createNewYoutubeMusic(String youtubeId) throws IOException {
         Video video = getYoutubeVideo(youtubeId);
         VideoSnippet videoSnippet = video.getSnippet();
         validateIfVideoIsMusic(videoSnippet);
@@ -34,14 +34,13 @@ public class YoutubeMusicService {
         return youtubeMusic;
     }
 
-    private Video getYoutubeVideo(String youtubeId) throws IOException, YoutubeMusicNotFoundException {
-        return youtubeApi.getVideo(youtubeId)
-                .orElseThrow(YoutubeMusicNotFoundException::new);
+    private Video getYoutubeVideo(String youtubeId) throws IOException {
+        return youtubeApi.getVideo(youtubeId);
     }
 
-    private void validateIfVideoIsMusic(VideoSnippet snippet) throws InvalidYoutubeMusicIdException {
+    private void validateIfVideoIsMusic(VideoSnippet snippet) {
         if (!snippet.getDescription().startsWith("Provided to YouTube")) {
-            throw new InvalidYoutubeMusicIdException();
+            throw new InvalidYoutubeMusicException();
         }
     }
 }

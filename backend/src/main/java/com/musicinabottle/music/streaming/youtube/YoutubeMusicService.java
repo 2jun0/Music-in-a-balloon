@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class YoutubeMusicService {
     private final YoutubeMusicRepository youtubeMusicRepository;
-    private final YoutubeMusicIdExtractor musicIdExtractor;
     private final YoutubeApi youtubeApi;
 
-    public YoutubeMusic getYoutubeMusic(String youtubeMusicUrl) throws IOException {
-        String youtubeId = musicIdExtractor.extractId(youtubeMusicUrl);
+    public YoutubeMusic getYoutubeMusic(String youtubeId) throws IOException {
         return youtubeMusicRepository.findByYoutubeId(youtubeId)
                 .orElse(createNewYoutubeMusic(youtubeId));
     }
@@ -23,13 +21,11 @@ public class YoutubeMusicService {
         Video video = getYoutubeVideo(youtubeId);
         VideoSnippet videoSnippet = video.getSnippet();
         validateIfVideoIsMusic(videoSnippet);
-
         YoutubeMusic youtubeMusic = YoutubeMusic.builder()
                 .youtubeId(youtubeId)
                 .title(videoSnippet.getTitle())
                 .thumbnailUrl(videoSnippet.getThumbnails().getDefault().getUrl())
                 .build();
-
         youtubeMusicRepository.save(youtubeMusic);
         return youtubeMusic;
     }

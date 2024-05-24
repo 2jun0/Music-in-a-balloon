@@ -1,6 +1,5 @@
 package com.musicinabottle.bottle;
 
-import com.musicinabottle.music.MusicService;
 import com.musicinabottle.music.streaming.StreamingMusicType;
 import com.musicinabottle.music.streaming.spotify.SpotifyMusic;
 import com.musicinabottle.music.streaming.youtube.YoutubeMusic;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BottleService {
     private final BottleRepository bottleRepository;
-    private final MusicService musicService;
 
     public Bottle createYoutubeMusicBottle(YoutubeMusic youtubeMusic) {
         return Bottle.builder()

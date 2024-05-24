@@ -4,11 +4,13 @@ import com.neovisionaries.i18n.CountryCode;
 import java.io.IOException;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.exceptions.detailed.BadRequestException;
 import se.michaelthelin.spotify.exceptions.detailed.NotFoundException;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+@Component
 public class SpotifyApi {
 
     private final se.michaelthelin.spotify.SpotifyApi spotifyApi;

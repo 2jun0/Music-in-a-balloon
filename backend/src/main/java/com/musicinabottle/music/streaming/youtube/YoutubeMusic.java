@@ -1,5 +1,6 @@
 package com.musicinabottle.music.streaming.youtube;
 
+import com.musicinabottle.music.streaming.StreamingMusic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +12,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @Entity(name = "youtube_music")
-public class YoutubeMusic {
+public class YoutubeMusic implements StreamingMusic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +26,14 @@ public class YoutubeMusic {
 
     @Column(name = "thumbnail_url", nullable = false)
     private String thumbnailUrl;
+
+    @Override
+    public String getAlbumImageUrl() {
+        return "";
+    }
+
+    @Override
+    public String getMusicUrl() {
+        return "";
+    }
 }

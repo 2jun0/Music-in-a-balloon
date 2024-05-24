@@ -1,5 +1,6 @@
 package com.musicinabottle.music.streaming;
 
 public enum StreamingMusicType {
-    YOUTUBE_MUSIC
+    YOUTUBE_MUSIC,
+    SPOTIFY_MUSIC
 }

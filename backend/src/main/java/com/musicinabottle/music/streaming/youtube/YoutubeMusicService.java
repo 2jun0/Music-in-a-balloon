@@ -24,7 +24,7 @@ public class YoutubeMusicService {
         YoutubeMusic youtubeMusic = YoutubeMusic.builder()
                 .youtubeId(youtubeId)
                 .title(videoSnippet.getTitle())
-                .thumbnailUrl(videoSnippet.getThumbnails().getDefault().getUrl())
+                .thumbnailUrl(videoSnippet.getThumbnails().getStandard().getUrl())
                 .build();
         youtubeMusicRepository.save(youtubeMusic);
         return youtubeMusic;

@@ -29,11 +29,11 @@ public class YoutubeMusic implements StreamingMusic {
 
     @Override
     public String getAlbumImageUrl() {
-        return "";
+        return thumbnailUrl;
     }
 
     @Override
     public String getMusicUrl() {
-        return "";
+        return "https://music.youtube.com/watch?v=" + youtubeId;
     }
 }

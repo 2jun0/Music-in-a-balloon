@@ -20,6 +20,12 @@ public class SpotifyApi {
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
                 .build();
+        initAuth();
+    }
+
+    private void initAuth() {
+        spotifyApi.clientCredentials().build().executeAsync()
+                .thenAccept(credentials -> spotifyApi.setAccessToken(credentials.getAccessToken()));
     }
 
     public Track getTrack(String trackId) throws IOException, ParseException, SpotifyWebApiException {

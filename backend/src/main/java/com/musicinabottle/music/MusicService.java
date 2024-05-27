@@ -7,14 +7,11 @@ import com.musicinabottle.music.streaming.spotify.SpotifyMusic;
 import com.musicinabottle.music.streaming.spotify.SpotifyMusicService;
 import com.musicinabottle.music.streaming.youtube.YoutubeMusic;
 import com.musicinabottle.music.streaming.youtube.YoutubeMusicService;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 @Service
 public class MusicService {
@@ -38,12 +35,12 @@ public class MusicService {
         throw new InvalidStreamingMusicException();
     }
 
-    public YoutubeMusic getYoutubeMusicByUrl(String youtubeMusicUrl) throws IOException {
+    public YoutubeMusic getYoutubeMusicByUrl(String youtubeMusicUrl) {
         String youtubeId = urlParsers.get(StreamingMusicType.YOUTUBE_MUSIC).extractId(youtubeMusicUrl);
         return youtubeMusicService.getYoutubeMusic(youtubeId);
     }
 
-    public SpotifyMusic getSpotifyMusicByUrl(String spotifyMusicUrl) throws IOException, ParseException, SpotifyWebApiException {
+    public SpotifyMusic getSpotifyMusicByUrl(String spotifyMusicUrl) {
         String spotifyId = urlParsers.get(StreamingMusicType.SPOTIFY_MUSIC).extractId(spotifyMusicUrl);
         return spotifyMusicService.getSpotifyMusic(spotifyId);
     }

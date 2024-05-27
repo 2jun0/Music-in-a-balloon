@@ -6,12 +6,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-@Builder
 @Getter
-@Entity
+@Entity(name = "spotify_music")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SpotifyMusic implements StreamingMusic {
 
     @Id
@@ -26,6 +29,13 @@ public class SpotifyMusic implements StreamingMusic {
 
     @Column(name = "album_image_url")
     private String albumImageUrl;
+
+    @Builder
+    public SpotifyMusic(@NonNull String spotifyId, @NonNull String title, String albumImageUrl) {
+        this.spotifyId = spotifyId;
+        this.title = title;
+        this.albumImageUrl = albumImageUrl;
+    }
 
     @Override
     public String getMusicUrl() {

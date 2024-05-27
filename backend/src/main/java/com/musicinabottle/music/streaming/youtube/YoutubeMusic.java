@@ -6,12 +6,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Getter
-@Builder
 @Entity(name = "youtube_music")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class YoutubeMusic implements StreamingMusic {
 
     @Id
@@ -24,8 +27,15 @@ public class YoutubeMusic implements StreamingMusic {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "thumbnail_url", nullable = false)
+    @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+
+    @Builder
+    public YoutubeMusic(@NonNull String youtubeId, @NonNull String title, String thumbnailUrl) {
+        this.youtubeId = youtubeId;
+        this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     @Override
     public String getAlbumImageUrl() {

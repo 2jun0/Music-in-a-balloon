@@ -14,12 +14,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Getter
-@Builder
 @Entity(name = "bottle")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bottle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +39,13 @@ public class Bottle {
     @JoinColumn(name = "spotify_music_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private SpotifyMusic spotifyMusic;
+
+    @Builder
+    public Bottle(@NonNull StreamingMusicType uploadedStreamingMusicType, YoutubeMusic youtubeMusic, SpotifyMusic spotifyMusic) {
+        this.uploadedStreamingMusicType = uploadedStreamingMusicType;
+        this.youtubeMusic = youtubeMusic;
+        this.spotifyMusic = spotifyMusic;
+    }
 
     public String getMusicTitle() {
         return getUploadedStreamingMusic().getMusicUrl();

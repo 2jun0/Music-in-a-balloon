@@ -3,11 +3,8 @@ package com.musicinabottle.bottle;
 import com.musicinabottle.bottle.response.BottleResponse;
 import com.musicinabottle.music.MusicService;
 import com.musicinabottle.music.streaming.StreamingMusicType;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Component;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 @RequiredArgsConstructor
 @Component
@@ -20,7 +17,7 @@ public class BottleFacade {
         return BottleResponse.of(bottleService.pickRandomBottle());
     }
 
-    public BottleResponse createBottle(String streamingMusicUrl) throws IOException, ParseException, SpotifyWebApiException {
+    public BottleResponse createBottle(String streamingMusicUrl) {
         StreamingMusicType type = musicService.checkStreamingMusicType(streamingMusicUrl);
         Bottle bottle = switch (type) {
             case YOUTUBE_MUSIC -> createYoutubeMusicBottle(streamingMusicUrl);
@@ -29,11 +26,11 @@ public class BottleFacade {
         return BottleResponse.of(bottle);
     }
 
-    private Bottle createYoutubeMusicBottle(String youtubeMusicUrl) throws IOException {
+    private Bottle createYoutubeMusicBottle(String youtubeMusicUrl) {
         return bottleService.createYoutubeMusicBottle(musicService.getYoutubeMusicByUrl(youtubeMusicUrl));
     }
 
-    private Bottle createSpotifyMusicBottle(String spotifyMusicUrl) throws IOException, ParseException, SpotifyWebApiException {
+    private Bottle createSpotifyMusicBottle(String spotifyMusicUrl) {
         return bottleService.createSpotifyMusicBottle(musicService.getSpotifyMusicByUrl(spotifyMusicUrl));
     }
 }

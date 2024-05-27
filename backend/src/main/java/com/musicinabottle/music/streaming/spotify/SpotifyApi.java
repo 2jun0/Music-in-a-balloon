@@ -28,11 +28,11 @@ public class SpotifyApi {
                 .thenAccept(credentials -> spotifyApi.setAccessToken(credentials.getAccessToken()));
     }
 
-    public Track getTrack(String trackId) throws IOException, ParseException, SpotifyWebApiException {
+    public Track getTrack(String trackId) {
         return getTrack(trackId, CountryCode.ES);
     }
 
-    public Track getTrack(String trackId, CountryCode countryCode) throws IOException, ParseException, SpotifyWebApiException {
+    public Track getTrack(String trackId, CountryCode countryCode) {
         try {
             return spotifyApi.getTrack(trackId)
                     .market(countryCode)
@@ -40,6 +40,8 @@ public class SpotifyApi {
                     .execute();
         } catch (BadRequestException | NotFoundException exception) {
             throw new InvalidSpotifyMusicException();
+        } catch (IOException | ParseException | SpotifyWebApiException exception) {
+            throw new SpotifyApiException();
         }
     }
 }

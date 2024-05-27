@@ -1,11 +1,8 @@
 package com.musicinabottle.music.streaming.spotify;
 
-import java.io.IOException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Image;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
@@ -15,13 +12,12 @@ public class SpotifyMusicService {
     private final SpotifyMusicRepository spotifyMusicRepository;
     private final SpotifyApi spotifyApi;
 
-    public SpotifyMusic getSpotifyMusic(String spotifyId)
-            throws IOException, ParseException, SpotifyWebApiException {
+    public SpotifyMusic getSpotifyMusic(String spotifyId) {
         return spotifyMusicRepository.findBySpotifyId(spotifyId)
-                .orElse(createNewSpotifyMusic(spotifyId));
+                .orElseGet(() -> createNewSpotifyMusic(spotifyId));
     }
 
-    private SpotifyMusic createNewSpotifyMusic(String spotifyId) throws IOException, ParseException, SpotifyWebApiException {
+    private SpotifyMusic createNewSpotifyMusic(String spotifyId) {
         Track track = spotifyApi.getTrack(spotifyId);
         SpotifyMusic spotifyMusic = SpotifyMusic.builder()
                 .spotifyId(spotifyId)

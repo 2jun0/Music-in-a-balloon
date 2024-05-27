@@ -2,7 +2,6 @@ package com.musicinabottle.music.streaming.youtube;
 
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoSnippet;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +11,12 @@ public class YoutubeMusicService {
     private final YoutubeMusicRepository youtubeMusicRepository;
     private final YoutubeApi youtubeApi;
 
-    public YoutubeMusic getYoutubeMusic(String youtubeId) throws IOException {
+    public YoutubeMusic getYoutubeMusic(String youtubeId) {
         return youtubeMusicRepository.findByYoutubeId(youtubeId)
-                .orElse(createNewYoutubeMusic(youtubeId));
+                .orElseGet(() -> createNewYoutubeMusic(youtubeId));
     }
 
-    private YoutubeMusic createNewYoutubeMusic(String youtubeId) throws IOException {
+    private YoutubeMusic createNewYoutubeMusic(String youtubeId) {
         Video video = getYoutubeVideo(youtubeId);
         VideoSnippet videoSnippet = video.getSnippet();
         validateIfVideoIsMusic(videoSnippet);
@@ -30,7 +29,7 @@ public class YoutubeMusicService {
         return youtubeMusic;
     }
 
-    private Video getYoutubeVideo(String youtubeId) throws IOException {
+    private Video getYoutubeVideo(String youtubeId) {
         return youtubeApi.getVideo(youtubeId);
     }
 

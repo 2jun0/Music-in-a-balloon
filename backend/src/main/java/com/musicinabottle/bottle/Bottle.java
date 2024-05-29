@@ -48,7 +48,7 @@ public class Bottle {
     }
 
     public String getMusicTitle() {
-        return getUploadedStreamingMusic().getMusicUrl();
+        return getUploadedStreamingMusic().getTitle();
     }
 
     public String getAlbumImageUrl() {

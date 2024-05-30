@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("/user")
     public void createUser(HttpServletResponse response, @RequestBody CreateUserRequest createUser) {
         UserResponse user = userFacade.createUser(createUser);
-        Cookie cookie = new Cookie("guestId", String.valueOf(user.id()));
+        Cookie cookie = new Cookie("userId", String.valueOf(user.id()));
         response.addCookie(cookie);
     }
 }

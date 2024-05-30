@@ -13,7 +13,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final AuthenticationContext context;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         for (var cookie : request.getCookies()) {
             if (cookie.getName().equals("userId")) {
                 context.setUserId(Long.parseLong(cookie.getValue()));

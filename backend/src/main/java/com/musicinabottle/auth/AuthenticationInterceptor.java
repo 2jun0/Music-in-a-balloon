@@ -14,6 +14,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (request.getCookies() == null) {
+            return true;
+        }
+
         for (var cookie : request.getCookies()) {
             if (cookie.getName().equals("userId")) {
                 context.setUserId(Long.parseLong(cookie.getValue()));

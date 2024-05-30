@@ -1,7 +1,7 @@
 package com.musicinabottle.user;
 
 import com.musicinabottle.auth.UserId;
-import com.musicinabottle.user.request.CreateUser;
+import com.musicinabottle.user.request.CreateUserRequest;
 import com.musicinabottle.user.response.UserResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public void createUser(HttpServletResponse response, @RequestBody CreateUser createUser) {
+    public void createUser(HttpServletResponse response, @RequestBody CreateUserRequest createUser) {
         UserResponse user = userFacade.createUser(createUser);
         Cookie cookie = new Cookie("guestId", String.valueOf(user.id()));
         response.addCookie(cookie);

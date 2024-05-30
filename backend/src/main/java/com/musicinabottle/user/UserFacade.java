@@ -1,6 +1,6 @@
 package com.musicinabottle.user;
 
-import com.musicinabottle.user.request.CreateUser;
+import com.musicinabottle.user.request.CreateUserRequest;
 import com.musicinabottle.user.response.UserResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

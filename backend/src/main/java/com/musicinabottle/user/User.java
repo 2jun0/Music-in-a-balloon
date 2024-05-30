@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Getter
-@Entity(name = "user")
+@Entity(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id

@@ -1,9 +1,9 @@
-package com.musicinabottle.bottle;
+package com.musicinabottle.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BottleRepository extends JpaRepository<Bottle, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 }

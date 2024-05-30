@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musicinabottle.bottle.request.CreateBottleRequest;
 import com.musicinabottle.bottle.response.BottleResponse;
 import com.musicinabottle.music.streaming.StreamingMusicType;
+import com.musicinabottle.user.User;
+import com.musicinabottle.user.UserRepository;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,8 @@ class BottleControllerTest {
 
     @Autowired
     private BottleRepository bottleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("병을 줍는다")
@@ -41,10 +46,15 @@ class BottleControllerTest {
     @Transactional
     @DisplayName("유튜브 음악 URL로 병을 생성한다")
     void createBottleByYoutubeMusicUrl() throws Exception {
+        var user = User.builder()
+                .name("username").build();
+        userRepository.save(user);
+
         var request = new CreateBottleRequest("https://music.youtube.com/watch?v=n7ePZLn9_lQ");
         var response = new BottleResponse(1L, "Super Shy", StreamingMusicType.YOUTUBE_MUSIC.name(), null);
 
         mockMvc.perform(post("/bottle")
+                        .cookie(new Cookie("userId", user.getId().toString()))
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

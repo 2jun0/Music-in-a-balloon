@@ -1,5 +1,6 @@
 package com.musicinabottle.bottle;
 
+import com.musicinabottle.auth.UserId;
 import com.musicinabottle.bottle.request.CreateBottleRequest;
 import com.musicinabottle.bottle.response.BottleResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class BottleController {
     }
 
     @PostMapping(path = "/bottle")
-    public BottleResponse createBottle(@RequestBody CreateBottleRequest request) {
-        return bottleFacade.createBottle(request.streamingMusicUrl());
+    public BottleResponse createBottle(@RequestBody CreateBottleRequest request, @UserId Long userId) {
+        return bottleFacade.createBottle(request.streamingMusicUrl(), userId);
     }
 }

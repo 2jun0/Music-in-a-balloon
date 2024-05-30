@@ -4,6 +4,7 @@ import com.musicinabottle.music.streaming.StreamingMusic;
 import com.musicinabottle.music.streaming.StreamingMusicType;
 import com.musicinabottle.music.streaming.spotify.SpotifyMusic;
 import com.musicinabottle.music.streaming.youtube.YoutubeMusic;
+import com.musicinabottle.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,11 +41,16 @@ public class Bottle {
     @ManyToOne(fetch = FetchType.LAZY)
     private SpotifyMusic spotifyMusic;
 
+    @JoinColumn(name = "creator_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User creator;
+
     @Builder
-    public Bottle(@NonNull StreamingMusicType uploadedStreamingMusicType, YoutubeMusic youtubeMusic, SpotifyMusic spotifyMusic) {
+    public Bottle(@NonNull StreamingMusicType uploadedStreamingMusicType, YoutubeMusic youtubeMusic, SpotifyMusic spotifyMusic, @NonNull User creator) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
         this.spotifyMusic = spotifyMusic;
+        this.creator = creator;
     }
 
     public String getMusicTitle() {

@@ -16,7 +16,7 @@ public class UserFacade {
         return UserResponse.of(user);
     }
 
-    public UserResponse createUser(@NonNull CreateUser createUser) {
+    public UserResponse createUser(@NonNull CreateUserRequest createUser) {
         User user = userService.createUser(createUser.username());
         return UserResponse.of(user);
     }

@@ -1,67 +1,76 @@
 package com.musicinabottle.user;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.musicinabottle.IntegrationTest;
+import com.musicinabottle.fixture.UserFixture;
 import com.musicinabottle.user.request.CreateUserRequest;
 import com.musicinabottle.user.response.UserResponse;
-import jakarta.servlet.http.Cookie;
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
-class UserControllerTest {
-
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    @Autowired
-    private MockMvc mockMvc;
+class UserControllerTest extends IntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
 
+    private static ExtractableResponse<Response> postUser(CreateUserRequest request) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when()
+                .post("/user")
+                .then().log().all().extract();
+    }
+
+    private static ExtractableResponse<Response> getUserMe(Long userId) {
+        return RestAssured
+                .given()
+                .cookie("userId", String.valueOf(userId))
+                .when()
+                .get("/user/me")
+                .then().log().all().extract();
+    }
+
     @Test
     @DisplayName("유저 정보를 받아온다")
-    void getMe() throws Exception {
+    void getMe() {
         var user = User.builder()
-                .name("username").build();
+                .name(UserFixture.USERNAME_CAOCAO).build();
         userRepository.save(user);
-        var response = UserResponse.of(user);
 
-        mockMvc.perform(get("/user/me")
-                        .cookie(new Cookie("userId", String.valueOf(user.getId()))))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(response)));
+        ExtractableResponse<Response> response = getUserMe(user.getId());
+        UserResponse userResponse = response.as(UserResponse.class);
+
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
+                    softly.assertThat(userResponse).isEqualTo(UserResponse.of(user));
+                }
+        );
     }
 
     @Test
     @DisplayName("유저를 생성하고 쿠키에 ID를 저장한다")
-    void createUser() throws Exception {
-        var request = new CreateUserRequest("username");
+    void createUser() {
+        CreateUserRequest request = new CreateUserRequest("username");
+        ExtractableResponse<Response> response = postUser(request);
 
-        mockMvc.perform(post("/user")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(cookie().value("userId", "1"));
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_CREATED);
+                    softly.assertThat(response.cookie("userId")).isNotNull();
+                }
+        );
 
-        var saved = userRepository.findById(1L).orElseThrow();
+        User saved = userRepository.findById(Long.valueOf(response.cookie("userId"))).orElseThrow();
         assert saved.getName().equals(request.username());
     }
 }

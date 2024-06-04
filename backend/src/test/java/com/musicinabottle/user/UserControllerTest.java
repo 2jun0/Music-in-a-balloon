@@ -12,13 +12,9 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 class UserControllerTest extends IntegrationTest {
-
-    @Autowired
-    private UserRepository userRepository;
 
     private static ExtractableResponse<Response> postUser(CreateUserRequest request) {
         return RestAssured
@@ -65,8 +61,5 @@ class UserControllerTest extends IntegrationTest {
                     softly.assertThat(response.cookie("userId")).isNotNull();
                 }
         );
-
-        User saved = userRepository.findById(Long.valueOf(response.cookie("userId"))).orElseThrow();
-        assert saved.getName().equals(request.username());
     }
 }

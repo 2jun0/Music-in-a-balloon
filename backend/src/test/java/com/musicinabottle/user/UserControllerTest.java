@@ -42,17 +42,13 @@ class UserControllerTest extends IntegrationTest {
     @Test
     @DisplayName("유저 정보를 받아온다")
     void getMe() {
-        var user = User.builder()
-                .name(UserFixture.USERNAME_CAOCAO).build();
-        userRepository.save(user);
-
-        ExtractableResponse<Response> response = getUserMe(user.getId());
+        ExtractableResponse<Response> response = getUserMe(defaultUser.getId());
         UserResponse userResponse = response.as(UserResponse.class);
 
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
-                    softly.assertThat(userResponse).isEqualTo(UserResponse.of(user));
+                    softly.assertThat(userResponse).isEqualTo(UserResponse.of(defaultUser));
                 }
         );
     }
@@ -60,7 +56,7 @@ class UserControllerTest extends IntegrationTest {
     @Test
     @DisplayName("유저를 생성하고 쿠키에 ID를 저장한다")
     void createUser() {
-        CreateUserRequest request = new CreateUserRequest("username");
+        CreateUserRequest request = new CreateUserRequest(UserFixture.USERNAME_CAOCAO);
         ExtractableResponse<Response> response = postUser(request);
 
         assertSoftly(

@@ -22,12 +22,16 @@ hs_err_pid*
 *.iml
 *.ipr
 /scratch
+out/
 
 ### VS Code ###
 .vscode/
 
 ### Some additional ignores (sort later)
 *.DS_Store
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 .env
 .env.test
 

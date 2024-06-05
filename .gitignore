@@ -30,3 +30,6 @@ hs_err_pid*
 *.DS_Store
 .env
 .env.test
+
+### gradle
+!/backend/gradle/wrapper/gradle-wrapper.jar

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Music in a bottle
+    name: Music in a balloon
 
   datasource:
     driver-class-name: org.h2.Driver

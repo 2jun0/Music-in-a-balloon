@@ -1,5 +1,7 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
+import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.common.exception.NotFoundException;
 import com.musicinaballoon.music.streaming.StreamingMusicType;
 import com.musicinaballoon.music.streaming.spotify.SpotifyMusic;
 import com.musicinaballoon.music.streaming.youtube.YoutubeMusic;
@@ -41,5 +43,10 @@ public class BalloonService {
     public Balloon pickRandomBalloon() {
         List<Balloon> balloons = balloonRepository.findAll();
         return balloons.getFirst();
+    }
+
+    public Balloon getBalloon(Long balloonId) {
+        return balloonRepository.findById(balloonId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }
 }

@@ -1,12 +1,13 @@
 package com.musicinaballoon.music.streaming.spotify;
 
+import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.common.exception.ServiceUnavailableException;
 import com.neovisionaries.i18n.CountryCode;
 import java.io.IOException;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.exceptions.detailed.BadRequestException;
 import se.michaelthelin.spotify.exceptions.detailed.NotFoundException;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
@@ -38,10 +39,10 @@ public class SpotifyApi {
                     .market(countryCode)
                     .build()
                     .execute();
-        } catch (BadRequestException | NotFoundException exception) {
-            throw new InvalidSpotifyMusicException();
+        } catch (NotFoundException exception) {
+            throw new com.musicinaballoon.common.exception.BadRequestException(ErrorCode.INVALID_SPOTIFY_MUSIC_ID);
         } catch (IOException | ParseException | SpotifyWebApiException exception) {
-            throw new SpotifyApiException();
+            throw new ServiceUnavailableException(ErrorCode.SPOTIFY_API_SERVICE_UNAVAILABLE, exception);
         }
     }
 }

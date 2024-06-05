@@ -2,6 +2,8 @@ package com.musicinaballoon.music.streaming.youtube;
 
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoSnippet;
+import com.musicinaballoon.common.exception.BadRequestException;
+import com.musicinaballoon.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,7 @@ public class YoutubeMusicService {
 
     private void validateIfVideoIsMusic(VideoSnippet snippet) {
         if (!snippet.getDescription().startsWith("Provided to YouTube")) {
-            throw new InvalidYoutubeMusicException();
+            throw new BadRequestException(ErrorCode.INVALID_YOUTUBE_MUSIC_ID);
         }
     }
 }

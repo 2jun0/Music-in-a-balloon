@@ -15,7 +15,7 @@ public class YoutubeMusicUrlParser implements StreamingMusicUrlParser {
     public String extractId(String url) {
         Matcher matcher = YOUTUBE_URL_PATTERN.matcher(url);
         if (!matcher.find()) {
-            throw new InvalidYoutubeMusicException();
+            throw new IllegalArgumentException();
         }
         return matcher.group();
     }

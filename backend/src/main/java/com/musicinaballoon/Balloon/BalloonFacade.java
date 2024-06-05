@@ -1,7 +1,7 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
-import com.musicinaballoon.Balloon.request.CreateBalloonRequest;
-import com.musicinaballoon.Balloon.response.BalloonResponse;
+import com.musicinaballoon.balloon.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.response.BalloonResponse;
 import com.musicinaballoon.music.MusicService;
 import com.musicinaballoon.music.streaming.StreamingMusicType;
 import com.musicinaballoon.user.User;
@@ -19,6 +19,11 @@ public class BalloonFacade {
     private final BalloonService balloonService;
     private final MusicService musicService;
     private final UserService userService;
+
+    public BalloonResponse getBalloon(Long balloonId) {
+        Balloon balloon = balloonService.getBalloon(balloonId);
+        return BalloonResponse.of(balloon);
+    }
 
     public BalloonResponse pickRandomBalloon() {
         return BalloonResponse.of(balloonService.pickRandomBalloon());

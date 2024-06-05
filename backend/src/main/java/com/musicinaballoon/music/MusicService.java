@@ -1,6 +1,7 @@
 package com.musicinaballoon.music;
 
-import com.musicinaballoon.music.streaming.InvalidStreamingMusicException;
+import com.musicinaballoon.common.exception.BadRequestException;
+import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.music.streaming.StreamingMusicType;
 import com.musicinaballoon.music.streaming.StreamingMusicUrlParser;
 import com.musicinaballoon.music.streaming.spotify.SpotifyMusic;
@@ -21,7 +22,8 @@ public class MusicService {
     private final YoutubeMusicService youtubeMusicService;
     private final SpotifyMusicService spotifyMusicService;
 
-    public MusicService(List<StreamingMusicUrlParser> urlParsers, YoutubeMusicService youtubeMusicService, SpotifyMusicService spotifyMusicService) {
+    public MusicService(List<StreamingMusicUrlParser> urlParsers, YoutubeMusicService youtubeMusicService,
+            SpotifyMusicService spotifyMusicService) {
         this.urlParsers = urlParsers.stream()
                 .collect(Collectors.toMap(StreamingMusicUrlParser::type, Function.identity()));
         this.youtubeMusicService = youtubeMusicService;
@@ -34,7 +36,7 @@ public class MusicService {
                 return entry.getKey();
             }
         }
-        throw new InvalidStreamingMusicException();
+        throw new BadRequestException(ErrorCode.INVALID_STREAMING_MUSIC_URL);
     }
 
     public YoutubeMusic getYoutubeMusicByUrl(String youtubeMusicUrl) {

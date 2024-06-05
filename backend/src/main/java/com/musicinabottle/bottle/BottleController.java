@@ -3,6 +3,7 @@ package com.musicinabottle.bottle;
 import com.musicinabottle.auth.UserId;
 import com.musicinabottle.bottle.request.CreateBottleRequest;
 import com.musicinabottle.bottle.response.BottleResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class BottleController {
 
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping(path = "/bottle")
-    public BottleResponse createBottle(@RequestBody CreateBottleRequest request, @UserId Long userId) {
-        return bottleFacade.createBottle(request.streamingMusicUrl(), userId);
+    public BottleResponse createBottle(@Valid @RequestBody CreateBottleRequest request, @UserId Long userId) {
+        return bottleFacade.createBottle(request, userId);
     }
 }

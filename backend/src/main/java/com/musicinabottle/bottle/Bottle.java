@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,12 +46,27 @@ public class Bottle {
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
+    @Column(name = "latitude", precision = 16, scale = 13, nullable = false)
+    private BigDecimal latitude;
+
+    @Column(name = "longitude", precision = 16, scale = 13, nullable = false)
+    private BigDecimal longitude;
+
     @Builder
-    public Bottle(@NonNull StreamingMusicType uploadedStreamingMusicType, YoutubeMusic youtubeMusic, SpotifyMusic spotifyMusic, @NonNull User creator) {
+    public Bottle(
+            @NonNull StreamingMusicType uploadedStreamingMusicType,
+            YoutubeMusic youtubeMusic,
+            SpotifyMusic spotifyMusic,
+            @NonNull User creator,
+            @NonNull BigDecimal latitude,
+            @NonNull BigDecimal longitude
+    ) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
         this.spotifyMusic = spotifyMusic;
         this.creator = creator;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getMusicTitle() {

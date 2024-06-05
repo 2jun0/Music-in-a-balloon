@@ -20,6 +20,11 @@ public class BalloonFacade {
     private final MusicService musicService;
     private final UserService userService;
 
+    public BalloonResponse getBalloon(Long balloonId) {
+        Balloon balloon = balloonService.getBalloon(balloonId);
+        return BalloonResponse.of(balloon);
+    }
+
     public BalloonResponse pickRandomBalloon() {
         return BalloonResponse.of(balloonService.pickRandomBalloon());
     }

@@ -42,4 +42,8 @@ public class BalloonService {
         List<Balloon> balloons = balloonRepository.findAll();
         return balloons.getFirst();
     }
+
+    public Balloon getBalloon(Long balloonId) {
+        return balloonRepository.findById(balloonId).orElseThrow(BalloonNotFound::new);
+    }
 }

@@ -6,6 +6,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Video;
+import com.musicinaballoon.common.exception.BadRequestException;
+import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.common.exception.ServiceUnavailableException;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,11 +32,11 @@ public class YoutubeApi {
                     .getItems();
 
             if (items.isEmpty()) {
-                throw new InvalidYoutubeMusicException();
+                throw new BadRequestException(ErrorCode.INVALID_YOUTUBE_MUSIC_ID);
             }
             return items.getFirst();
         } catch (IOException e) {
-            throw new YoutubeApiException();
+            throw new ServiceUnavailableException(ErrorCode.YOUTUBE_API_SERVICE_UNAVAILABLE, e);
         }
     }
 }

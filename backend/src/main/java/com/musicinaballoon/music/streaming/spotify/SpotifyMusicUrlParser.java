@@ -15,7 +15,7 @@ public class SpotifyMusicUrlParser implements StreamingMusicUrlParser {
     public String extractId(String url) {
         Matcher matcher = SPOTIFY_URL_PATTERN.matcher(url);
         if (!matcher.find()) {
-            throw new InvalidSpotifyMusicException();
+            throw new IllegalArgumentException();
         }
         return matcher.group();
     }

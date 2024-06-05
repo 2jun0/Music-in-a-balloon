@@ -1,8 +1,8 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
-import com.musicinaballoon.Balloon.request.CreateBalloonRequest;
-import com.musicinaballoon.Balloon.response.BalloonResponse;
 import com.musicinaballoon.auth.UserId;
+import com.musicinaballoon.balloon.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.response.BalloonResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

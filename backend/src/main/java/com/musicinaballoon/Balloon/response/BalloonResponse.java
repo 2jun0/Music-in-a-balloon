@@ -1,6 +1,6 @@
-package com.musicinaballoon.Balloon.response;
+package com.musicinaballoon.balloon.response;
 
-import com.musicinaballoon.Balloon.Balloon;
+import com.musicinaballoon.balloon.Balloon;
 import lombok.Builder;
 
 @Builder

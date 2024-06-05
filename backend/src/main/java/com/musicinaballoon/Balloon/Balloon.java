@@ -1,4 +1,4 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
 import com.musicinaballoon.music.streaming.StreamingMusic;
 import com.musicinaballoon.music.streaming.StreamingMusicType;

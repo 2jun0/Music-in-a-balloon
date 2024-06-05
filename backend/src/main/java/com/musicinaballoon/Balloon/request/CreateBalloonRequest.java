@@ -1,4 +1,4 @@
-package com.musicinaballoon.Balloon.request;
+package com.musicinaballoon.balloon.request;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;

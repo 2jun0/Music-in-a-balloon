@@ -1,7 +1,7 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
-import com.musicinaballoon.Balloon.request.CreateBalloonRequest;
-import com.musicinaballoon.Balloon.response.BalloonResponse;
+import com.musicinaballoon.balloon.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.response.BalloonResponse;
 import com.musicinaballoon.music.MusicService;
 import com.musicinaballoon.music.streaming.StreamingMusicType;
 import com.musicinaballoon.user.User;

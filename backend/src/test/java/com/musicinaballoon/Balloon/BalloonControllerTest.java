@@ -1,4 +1,4 @@
-package com.musicinaballoon.Balloon;
+package com.musicinaballoon.balloon;
 
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
@@ -8,9 +8,9 @@ import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LAT;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LON;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import com.musicinaballoon.Balloon.request.CreateBalloonRequest;
-import com.musicinaballoon.Balloon.response.BalloonResponse;
 import com.musicinaballoon.IntegrationTest;
+import com.musicinaballoon.balloon.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.response.BalloonResponse;
 import com.musicinaballoon.music.streaming.StreamingMusicType;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;

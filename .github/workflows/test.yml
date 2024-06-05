@@ -2,8 +2,12 @@ name: Test
 
 on:
   pull_request:
-    branches: 
-      - main   
+    branches:
+      - main
+    paths: ["backend/**"]
+  push:
+    branches:
+      - main
     paths: ["backend/**"]
 
 jobs:

@@ -5,6 +5,7 @@ import com.musicinabottle.user.request.CreateUserRequest;
 import com.musicinabottle.user.response.UserResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class UserController {
 
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/user")
-    public void createUser(HttpServletResponse response, @RequestBody CreateUserRequest createUser) {
+    public void createUser(HttpServletResponse response, @Valid @RequestBody CreateUserRequest createUser) {
         UserResponse user = userFacade.createUser(createUser);
         Cookie cookie = new Cookie("userId", String.valueOf(user.id()));
         response.addCookie(cookie);

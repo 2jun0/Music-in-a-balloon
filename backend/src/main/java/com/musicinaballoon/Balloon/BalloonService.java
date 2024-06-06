@@ -24,8 +24,7 @@ public class BalloonService {
                 .latitude(latitude)
                 .longitude(longitude)
                 .build();
-        balloonRepository.save(balloon);
-        return balloon;
+        return balloonRepository.save(balloon);
     }
 
     public Balloon createSpotifyMusicBalloon(SpotifyMusic spotifyMusic, BigDecimal latitude, BigDecimal longitude, User creator) {
@@ -36,8 +35,7 @@ public class BalloonService {
                 .latitude(latitude)
                 .longitude(longitude)
                 .build();
-        balloonRepository.save(balloon);
-        return balloon;
+        return balloonRepository.save(balloon);
     }
 
     public Balloon pickRandomBalloon() {

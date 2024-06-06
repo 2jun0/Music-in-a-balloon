@@ -2,7 +2,7 @@ package com.musicinaballoon.music.external;
 
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
-import com.neovisionaries.i18n.CountryCode;
+import com.musicinaballoon.music.external.reponse.SpotifyTrack;
 import java.io.IOException;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,14 +29,13 @@ public class SpotifyApi {
                 .thenAccept(credentials -> spotifyApi.setAccessToken(credentials.getAccessToken()));
     }
 
-    public Track getTrack(String trackId) {
-        return getTrack(trackId, CountryCode.ES);
+    public SpotifyTrack getTrack(String trackId) {
+        return SpotifyTrack.from(getTrackFromApi(trackId));
     }
 
-    public Track getTrack(String trackId, CountryCode countryCode) {
+    private Track getTrackFromApi(String trackId) {
         try {
             return spotifyApi.getTrack(trackId)
-                    .market(countryCode)
                     .build()
                     .execute();
         } catch (NotFoundException exception) {

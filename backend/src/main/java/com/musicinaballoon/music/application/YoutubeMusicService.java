@@ -1,11 +1,10 @@
 package com.musicinaballoon.music.application;
 
-import com.google.api.services.youtube.model.Video;
-import com.google.api.services.youtube.model.VideoSnippet;
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.music.external.YoutubeApi;
+import com.musicinaballoon.music.external.reponse.YoutubeVideo;
 import com.musicinaballoon.music.repository.YoutubeMusicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,24 +21,18 @@ public class YoutubeMusicService {
     }
 
     private YoutubeMusic createNewYoutubeMusic(String youtubeId) {
-        Video video = getYoutubeVideo(youtubeId);
-        VideoSnippet videoSnippet = video.getSnippet();
-        validateIfVideoIsMusic(videoSnippet);
+        YoutubeVideo video = youtubeApi.getVideo(youtubeId);
+        validateIfVideoIsMusic(video);
         YoutubeMusic youtubeMusic = YoutubeMusic.builder()
-                .youtubeId(youtubeId)
-                .title(videoSnippet.getTitle())
-                .thumbnailUrl(videoSnippet.getThumbnails().getStandard().getUrl())
+                .youtubeId(video.id())
+                .title(video.title())
+                .thumbnailUrl(video.thumbnail().standardUrl())
                 .build();
-        youtubeMusicRepository.save(youtubeMusic);
-        return youtubeMusic;
+        return youtubeMusicRepository.save(youtubeMusic);
     }
 
-    private Video getYoutubeVideo(String youtubeId) {
-        return youtubeApi.getVideo(youtubeId);
-    }
-
-    private void validateIfVideoIsMusic(VideoSnippet snippet) {
-        if (!snippet.getDescription().startsWith("Provided to YouTube")) {
+    private void validateIfVideoIsMusic(YoutubeVideo video) {
+        if (!video.description().startsWith("Provided to YouTube")) {
             throw new BadRequestException(ErrorCode.INVALID_YOUTUBE_MUSIC_ID);
         }
     }

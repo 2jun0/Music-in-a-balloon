@@ -2,12 +2,12 @@ package com.musicinaballoon.music.application;
 
 import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.external.SpotifyApi;
+import com.musicinaballoon.music.external.reponse.SpotifyAlbum;
+import com.musicinaballoon.music.external.reponse.SpotifyTrack;
 import com.musicinaballoon.music.repository.SpotifyMusicRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import se.michaelthelin.spotify.model_objects.specification.Image;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 
 @RequiredArgsConstructor
 @Service
@@ -21,20 +21,20 @@ public class SpotifyMusicService {
     }
 
     private SpotifyMusic createNewSpotifyMusic(String spotifyId) {
-        Track track = spotifyApi.getTrack(spotifyId);
+        SpotifyTrack track = spotifyApi.getTrack(spotifyId);
         SpotifyMusic spotifyMusic = SpotifyMusic.builder()
-                .spotifyId(spotifyId)
-                .title(track.getName())
-                .albumImageUrl(getAlbumUrl(track).orElse(null))
+                .spotifyId(track.trackId())
+                .title(track.name())
+                .albumImageUrl(getAlbumImageUrl(track.album()).orElse(null))
                 .build();
         return spotifyMusicRepository.save(spotifyMusic);
     }
 
-    private Optional<String> getAlbumUrl(Track track) {
-        Image[] images = track.getAlbum().getImages();
-        if (images.length == 0) {
+    private Optional<String> getAlbumImageUrl(SpotifyAlbum album) {
+        if (album.images().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(images[0].getUrl());
+
+        return Optional.of(album.images().getFirst().url());
     }
 }

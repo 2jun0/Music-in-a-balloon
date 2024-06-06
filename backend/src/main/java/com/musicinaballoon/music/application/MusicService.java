@@ -1,13 +1,11 @@
-package com.musicinaballoon.music;
+package com.musicinaballoon.music.application;
 
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
-import com.musicinaballoon.music.streaming.StreamingMusicType;
-import com.musicinaballoon.music.streaming.StreamingMusicUrlParser;
-import com.musicinaballoon.music.streaming.spotify.SpotifyMusic;
-import com.musicinaballoon.music.streaming.spotify.SpotifyMusicService;
-import com.musicinaballoon.music.streaming.youtube.YoutubeMusic;
-import com.musicinaballoon.music.streaming.youtube.YoutubeMusicService;
+import com.musicinaballoon.music.domain.SpotifyMusic;
+import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.music.domain.StreamingMusicUrlParser;
+import com.musicinaballoon.music.domain.YoutubeMusic;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

@@ -1,5 +1,8 @@
-package com.musicinaballoon.music.streaming.spotify;
+package com.musicinaballoon.music.application;
 
+import com.musicinaballoon.music.domain.SpotifyMusic;
+import com.musicinaballoon.music.external.SpotifyApi;
+import com.musicinaballoon.music.repository.SpotifyMusicRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

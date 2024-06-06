@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.streaming.spotify;
+package com.musicinaballoon.music.external;
 
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;

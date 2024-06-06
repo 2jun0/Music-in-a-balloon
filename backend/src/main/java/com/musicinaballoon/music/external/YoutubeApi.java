@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.streaming.youtube;
+package com.musicinaballoon.music.external;
 
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;

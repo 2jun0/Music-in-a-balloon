@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.streaming;
+package com.musicinaballoon.music.domain;
 
 public interface StreamingMusic {
     String getTitle();

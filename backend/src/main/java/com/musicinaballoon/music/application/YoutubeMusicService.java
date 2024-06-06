@@ -1,9 +1,12 @@
-package com.musicinaballoon.music.streaming.youtube;
+package com.musicinaballoon.music.application;
 
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoSnippet;
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.music.domain.YoutubeMusic;
+import com.musicinaballoon.music.external.YoutubeApi;
+import com.musicinaballoon.music.repository.YoutubeMusicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

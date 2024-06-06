@@ -1,7 +1,5 @@
-package com.musicinaballoon.music.streaming.youtube;
+package com.musicinaballoon.music.domain;
 
-import com.musicinaballoon.music.streaming.StreamingMusicType;
-import com.musicinaballoon.music.streaming.StreamingMusicUrlParser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;

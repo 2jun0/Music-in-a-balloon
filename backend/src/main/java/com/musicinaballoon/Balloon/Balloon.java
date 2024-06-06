@@ -1,9 +1,9 @@
 package com.musicinaballoon.balloon;
 
-import com.musicinaballoon.music.streaming.StreamingMusic;
-import com.musicinaballoon.music.streaming.StreamingMusicType;
-import com.musicinaballoon.music.streaming.spotify.SpotifyMusic;
-import com.musicinaballoon.music.streaming.youtube.YoutubeMusic;
+import com.musicinaballoon.music.domain.SpotifyMusic;
+import com.musicinaballoon.music.domain.StreamingMusic;
+import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

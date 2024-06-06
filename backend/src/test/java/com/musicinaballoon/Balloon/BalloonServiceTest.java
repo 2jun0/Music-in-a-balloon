@@ -11,9 +11,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 import com.musicinaballoon.common.exception.NotFoundException;
-import com.musicinaballoon.music.streaming.StreamingMusicType;
-import com.musicinaballoon.music.streaming.spotify.SpotifyMusic;
-import com.musicinaballoon.music.streaming.youtube.YoutubeMusic;
+import com.musicinaballoon.music.domain.SpotifyMusic;
+import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.User;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;

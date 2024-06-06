@@ -27,8 +27,7 @@ public class SpotifyMusicService {
                 .title(track.getName())
                 .albumImageUrl(getAlbumUrl(track).orElse(null))
                 .build();
-        spotifyMusicRepository.save(spotifyMusic);
-        return spotifyMusic;
+        return spotifyMusicRepository.save(spotifyMusic);
     }
 
     private Optional<String> getAlbumUrl(Track track) {

@@ -6,6 +6,10 @@ import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_I
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LAT;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LON;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -16,7 +20,6 @@ import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.User;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,44 +56,44 @@ class BalloonServiceTest {
     @Test
     void createYoutubeMusicBalloon() {
         // given
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
-                .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
-                .longitude(PYRAMID_OF_KHUFU_LON)
-                .latitude(PYRAMID_OF_KHUFU_LAT)
-                .creator(USER)
-                .build();
-
-        given(balloonRepository.save(any(Balloon.class))).willReturn(balloon);
+        given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
         Balloon created = balloonService.createYoutubeMusicBalloon(YOUTUBE_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LAT,
                 PYRAMID_OF_KHUFU_LON, USER);
 
         // then
-        Assertions.assertThat(created).isEqualTo(balloon);
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.YOUTUBE_MUSIC);
+                    softly.assertThat(created.getYoutubeMusic()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY);
+                    softly.assertThat(created.getLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LON);
+                    softly.assertThat(created.getLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
+                    softly.assertThat(created.getCreator()).isEqualTo(USER);
+                }
+        );
     }
 
     @DisplayName("스포티파이 뮤직으로 풍선을 생성한다")
     @Test
     void createSpotifyMusicBalloon() {
         // given
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.SPOTIFY_MUSIC)
-                .spotifyMusic(SPOTIFY_MUSIC_SUPER_SHY)
-                .longitude(PYRAMID_OF_KHUFU_LON)
-                .latitude(PYRAMID_OF_KHUFU_LAT)
-                .creator(USER)
-                .build();
-
-        given(balloonRepository.save(any(Balloon.class))).willReturn(balloon);
+        given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
         Balloon created = balloonService.createSpotifyMusicBalloon(SPOTIFY_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LAT,
                 PYRAMID_OF_KHUFU_LON, USER);
 
         // then
-        Assertions.assertThat(created).isEqualTo(balloon);
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.SPOTIFY_MUSIC);
+                    softly.assertThat(created.getSpotifyMusic()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY);
+                    softly.assertThat(created.getLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LON);
+                    softly.assertThat(created.getLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
+                    softly.assertThat(created.getCreator()).isEqualTo(USER);
+                }
+        );
     }
 
     @DisplayName("풍선을 가져온다")
@@ -111,7 +114,7 @@ class BalloonServiceTest {
         Balloon gotten = balloonService.getBalloon(1L);
 
         // then
-        Assertions.assertThat(gotten).isEqualTo(balloon);
+        assertThat(gotten).isEqualTo(balloon);
     }
 
     @DisplayName("풍선을 가져온다")
@@ -121,6 +124,6 @@ class BalloonServiceTest {
         given(balloonRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when & then
-        Assertions.assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
     }
 }

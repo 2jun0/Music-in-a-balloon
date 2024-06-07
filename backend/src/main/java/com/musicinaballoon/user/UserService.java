@@ -2,11 +2,9 @@ package com.musicinaballoon.user;
 
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.NotFoundException;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Getter
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -16,8 +14,7 @@ public class UserService {
         User user = User.builder()
                 .name(username)
                 .build();
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     public User getUser(Long userId) {

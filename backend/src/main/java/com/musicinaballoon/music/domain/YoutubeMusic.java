@@ -1,6 +1,5 @@
-package com.musicinaballoon.music.streaming.youtube;
+package com.musicinaballoon.music.domain;
 
-import com.musicinaballoon.music.streaming.StreamingMusic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

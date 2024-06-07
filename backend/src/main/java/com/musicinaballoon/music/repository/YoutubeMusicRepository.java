@@ -1,5 +1,6 @@
-package com.musicinaballoon.music.streaming.youtube;
+package com.musicinaballoon.music.repository;
 
+import com.musicinaballoon.music.domain.YoutubeMusic;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

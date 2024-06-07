@@ -2,8 +2,8 @@ package com.musicinaballoon.balloon;
 
 import com.musicinaballoon.balloon.request.CreateBalloonRequest;
 import com.musicinaballoon.balloon.response.BalloonResponse;
-import com.musicinaballoon.music.MusicService;
-import com.musicinaballoon.music.streaming.StreamingMusicType;
+import com.musicinaballoon.music.application.MusicService;
+import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.user.User;
 import com.musicinaballoon.user.UserService;
 import java.math.BigDecimal;
@@ -33,8 +33,10 @@ public class BalloonFacade {
         User user = userService.getUser(ownerId);
         StreamingMusicType type = musicService.checkStreamingMusicType(request.streamingMusicUrl());
         Balloon balloon = switch (type) {
-            case YOUTUBE_MUSIC -> createYoutubeMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
-            case SPOTIFY_MUSIC -> createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
+            case YOUTUBE_MUSIC ->
+                    createYoutubeMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
+            case SPOTIFY_MUSIC ->
+                    createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
         };
         return BalloonResponse.of(balloon);
     }

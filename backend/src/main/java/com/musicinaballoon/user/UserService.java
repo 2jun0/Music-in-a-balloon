@@ -14,8 +14,7 @@ public class UserService {
         User user = User.builder()
                 .name(username)
                 .build();
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     public User getUser(Long userId) {

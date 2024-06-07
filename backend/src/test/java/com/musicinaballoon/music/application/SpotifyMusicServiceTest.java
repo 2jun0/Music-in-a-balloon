@@ -11,7 +11,11 @@ import static org.mockito.BDDMockito.given;
 
 import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.external.SpotifyApi;
+import com.musicinaballoon.music.external.reponse.SpotifyAlbum;
+import com.musicinaballoon.music.external.reponse.SpotifyImage;
+import com.musicinaballoon.music.external.reponse.SpotifyTrack;
 import com.musicinaballoon.music.repository.SpotifyMusicRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +23,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
-import se.michaelthelin.spotify.model_objects.specification.Image;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 
 @ExtendWith(MockitoExtension.class)
 class SpotifyMusicServiceTest {
@@ -44,15 +45,8 @@ class SpotifyMusicServiceTest {
         given(spotifyMusicRepository.findBySpotifyId(anyString())).willReturn(Optional.empty());
         given(spotifyMusicRepository.save(any(SpotifyMusic.class))).will(returnsFirstArg());
 
-        Track track = new Track.Builder()
-                .setId(SPOTIFY_MUSIC_SUPER_SHY_ID)
-                .setName(SPOTIFY_MUSIC_SUPER_SHY_TITLE)
-                .setAlbum(
-                        new AlbumSimplified.Builder()
-                                .setImages(
-                                        new Image.Builder().setUrl(ALBUM_URL).build()
-                                ).build()
-                ).build();
+        SpotifyTrack track = new SpotifyTrack(SPOTIFY_MUSIC_SUPER_SHY_ID, SPOTIFY_MUSIC_SUPER_SHY_TITLE,
+                new SpotifyAlbum(List.of(new SpotifyImage(ALBUM_URL))));
 
         given(spotifyApi.getTrack(anyString())).willReturn(track);
 

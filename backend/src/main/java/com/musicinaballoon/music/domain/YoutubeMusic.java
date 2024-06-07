@@ -14,7 +14,7 @@ import lombok.NonNull;
 @Getter
 @Entity(name = "youtube_music")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YoutubeMusic implements StreamingMusic {
+public class YoutubeMusic extends StreamingMusic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon;
 
+import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.domain.StreamingMusic;
 import com.musicinaballoon.music.domain.StreamingMusicType;
@@ -25,7 +26,8 @@ import lombok.NonNull;
 @Getter
 @Entity(name = "balloon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Balloon {
+public class Balloon extends BaseEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

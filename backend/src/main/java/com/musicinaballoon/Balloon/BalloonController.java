@@ -24,6 +24,7 @@ public class BalloonController {
         return balloonFacade.getBalloon(balloonId);
     }
 
+    @Deprecated
     @PostMapping(path = "/balloon/pick")
     public BalloonResponse pickBalloon() {
         return balloonFacade.pickRandomBalloon();

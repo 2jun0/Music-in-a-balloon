@@ -38,6 +38,7 @@ public class BalloonService {
         return balloonRepository.save(balloon);
     }
 
+    @Deprecated
     public Balloon pickRandomBalloon() {
         List<Balloon> balloons = balloonRepository.findAll();
         return balloons.getFirst();

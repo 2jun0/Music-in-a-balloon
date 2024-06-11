@@ -25,6 +25,7 @@ public class BalloonFacade {
         return BalloonResponse.of(balloon);
     }
 
+    @Deprecated
     public BalloonResponse pickRandomBalloon() {
         return BalloonResponse.of(balloonService.pickRandomBalloon());
     }

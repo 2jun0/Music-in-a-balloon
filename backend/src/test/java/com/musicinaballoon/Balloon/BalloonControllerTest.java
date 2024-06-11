@@ -66,7 +66,7 @@ class BalloonControllerTest extends IntegrationTest {
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
-                    softly.assertThat(balloonResponse).isEqualTo(BalloonResponse.of(balloon));
+                    softly.assertThat(balloonResponse).isEqualTo(BalloonResponse.from(balloon));
                 }
         );
     }

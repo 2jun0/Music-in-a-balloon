@@ -6,7 +6,12 @@ import com.musicinaballoon.music.application.MusicService;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.user.User;
 import com.musicinaballoon.user.UserService;
+import com.musicinaballoon.wave.application.WaveService;
+import com.musicinaballoon.wave.domain.Wave;
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +24,21 @@ public class BalloonFacade {
     private final BalloonService balloonService;
     private final MusicService musicService;
     private final UserService userService;
+    private final WaveService waveService;
 
     public BalloonResponse getBalloon(Long balloonId) {
         Balloon balloon = balloonService.getBalloon(balloonId);
-        return BalloonResponse.of(balloon);
+        Wave curWave = waveService.getCurrentWave();
+
+        double curBalloonLon = getCurrentBalloonLongitude(balloon, curWave);
+        double curBalloonLat = getCurrentBalloonLatitude(curBalloonLon, balloon, curWave);
+
+        return BalloonResponse.from(balloon, curBalloonLon, curBalloonLat);
     }
 
     @Deprecated
     public BalloonResponse pickRandomBalloon() {
-        return BalloonResponse.of(balloonService.pickRandomBalloon());
+        return BalloonResponse.from(balloonService.pickRandomBalloon());
     }
 
     public BalloonResponse createBalloon(CreateBalloonRequest request, Long ownerId) {
@@ -39,7 +50,7 @@ public class BalloonFacade {
             case SPOTIFY_MUSIC ->
                     createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
         };
-        return BalloonResponse.of(balloon);
+        return BalloonResponse.from(balloon);
     }
 
     private Balloon createYoutubeMusicBalloon(String youtubeMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
@@ -50,5 +61,14 @@ public class BalloonFacade {
     private Balloon createSpotifyMusicBalloon(String spotifyMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
         var spotifyMusic = musicService.getSpotifyMusicByUrl(spotifyMusicUrl);
         return balloonService.createSpotifyMusicBalloon(spotifyMusic, latitude, longitude, owner);
+    }
+
+    private double getCurrentBalloonLongitude(Balloon balloon, Wave wave) {
+        long time = ChronoUnit.SECONDS.between(balloon.getCreated_at(), ZonedDateTime.now(ZoneOffset.UTC));
+        return wave.calcLon(balloon.getBaseLon().doubleValue(), time);
+    }
+
+    private double getCurrentBalloonLatitude(double curBalloonLon, Balloon balloon, Wave wave) {
+        return wave.calcLat(curBalloonLon, balloon.getBaseLat().doubleValue(), balloon.getBaseLon().doubleValue());
     }
 }

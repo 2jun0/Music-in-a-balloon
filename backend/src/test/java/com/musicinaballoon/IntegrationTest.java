@@ -1,7 +1,7 @@
 package com.musicinaballoon;
 
-import com.musicinaballoon.user.User;
-import com.musicinaballoon.user.UserRepository;
+import com.musicinaballoon.user.domain.User;
+import com.musicinaballoon.user.repository.UserRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

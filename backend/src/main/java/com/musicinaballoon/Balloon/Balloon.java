@@ -27,7 +27,7 @@ import lombok.NonNull;
 @Entity(name = "balloon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Balloon extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,11 +48,11 @@ public class Balloon extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
-    @Column(name = "latitude", precision = 16, scale = 13, nullable = false)
-    private BigDecimal latitude;
+    @Column(name = "base_lat", precision = 16, scale = 13, nullable = false)
+    private BigDecimal baseLat;
 
-    @Column(name = "longitude", precision = 16, scale = 13, nullable = false)
-    private BigDecimal longitude;
+    @Column(name = "base_lon", precision = 16, scale = 13, nullable = false)
+    private BigDecimal baseLon;
 
     @Builder
     public Balloon(
@@ -60,15 +60,15 @@ public class Balloon extends BaseEntity {
             YoutubeMusic youtubeMusic,
             SpotifyMusic spotifyMusic,
             @NonNull User creator,
-            @NonNull BigDecimal latitude,
-            @NonNull BigDecimal longitude
+            @NonNull BigDecimal baseLat,
+            @NonNull BigDecimal baseLon
     ) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
         this.spotifyMusic = spotifyMusic;
         this.creator = creator;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.baseLat = baseLat;
+        this.baseLon = baseLon;
     }
 
     public String getMusicTitle() {

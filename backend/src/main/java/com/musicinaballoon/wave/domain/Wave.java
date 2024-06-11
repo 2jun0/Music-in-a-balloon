@@ -28,7 +28,7 @@ public class Wave extends BaseEntity {
     private Double amplitude;
 
     @Column(name = "offset_lon", nullable = false)
-    private Double offset_lon;
+    private Double offsetLon;
 
     @Column(name = "velocity", nullable = false)
     private Double velocity;
@@ -36,11 +36,11 @@ public class Wave extends BaseEntity {
     @Builder
     public Wave(
             @NonNull Double velocity,
-            @NonNull Double offset_lon,
+            @NonNull Double offsetLon,
             @NonNull Double amplitude,
             @NonNull Double period) {
         this.velocity = velocity;
-        this.offset_lon = offset_lon;
+        this.offsetLon = offsetLon;
         this.amplitude = amplitude;
         this.period = period;
     }
@@ -54,6 +54,6 @@ public class Wave extends BaseEntity {
     }
 
     private double func(double lonDegree) {
-        return amplitude * 90 * Math.sin(period * Math.toRadians(lonDegree + offset_lon));
+        return amplitude * 90 * Math.sin(period * Math.toRadians(lonDegree + offsetLon));
     }
 }

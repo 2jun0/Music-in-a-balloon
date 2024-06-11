@@ -69,8 +69,8 @@ class BalloonServiceTest {
                 softly -> {
                     softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.YOUTUBE_MUSIC);
                     softly.assertThat(created.getYoutubeMusic()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY);
-                    softly.assertThat(created.getLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LON);
-                    softly.assertThat(created.getLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
+                    softly.assertThat(created.getBaseLon()).isEqualTo(PYRAMID_OF_KHUFU_LON);
+                    softly.assertThat(created.getBaseLat()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
                     softly.assertThat(created.getCreator()).isEqualTo(USER);
                 }
         );
@@ -91,8 +91,8 @@ class BalloonServiceTest {
                 softly -> {
                     softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.SPOTIFY_MUSIC);
                     softly.assertThat(created.getSpotifyMusic()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY);
-                    softly.assertThat(created.getLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LON);
-                    softly.assertThat(created.getLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
+                    softly.assertThat(created.getBaseLon()).isEqualTo(PYRAMID_OF_KHUFU_LON);
+                    softly.assertThat(created.getBaseLat()).isEqualTo(PYRAMID_OF_KHUFU_LAT);
                     softly.assertThat(created.getCreator()).isEqualTo(USER);
                 }
         );
@@ -105,8 +105,8 @@ class BalloonServiceTest {
         Balloon balloon = Balloon.builder()
                 .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
                 .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
-                .longitude(PYRAMID_OF_KHUFU_LON)
-                .latitude(PYRAMID_OF_KHUFU_LAT)
+                .baseLon(PYRAMID_OF_KHUFU_LON)
+                .baseLat(PYRAMID_OF_KHUFU_LAT)
                 .creator(USER)
                 .build();
 

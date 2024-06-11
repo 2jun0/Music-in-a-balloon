@@ -14,11 +14,11 @@ public class UserFacade {
 
     public UserResponse getMe(Long userId) {
         User user = userService.getUser(userId);
-        return UserResponse.of(user);
+        return UserResponse.from(user);
     }
 
     public UserResponse createUser(CreateUserRequest createUser) {
         User user = userService.createUser(createUser.username());
-        return UserResponse.of(user);
+        return UserResponse.from(user);
     }
 }

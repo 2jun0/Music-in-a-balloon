@@ -44,7 +44,7 @@ class UserControllerTest extends IntegrationTest {
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
-                    softly.assertThat(userResponse).isEqualTo(UserResponse.of(defaultUser));
+                    softly.assertThat(userResponse).isEqualTo(UserResponse.from(defaultUser));
                 }
         );
     }

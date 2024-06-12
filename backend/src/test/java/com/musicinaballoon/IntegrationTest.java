@@ -2,6 +2,7 @@ package com.musicinaballoon;
 
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.user.repository.UserRepository;
+import com.musicinaballoon.wave.config.WaveDataLoader;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +21,14 @@ public abstract class IntegrationTest {
     private UserRepository userRepository;
     @Autowired
     private DatabaseCleaner databaseCleaner;
+    @Autowired
+    private WaveDataLoader waveDataLoader;
 
     @BeforeEach
     void setUp() {
         setPort();
         setAuthentication();
+        waveDataLoader.run();
     }
 
     @AfterEach

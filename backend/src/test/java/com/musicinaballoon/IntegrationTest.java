@@ -3,6 +3,7 @@ package com.musicinaballoon;
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.user.repository.UserRepository;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +23,13 @@ public abstract class IntegrationTest {
 
     @BeforeEach
     void setUp() {
-        clearDatabase();
         setPort();
         setAuthentication();
+    }
+
+    @AfterEach
+    void reset() {
+        clearDatabase();
     }
 
     void setPort() {

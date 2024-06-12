@@ -68,7 +68,12 @@ class BalloonControllerTest extends IntegrationTest {
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
-                    softly.assertThat(balloonResponse).isEqualTo(BalloonResponse.from(balloon));
+                    softly.assertThat(balloonResponse.id()).isEqualTo(balloon.getId());
+                    softly.assertThat(balloonResponse.title()).isEqualTo(balloon.getMusicTitle());
+                    softly.assertThat(balloonResponse.uploadedStreamingMusicType())
+                            .isEqualTo(balloon.getUploadedStreamingMusicType().toString());
+                    softly.assertThat(balloonResponse.baseLat()).isEqualTo(balloon.getBaseLat());
+                    softly.assertThat(balloonResponse.baseLon()).isEqualTo(balloon.getBaseLon());
                 }
         );
     }

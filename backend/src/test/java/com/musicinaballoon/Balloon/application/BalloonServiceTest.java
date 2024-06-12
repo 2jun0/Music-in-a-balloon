@@ -119,7 +119,7 @@ class BalloonServiceTest {
         assertThat(gotten).isEqualTo(balloon);
     }
 
-    @DisplayName("풍선을 가져온다")
+    @DisplayName("없는 풍선을 가져올시 NotFound 예외가 발생한다")
     @Test
     void getBalloonNotFound() {
         // given

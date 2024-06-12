@@ -27,7 +27,7 @@ public record BalloonResponse(
                 .baseLat(balloon.getBaseLat())
                 .curLat(curLat)
                 .curLon(curLon)
-                .createdAt(balloon.getCreated_at())
+                .createdAt(balloon.getCreatedAt())
                 .build();
     }
 
@@ -39,7 +39,7 @@ public record BalloonResponse(
                 .albumImageUrl(balloon.getAlbumImageUrl())
                 .baseLon(balloon.getBaseLon())
                 .baseLat(balloon.getBaseLat())
-                .createdAt(balloon.getCreated_at())
+                .createdAt(balloon.getCreatedAt())
                 .build();
     }
 }

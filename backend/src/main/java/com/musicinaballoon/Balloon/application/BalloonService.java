@@ -11,11 +11,14 @@ import com.musicinaballoon.user.domain.User;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class BalloonService {
+
+    public final static int BALLOON_PAGE_SIZE = 100;
     private final BalloonRepository balloonRepository;
 
     public Balloon createYoutubeMusicBalloon(YoutubeMusic youtubeMusic, BigDecimal latitude, BigDecimal longitude, User creator) {
@@ -49,5 +52,9 @@ public class BalloonService {
     public Balloon getBalloon(Long balloonId) {
         return balloonRepository.findById(balloonId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
+    }
+
+    public List<Balloon> getBalloonList(int page) {
+        return balloonRepository.findAll(PageRequest.of(page, BALLOON_PAGE_SIZE)).getContent();
     }
 }

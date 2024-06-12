@@ -1,6 +1,7 @@
 package com.musicinaballoon.balloon.application;
 
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.music.application.MusicService;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,11 @@ public class BalloonFacade {
         return BalloonResponse.from(balloon);
     }
 
+    public BalloonListResponse getBalloonList(int page) {
+        List<Balloon> balloons = balloonService.getBalloonList(page);
+        return BalloonListResponse.from(balloons);
+    }
+
     private Balloon createYoutubeMusicBalloon(String youtubeMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
         var youtubeMusic = musicService.getYoutubeMusicByUrl(youtubeMusicUrl);
         return balloonService.createYoutubeMusicBalloon(youtubeMusic, latitude, longitude, owner);
@@ -65,7 +72,7 @@ public class BalloonFacade {
     }
 
     private double getCurrentBalloonLongitude(Balloon balloon, Wave wave) {
-        long time = ChronoUnit.SECONDS.between(balloon.getCreated_at(), ZonedDateTime.now(ZoneOffset.UTC));
+        long time = ChronoUnit.SECONDS.between(balloon.getCreatedAt(), ZonedDateTime.now(ZoneOffset.UTC));
         return wave.calcLon(balloon.getBaseLon().doubleValue(), time);
     }
 

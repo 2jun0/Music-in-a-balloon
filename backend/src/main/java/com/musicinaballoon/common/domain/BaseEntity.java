@@ -16,16 +16,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity {
 
     @Column(name = "created_at", updatable = false, nullable = false)
-    private ZonedDateTime created_at;
+    private ZonedDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private ZonedDateTime updated_at;
+    private ZonedDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
         ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-        created_at = now;
-        updated_at = now;
+        createdAt = now;
+        updatedAt = now;
     }
 
     @PreUpdate

@@ -14,7 +14,7 @@ import lombok.NonNull;
 @Getter
 @Entity(name = "spotify_music")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SpotifyMusic implements StreamingMusic {
+public class SpotifyMusic extends StreamingMusic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

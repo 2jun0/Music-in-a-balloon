@@ -1,9 +1,12 @@
 package com.musicinaballoon.music.domain;
 
-public interface StreamingMusic {
-    String getTitle();
+import com.musicinaballoon.common.domain.BaseEntity;
 
-    String getAlbumImageUrl();
+public abstract class StreamingMusic extends BaseEntity {
 
-    String getMusicUrl();
+    public abstract String getTitle();
+
+    public abstract String getAlbumImageUrl();
+
+    public abstract String getMusicUrl();
 }

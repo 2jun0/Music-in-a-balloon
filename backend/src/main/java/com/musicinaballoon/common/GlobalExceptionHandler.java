@@ -33,14 +33,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         [🟠WARN] - (POST /warn)
         ERROR_CODE_NAME
          com.musicinaballoon.common.exception.InternalServerException: 테스트용 에러입니다.
-          at com.musicinaballoon.user.UserController.getWarn(UserController.java:129)
+          at com.musicinaballoon.user.presentation.UserController.getWarn(UserController.java:129)
      */
 
     // ERROR
     /*
         [🔴ERROR] - (POST /error)
          com.musicinaballoon.common.exception.InternalServerException: 테스트용 에러입니다.
-          at com.musicinaballoon.user.UserController.getWarn(UserController.java:129)
+          at com.musicinaballoon.user.presentation.UserController.getWarn(UserController.java:129)
      */
 
     @ExceptionHandler(BadRequestException.class)

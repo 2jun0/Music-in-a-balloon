@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Getter
-@Entity(name = "movement")
+@Entity(name = "wave")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Wave extends BaseEntity {
 

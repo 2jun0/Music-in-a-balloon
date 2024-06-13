@@ -41,7 +41,6 @@ public class BalloonController {
 
     @GetMapping(path = "/balloon/list")
     public BalloonListResponse getBalloonList(@RequestParam(name = "page") Integer page) {
-
         return balloonFacade.getBalloonList(page);
     }
 }

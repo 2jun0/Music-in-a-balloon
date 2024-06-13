@@ -13,23 +13,7 @@ public record BalloonResponse(
         String albumImageUrl,
         BigDecimal baseLon,
         BigDecimal baseLat,
-        Double curLon,
-        Double curLat,
         ZonedDateTime createdAt) {
-
-    public static BalloonResponse from(Balloon balloon, Double curLon, Double curLat) {
-        return BalloonResponse.builder()
-                .id(balloon.getId())
-                .title(balloon.getMusicTitle())
-                .uploadedStreamingMusicType(balloon.getUploadedStreamingMusicType().name())
-                .albumImageUrl(balloon.getAlbumImageUrl())
-                .baseLon(balloon.getBaseLon())
-                .baseLat(balloon.getBaseLat())
-                .curLat(curLat)
-                .curLon(curLon)
-                .createdAt(balloon.getCreatedAt())
-                .build();
-    }
 
     public static BalloonResponse from(Balloon balloon) {
         return BalloonResponse.builder()

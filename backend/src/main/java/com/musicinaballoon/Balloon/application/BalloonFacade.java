@@ -8,12 +8,7 @@ import com.musicinaballoon.music.application.MusicService;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.user.application.UserService;
 import com.musicinaballoon.user.domain.User;
-import com.musicinaballoon.wave.application.WaveService;
-import com.musicinaballoon.wave.domain.Wave;
 import java.math.BigDecimal;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,16 +22,10 @@ public class BalloonFacade {
     private final BalloonService balloonService;
     private final MusicService musicService;
     private final UserService userService;
-    private final WaveService waveService;
 
     public BalloonResponse getBalloon(Long balloonId) {
         Balloon balloon = balloonService.getBalloon(balloonId);
-        Wave curWave = waveService.getCurrentWave();
-
-        double curBalloonLon = getCurrentBalloonLongitude(balloon, curWave);
-        double curBalloonLat = getCurrentBalloonLatitude(curBalloonLon, balloon, curWave);
-
-        return BalloonResponse.from(balloon, curBalloonLon, curBalloonLat);
+        return BalloonResponse.from(balloon);
     }
 
     @Deprecated
@@ -69,14 +58,5 @@ public class BalloonFacade {
     private Balloon createSpotifyMusicBalloon(String spotifyMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
         var spotifyMusic = musicService.getSpotifyMusicByUrl(spotifyMusicUrl);
         return balloonService.createSpotifyMusicBalloon(spotifyMusic, latitude, longitude, owner);
-    }
-
-    private double getCurrentBalloonLongitude(Balloon balloon, Wave wave) {
-        long time = ChronoUnit.SECONDS.between(balloon.getCreatedAt(), ZonedDateTime.now(ZoneOffset.UTC));
-        return wave.calcLon(balloon.getBaseLon().doubleValue(), time);
-    }
-
-    private double getCurrentBalloonLatitude(double curBalloonLon, Balloon balloon, Wave wave) {
-        return wave.calcLat(curBalloonLon, balloon.getBaseLat().doubleValue(), balloon.getBaseLon().doubleValue());
     }
 }

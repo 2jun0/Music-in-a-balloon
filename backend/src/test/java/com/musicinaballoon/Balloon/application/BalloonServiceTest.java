@@ -21,16 +21,22 @@ import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.domain.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class BalloonServiceTest {
+
+    private final static int BALLOON_LIST_PAGE_SIZE = 5;
 
     public final User USER = User.builder()
             .name("username")
@@ -48,11 +54,15 @@ class BalloonServiceTest {
             .albumImageUrl("https:/image.com/aaaaa")
             .build();
 
-    @InjectMocks
     private BalloonService balloonService;
 
     @Mock
     private BalloonRepository balloonRepository;
+
+    @BeforeEach
+    void setUp() {
+        balloonService = new BalloonService(balloonRepository, BALLOON_LIST_PAGE_SIZE);
+    }
 
     @DisplayName("유튜브 뮤직으로 풍선을 생성한다")
     @Test
@@ -119,7 +129,7 @@ class BalloonServiceTest {
         assertThat(gotten).isEqualTo(balloon);
     }
 
-    @DisplayName("풍선을 가져온다")
+    @DisplayName("없는 풍선을 가져올시 NotFound 예외가 발생한다")
     @Test
     void getBalloonNotFound() {
         // given
@@ -127,5 +137,29 @@ class BalloonServiceTest {
 
         // when & then
         assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
+    }
+
+    @DisplayName("풍선 여러개를 가져온다")
+    @Test
+    void getBalloonList() {
+        // given
+        List<Balloon> balloons = new ArrayList<>();
+        for (int i = 0; i < BALLOON_LIST_PAGE_SIZE; i++) {
+            balloons.add(Balloon.builder()
+                    .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
+                    .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
+                    .baseLon(PYRAMID_OF_KHUFU_LON)
+                    .baseLat(PYRAMID_OF_KHUFU_LAT)
+                    .creator(USER)
+                    .build());
+        }
+
+        given(balloonRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(balloons));
+
+        // when
+        List<Balloon> gotten = balloonService.getBalloonListSortedByCreatedAt(0);
+
+        // then
+        assertThat(gotten).isEqualTo(balloons);
     }
 }

@@ -1,6 +1,5 @@
 package com.musicinaballoon.balloon.presentation;
 
-import static com.musicinaballoon.balloon.application.BalloonService.BALLOON_PAGE_SIZE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
@@ -31,6 +30,7 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
 class BalloonControllerTest extends IntegrationTest {
@@ -40,6 +40,9 @@ class BalloonControllerTest extends IntegrationTest {
 
     @Autowired
     private BalloonRepository balloonRepository;
+
+    @Value("${balloon.list-page-size}")
+    private int balloonListPageSize;
 
     private ExtractableResponse<Response> getBalloon(Long balloonId) {
         return RestAssured
@@ -158,7 +161,7 @@ class BalloonControllerTest extends IntegrationTest {
 
         List<Balloon> balloons = new ArrayList<>();
 
-        for (int i = 0; i < BALLOON_PAGE_SIZE * 1.5; i++) {
+        for (int i = 0; i < balloonListPageSize * 1.5; i++) {
             balloons.add(new Balloon(StreamingMusicType.YOUTUBE_MUSIC, youtubeMusic, null, defaultUser,
                     EIFFEL_TOWER_LAT, EIFFEL_TOWER_LON));
         }
@@ -176,7 +179,7 @@ class BalloonControllerTest extends IntegrationTest {
             assertSoftly(softly -> {
                 softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
                 softly.assertThat(balloonListResponse.balloons())
-                        .isEqualTo(balloons.stream().skip(curPage * BALLOON_PAGE_SIZE).limit(BALLOON_PAGE_SIZE)
+                        .isEqualTo(balloons.stream().skip(curPage * balloonListPageSize).limit(balloonListPageSize)
                                 .map(BalloonResponse::from).toList());
             });
         }

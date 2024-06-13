@@ -1,6 +1,5 @@
 package com.musicinaballoon.balloon.application;
 
-import static com.musicinaballoon.balloon.application.BalloonService.BALLOON_PAGE_SIZE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
@@ -25,10 +24,10 @@ import com.musicinaballoon.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
@@ -36,6 +35,8 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class BalloonServiceTest {
+
+    private final static int BALLOON_LIST_PAGE_SIZE = 5;
 
     public final User USER = User.builder()
             .name("username")
@@ -53,11 +54,15 @@ class BalloonServiceTest {
             .albumImageUrl("https:/image.com/aaaaa")
             .build();
 
-    @InjectMocks
     private BalloonService balloonService;
 
     @Mock
     private BalloonRepository balloonRepository;
+
+    @BeforeEach
+    void setUp() {
+        balloonService = new BalloonService(balloonRepository, BALLOON_LIST_PAGE_SIZE);
+    }
 
     @DisplayName("유튜브 뮤직으로 풍선을 생성한다")
     @Test
@@ -139,7 +144,7 @@ class BalloonServiceTest {
     void getBalloonList() {
         // given
         List<Balloon> balloons = new ArrayList<>();
-        for (int i = 0; i < BALLOON_PAGE_SIZE; i++) {
+        for (int i = 0; i < BALLOON_LIST_PAGE_SIZE; i++) {
             balloons.add(Balloon.builder()
                     .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
                     .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)

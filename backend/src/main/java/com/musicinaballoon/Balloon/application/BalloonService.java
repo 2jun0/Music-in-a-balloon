@@ -10,17 +10,21 @@ import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.domain.User;
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
 public class BalloonService {
 
-    public final static int BALLOON_PAGE_SIZE = 100;
     private final BalloonRepository balloonRepository;
+    private final int balloonListPageSize;
+
+    public BalloonService(BalloonRepository balloonRepository, @Value("${balloon.list-page-size}") int balloonListPageSize) {
+        this.balloonRepository = balloonRepository;
+        this.balloonListPageSize = balloonListPageSize;
+    }
 
     public Balloon createYoutubeMusicBalloon(YoutubeMusic youtubeMusic, BigDecimal latitude, BigDecimal longitude, User creator) {
         Balloon balloon = Balloon.builder()
@@ -57,6 +61,6 @@ public class BalloonService {
 
     public List<Balloon> getBalloonListSortedByCreatedAt(int page) {
         Sort sort = Sort.by("createdAt").descending();
-        return balloonRepository.findAll(PageRequest.of(page, BALLOON_PAGE_SIZE, sort)).getContent();
+        return balloonRepository.findAll(PageRequest.of(page, balloonListPageSize, sort)).getContent();
     }
 }

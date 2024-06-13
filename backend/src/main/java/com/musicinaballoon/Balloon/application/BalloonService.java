@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -54,7 +55,8 @@ public class BalloonService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }
 
-    public List<Balloon> getBalloonList(int page) {
-        return balloonRepository.findAll(PageRequest.of(page, BALLOON_PAGE_SIZE)).getContent();
+    public List<Balloon> getBalloonListSortedByCreatedAt(int page) {
+        Sort sort = Sort.by("createdAt").descending();
+        return balloonRepository.findAll(PageRequest.of(page, BALLOON_PAGE_SIZE, sort)).getContent();
     }
 }

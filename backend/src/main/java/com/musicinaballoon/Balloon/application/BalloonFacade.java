@@ -46,7 +46,7 @@ public class BalloonFacade {
     }
 
     public BalloonListResponse getBalloonList(int page) {
-        List<Balloon> balloons = balloonService.getBalloonList(page);
+        List<Balloon> balloons = balloonService.getBalloonListSortedByCreatedAt(page);
         return BalloonListResponse.from(balloons);
     }
 

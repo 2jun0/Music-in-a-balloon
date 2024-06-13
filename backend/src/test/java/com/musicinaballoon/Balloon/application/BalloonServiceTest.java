@@ -152,7 +152,7 @@ class BalloonServiceTest {
         given(balloonRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(balloons));
 
         // when
-        List<Balloon> gotten = balloonService.getBalloonList(0);
+        List<Balloon> gotten = balloonService.getBalloonListSortedByCreatedAt(0);
 
         // then
         assertThat(gotten).isEqualTo(balloons);

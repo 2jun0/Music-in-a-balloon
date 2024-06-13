@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.application;
 
+import static com.musicinaballoon.balloon.application.BalloonService.BALLOON_PAGE_SIZE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
@@ -21,6 +22,8 @@ import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.domain.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +31,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class BalloonServiceTest {
@@ -127,5 +132,29 @@ class BalloonServiceTest {
 
         // when & then
         assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
+    }
+
+    @DisplayName("풍선 여러개를 가져온다")
+    @Test
+    void getBalloonList() {
+        // given
+        List<Balloon> balloons = new ArrayList<>();
+        for (int i = 0; i < BALLOON_PAGE_SIZE; i++) {
+            balloons.add(Balloon.builder()
+                    .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
+                    .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
+                    .baseLon(PYRAMID_OF_KHUFU_LON)
+                    .baseLat(PYRAMID_OF_KHUFU_LAT)
+                    .creator(USER)
+                    .build());
+        }
+
+        given(balloonRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(balloons));
+
+        // when
+        List<Balloon> gotten = balloonService.getBalloonList(0);
+
+        // then
+        assertThat(gotten).isEqualTo(balloons);
     }
 }

@@ -181,41 +181,4 @@ class BalloonControllerTest extends IntegrationTest {
             });
         }
     }
-
-//    @Test
-//    @DisplayName("풍선 여러개는 생성 날짜 순으로 정렬되어 불러온다")
-//    void getBalloonListShouldSortByCreatedAt() {
-//        // given
-//        YoutubeMusic youtubeMusic = new YoutubeMusic(YOUTUBE_MUSIC_SUPER_SHY_URL, YOUTUBE_MUSIC_SUPER_SHY_TITLE, null);
-//        youtubeMusicRepository.save(youtubeMusic);
-//
-//        Balloon balloonOlder = new Balloon(StreamingMusicType.YOUTUBE_MUSIC, youtubeMusic, null, defaultUser,
-//                EIFFEL_TOWER_LAT, EIFFEL_TOWER_LON);
-//        balloonRepository.save(balloonOlder);
-//
-//        Balloon balloonNewer = new Balloon(StreamingMusicType.YOUTUBE_MUSIC, youtubeMusic, null, defaultUser,
-//                EIFFEL_TOWER_LAT, EIFFEL_TOWER_LON);
-//        balloonRepository.save(balloonNewer);
-//
-//        for (int i = 0; i < BALLOON_PAGE_SIZE * 1.5; i++) {
-//            balloons.add();
-//        }
-//
-//        balloonRepository.saveAll(balloons);
-//
-//        for (int page = 0; page < 2; page++) {
-//            // when
-//            ExtractableResponse<Response> response = getBalloonList(page);
-//            BalloonListResponse balloonListResponse = response.as(BalloonListResponse.class);
-//
-//            // then
-//            final int curPage = page;
-//            assertSoftly(softly -> {
-//                softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
-//                softly.assertThat(balloonListResponse.balloons())
-//                        .isEqualTo(balloons.stream().skip(curPage * BALLOON_PAGE_SIZE).limit(BALLOON_PAGE_SIZE)
-//                                .map(BalloonResponse::from).toList());
-//            });
-//        }
-//    }
 }

@@ -16,20 +16,12 @@ spring:
   profiles:
     include:
       - "local"
+      - "test"
 
   jpa:
     properties:
       hibernate:
         show_sql: true
-#        format_sql: true
-#        use_sql_comments: true
-
-springdoc:
-  default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
-  swagger-ui:
-    path: /docs
-    operations-sorter: alpha
 
 youtube:
   api_key: ${YOUTUBE_API_KEY}
@@ -39,7 +31,7 @@ spotify:
   client_secret: ${SPOTIFY_CLIENT_SECRET}
 
 balloon:
-  list-page-size: 100
+  list-page-size: 5
 
 logging:
   level:

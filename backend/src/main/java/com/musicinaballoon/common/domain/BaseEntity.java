@@ -7,6 +7,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,13 +24,13 @@ public class BaseEntity {
 
     @PrePersist
     public void prePersist() {
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
         createdAt = now;
         updatedAt = now;
     }
 
     @PreUpdate
     public void preUpdate() {
-        ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
     }
 }

@@ -11,7 +11,7 @@ export const HTTP_STATUS_CODE = {
 
 export const HTTP_ERROR_MESSAGE = {
   [HTTP_STATUS_CODE.NOT_FOUND]: {
-    HEADING: 'This is not the web page you are looking for.',
+    HEADING: "This isn't the web page you are looking for.",
     BODY: 'Please go home.',
     BUTTON: 'Go home',
   },

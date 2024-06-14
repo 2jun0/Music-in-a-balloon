@@ -1,6 +1,7 @@
 import { Global } from '@emotion/react';
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
+import { RecoilRoot } from 'recoil';
 
 import GlobalProvider from '@/GlobalProvider';
 
@@ -11,9 +12,11 @@ import AppRouter from '@router/AppRouter';
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 root.render(
   <StrictMode>
-    <GlobalProvider>
-      <Global styles={GlobalStyle} />
-      <AppRouter />
-    </GlobalProvider>
+    <RecoilRoot>
+      <GlobalProvider>
+        <Global styles={GlobalStyle} />
+        <AppRouter />
+      </GlobalProvider>
+    </RecoilRoot>
   </StrictMode>,
 );

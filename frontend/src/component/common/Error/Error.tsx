@@ -1,4 +1,5 @@
 import { HTTP_ERROR_MESSAGE, HTTP_STATUS_CODE } from '@constant/api';
+import { useRecoilValue } from 'recoil';
 
 import { hasKeyInObject } from '@/util/typeGuard';
 
@@ -16,6 +17,8 @@ import {
 
 import ErrorImage from '@asset/svg/error-image.svg';
 
+import { mediaQueryMobileState } from '@store/mediaQuery';
+
 export interface ErrorProps {
   statusCode?: number;
   errorCode?: number;
@@ -27,13 +30,14 @@ const Error = ({ statusCode = HTTP_STATUS_CODE.NOT_FOUND, errorCode, resetError 
     statusCode === HTTP_STATUS_CODE.CONTENT_TOO_LARGE ? HTTP_STATUS_CODE.BAD_REQUEST : statusCode;
 
   const isHTTPError = hasKeyInObject(HTTP_ERROR_MESSAGE, currentStatusCode);
+  const isMobile = useRecoilValue(mediaQueryMobileState);
 
   if (!isHTTPError) return null;
 
   return (
     <Box>
       <Flex styles={{ direction: 'column', align: 'center' }} css={containerStyling}>
-        <ErrorImage width="476px" aria-label="An error image" />
+        <ErrorImage width={isMobile ? '80%' : '476px'} aria-label="An error image" />
         <Heading css={headingStyling} size="small">
           {HTTP_ERROR_MESSAGE[currentStatusCode].HEADING}
         </Heading>

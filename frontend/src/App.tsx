@@ -4,8 +4,6 @@ import { Outlet } from 'react-router-dom';
 import Error from '@component/common/Error/Error';
 import ErrorBoundary from '@component/common/ErrorBoundary';
 
-import AppRouter from './router/AppRouter';
-
 const App = () => {
   const { handleErrorReset } = useResetError();
 

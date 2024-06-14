@@ -9,14 +9,19 @@ import { GlobalStyle } from '@style/GlobalStyle';
 
 import AppRouter from '@router/AppRouter';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as Element);
-root.render(
-  <StrictMode>
-    <RecoilRoot>
-      <GlobalProvider>
-        <Global styles={GlobalStyle} />
-        <AppRouter />
-      </GlobalProvider>
-    </RecoilRoot>
-  </StrictMode>,
-);
+const main = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+
+  root.render(
+    <StrictMode>
+      <RecoilRoot>
+        <GlobalProvider>
+          <Global styles={GlobalStyle} />
+          <AppRouter />
+        </GlobalProvider>
+      </RecoilRoot>
+    </StrictMode>,
+  );
+};
+
+main();

@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "ES2015",
+        "skipLibCheck": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@component/*": ["./src/component/*"],
+            "@type/*": ["./src/type/*"],
+            "@hook/*": ["./src/hook/*"],
+            "@page/*": ["./src/page/*"],
+            "@style/*": ["./src/style/*"],
+            "@constant/*": ["./src/constant/*"],
+            "@asset/*": ["./src/asset/*"],
+            "@api/*": ["./src/api/*"],
+            "@mock/*": ["./src/mock/*"],
+            "@storie/*": ["./src/storie/*"],
+            "@router/*": ["./src/router/*"],
+            "@store/*": ["./src/store/*"],
+            "@util/*": ["./src/util/*"]
+        },
+        "jsxImportSource": "@emotion/react",
+        "allowSyntheticDefaultImports": true,
+    },
+    "exclude": ["node_modules"],
+    "include": ["**/*.ts", "**/*.tsx"]
+}

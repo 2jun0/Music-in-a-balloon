@@ -1,8 +1,9 @@
 import { useResetError } from '@hook/common/useResetError';
 import { Outlet } from 'react-router-dom';
 
+import ErrorBoundary from '@/component/common/ErrorBoundary/ErrorBoundary';
+
 import Error from '@component/common/Error/Error';
-import ErrorBoundary from '@component/common/ErrorBoundary';
 
 const App = () => {
   const { handleErrorReset } = useResetError();

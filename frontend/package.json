@@ -4,7 +4,9 @@
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.11.4",
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@sentry/react": "^8.9.2",
+    "dotenv": "^16.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
@@ -13,7 +15,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "serve:dev": "webpack serve --mode development --open --hot --config config/webpack.dev.js"
+    "serve:dev": "cross-env NODE_ENV=development webpack serve --mode development --open --hot --config config/webpack.dev.js"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -21,6 +23,8 @@
     "@testing-library/user-event": "^13.5.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "copy-webpack-plugin": "^12.0.2",
+    "cross-env": "^7.0.3",
+    "dotenv-webpack": "^8.1.0",
     "esbuild-loader": "^4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",

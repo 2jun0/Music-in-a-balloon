@@ -10,7 +10,7 @@ import {
   getLabelStyling,
 } from '@component/common/BalloonMarker/BalloonMarker.style';
 
-import BalloonPinIcon from '@asset/svg/balloon-pin-icon.svg';
+import BalloonPinIcons from '@asset/BalloonPinIcons';
 import SelectedBalloonPinIcon from '@asset/svg/selected-balloon-pin-icon.svg';
 
 import { clickedMarkerIdState } from '@store/scrollFocus';
@@ -63,6 +63,8 @@ const BalloonMarker = ({
 
   useEffect(() => {
     if (rootRef.current && markerRef.current) {
+      const BalloonPinIcon = BalloonPinIcons[id % BalloonPinIcons.length];
+
       rootRef.current.render(
         <Flex
           styles={{ direction: 'column', align: 'center', gap: '2px' }}

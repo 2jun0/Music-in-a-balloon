@@ -52,7 +52,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
       map?.panTo({ lat: centerLat, lng: centerLon });
       map?.setZoom(MAP_INITIAL_ZOOM_SIZE);
     }
-  }, [map, centerLat, centerLon]);
+  }, [map, centerLat, centerLon, balloons]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,15 +70,9 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
   });
 
   return (
-    <>
-      <div id="map" ref={wrapperRef} css={{ height: 'calc(100vh - 81px)' }}>
-        {map && positions && (
-          <>
-            <BalloonMarkerContainer map={map} positions={positions} />
-          </>
-        )}
-      </div>
-    </>
+    <div id="map" ref={wrapperRef} css={{ height: 'calc(100vh - 81px)' }}>
+      {map && positions && <BalloonMarkerContainer map={map} positions={positions} />}
+    </div>
   );
 };
 

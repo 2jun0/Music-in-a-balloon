@@ -88,7 +88,7 @@ const BalloonMarker = ({
     }
   }, [id, isSelected, isZoomedOut, lat, lon, map, name, setClickedMarkerId]);
 
-  return <></>;
+  return null;
 };
 
 export default BalloonMarker;

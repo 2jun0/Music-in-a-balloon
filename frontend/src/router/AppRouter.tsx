@@ -21,7 +21,11 @@ const AppRouter = () => {
       children: [
         {
           path: PATH.MAP,
-          element: <Lazy.MapPage />,
+          element: (
+            <Suspense>
+              <Lazy.MapPage />,
+            </Suspense>
+          ),
         },
       ],
     },

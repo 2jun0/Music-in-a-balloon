@@ -53,7 +53,13 @@ const BalloonMarker = ({
     return () => {
       if (markerRef.current) markerRef.current.map = null;
     };
-  }, [id, lat, lon, map]);
+  }, [id, map]);
+
+  useEffect(() => {
+    if (markerRef.current) {
+      markerRef.current.position = { lat, lng: lon };
+    }
+  }, [lat, lon]);
 
   useEffect(() => {
     if (rootRef.current && markerRef.current) {

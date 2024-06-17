@@ -5,3 +5,10 @@ export interface BalloonData {
   baseLon: number;
   createdAt: string;
 }
+
+export interface BalloonPosition {
+  id: number;
+  name: string;
+  lat: number;
+  lon: number;
+}

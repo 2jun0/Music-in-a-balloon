@@ -4,16 +4,16 @@ import { useRecoilValue } from 'recoil';
 
 import BalloonMarker from '@component/common/BalloonMarker/BalloonMarker';
 
-import { BalloonData } from '@type/balloon';
+import type { BalloonPosition } from '@type/balloon';
 
 import { focusedIdState } from '@store/scrollFocus';
 
 interface BalloonMarkerContainerProps {
   map: google.maps.Map;
-  balloons: BalloonData[];
+  positions: BalloonPosition[];
 }
 
-const BalloonMarkerContainer = ({ map, balloons }: BalloonMarkerContainerProps) => {
+const BalloonMarkerContainer = ({ map, positions }: BalloonMarkerContainerProps) => {
   const selectedId = useRecoilValue(focusedIdState);
   const [isZoomedOut, setIsZoomedOut] = useState(false);
 
@@ -29,16 +29,16 @@ const BalloonMarkerContainer = ({ map, balloons }: BalloonMarkerContainerProps) 
 
   return (
     <>
-      {balloons.map((balloon) => (
+      {positions.map((position) => (
         <BalloonMarker
-          key={balloon.id}
-          id={balloon.id}
+          key={position.id}
+          id={position.id}
           map={map}
           isZoomedOut={isZoomedOut}
-          name={balloon.title}
-          lat={balloon.baseLat}
-          lon={balloon.baseLon}
-          isSelected={balloon.id == selectedId}
+          name={position.name}
+          lat={position.lat}
+          lon={position.lon}
+          isSelected={position.id == selectedId}
         />
       ))}
     </>

@@ -10,6 +10,7 @@ export const AXIOS_BASE_URL = PROD
 
 export const END_POINTS = {
   BALLOON_LIST: '/balloon/list',
+  WAVE: '/wave',
 } as const;
 
 export const NETWORK = {

@@ -1,19 +1,25 @@
 import { MAP_INITIAL_ZOOM_SIZE, MAP_MAX_ZOOM_SIZE, MAP_MIN_ZOOM_SIZE } from '@constant/map';
 import { useEffect, useRef, useState } from 'react';
 
-import { BalloonData } from '@type/balloon';
+import BalloonMarkerContainer from '@component/common/BalloonMarkerContainer/BalloonMarkerContainer';
 
-import BalloonMarkerContainer from '../BalloonMarkerContainer/BalloonMarkerContainer';
+import type { BalloonData, BalloonPosition } from '@type/balloon';
+import type { WaveData } from '@type/wave';
+
+import { getTimeDeltaSecFrom } from '@util/time';
+import { calcCoordinate } from '@util/wave';
 
 interface BalloonMapProps {
   centerLat: number;
   centerLon: number;
   balloons: BalloonData[];
+  wave: WaveData;
 }
 
-const BalloonMap = ({ centerLat, centerLon, balloons }: BalloonMapProps) => {
+const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [positions, setPositions] = useState<BalloonPosition[] | null>(null);
 
   useEffect(() => {
     if (wrapperRef.current) {
@@ -48,12 +54,27 @@ const BalloonMap = ({ centerLat, centerLon, balloons }: BalloonMapProps) => {
     }
   }, [map, centerLat, centerLon]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPositions(
+        balloons.map((balloon) => {
+          const deltaMilli = getTimeDeltaSecFrom(Date.parse(balloon.createdAt));
+          const { lat, lon } = calcCoordinate(wave, balloon.baseLat, balloon.baseLon, deltaMilli);
+
+          return { id: balloon.id, name: balloon.title, lat, lon };
+        }),
+      );
+    }, 1);
+
+    return () => clearInterval(interval);
+  });
+
   return (
     <>
       <div id="map" ref={wrapperRef} css={{ height: 'calc(100vh - 81px)' }}>
-        {map && (
+        {map && positions && (
           <>
-            <BalloonMarkerContainer map={map} balloons={balloons} />
+            <BalloonMarkerContainer map={map} positions={positions} />
           </>
         )}
       </div>

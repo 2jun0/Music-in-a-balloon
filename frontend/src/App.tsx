@@ -3,15 +3,18 @@ import { Outlet } from 'react-router-dom';
 
 import Error from '@component/common/Error/Error';
 import ErrorBoundary from '@component/common/ErrorBoundary/ErrorBoundary';
+import Register from '@component/common/Register/Register';
 
 const App = () => {
   const { handleErrorReset } = useResetError();
 
   return (
     <ErrorBoundary Fallback={Error} onReset={handleErrorReset}>
-      <main>
-        <Outlet />
-      </main>
+      <Register>
+        <main>
+          <Outlet />
+        </main>
+      </Register>
     </ErrorBoundary>
   );
 };

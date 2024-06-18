@@ -1,4 +1,4 @@
-import { BalloonData } from '@type/balloon';
+import type { BalloonData } from '@type/balloon';
 
 export interface BalloonListData {
   balloons: BalloonData[];

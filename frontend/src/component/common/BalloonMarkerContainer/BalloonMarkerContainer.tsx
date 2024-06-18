@@ -38,7 +38,7 @@ const BalloonMarkerContainer = ({ map, positions }: BalloonMarkerContainerProps)
           name={position.name}
           lat={position.lat}
           lon={position.lon}
-          isSelected={position.id == selectedId}
+          isSelected={position.id === selectedId}
         />
       ))}
     </>

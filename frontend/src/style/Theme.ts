@@ -1,4 +1,5 @@
 const color = {
+  transparent: 'transparent',
   /** heading text */
   black: 'black',
   /** default text */

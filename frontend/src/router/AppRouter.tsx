@@ -27,6 +27,14 @@ const AppRouter = () => {
             </Suspense>
           ),
         },
+        {
+          path: PATH.REGISTER,
+          element: (
+            <Suspense>
+              <Lazy.RegisterPage />
+            </Suspense>
+          ),
+        },
       ],
     },
   ]);

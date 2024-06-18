@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const { convertToAbsolutePath } = require('./webpackUtil');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -68,6 +69,7 @@ module.exports = {
       template: convertToAbsolutePath('public/index.html'),
       favicon: convertToAbsolutePath('public/favicon.ico'),
     }),
+    new Dotenv(),
     new ForkTsCheckerWebpackPlugin(),
   ],
 };

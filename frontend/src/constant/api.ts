@@ -1,3 +1,23 @@
+export const PROD = process.env.NODE_ENV === 'production';
+
+export const BASE_URL = PROD
+  ? `${window.location.protocol}//${process.env.PROD_BASE_URL}`
+  : 'http://localhost:3000';
+
+export const AXIOS_BASE_URL = PROD
+  ? `${window.location.protocol}//${process.env.AXIOS_PROD_BASE_URL}`
+  : '/';
+
+export const END_POINTS = {
+  BALLOON_LIST: '/balloon/list',
+  WAVE: '/wave',
+} as const;
+
+export const NETWORK = {
+  RETRY_COUNT: 2,
+  TIMEOUT: 10000,
+} as const;
+
 export const HTTP_STATUS_CODE = {
   SUCCESS: 200,
   CREATED: 201,

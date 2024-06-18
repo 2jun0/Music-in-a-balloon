@@ -28,7 +28,7 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Sta
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error): void {
+  componentDidCatch(error: Error | HTTPError): void {
     Sentry.withScope((scope) => {
       scope.setLevel('error');
       Sentry.captureMessage(`[${error.name}] ${window.location.href}`);
@@ -36,6 +36,14 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Sta
   }
 
   resetErrorBoundary = () => {
+    const { onReset } = this.props;
+    const { error } = this.state;
+
+    onReset?.(error!);
+    this.setState(initialState);
+  };
+
+  render() {
     const { Fallback, children } = this.props;
     const { error } = this.state;
 
@@ -50,7 +58,7 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Sta
     }
 
     return children;
-  };
+  }
 }
 
 export default ErrorBoundary;

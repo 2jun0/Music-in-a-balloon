@@ -40,6 +40,8 @@ const color = {
   /** light red */
   red100: '#fff2f2',
 
+  orange400: '#FFA726',
+
   green: '#2FC56E',
 } as const;
 

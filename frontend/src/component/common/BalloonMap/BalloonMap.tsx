@@ -64,7 +64,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
           return { id: balloon.id, name: balloon.title, lat, lon };
         }),
       );
-    }, 1);
+    }, 100);
 
     return () => clearInterval(interval);
   });

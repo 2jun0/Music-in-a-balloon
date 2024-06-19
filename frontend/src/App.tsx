@@ -1,6 +1,7 @@
 import { useResetError } from '@hook/common/useResetError';
 import { Outlet } from 'react-router-dom';
 
+import ToastContainer from '@component/ToastContainer/ToastContainer';
 import Error from '@component/common/Error/Error';
 import ErrorBoundary from '@component/common/ErrorBoundary/ErrorBoundary';
 import Register from '@component/common/Register/Register';
@@ -19,6 +20,7 @@ const App = () => {
         </main>
           <Footer />
       </Register>
+      <ToastContainer />
     </ErrorBoundary>
   );
 };

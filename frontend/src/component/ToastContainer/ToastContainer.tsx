@@ -1,5 +1,32 @@
-import { containerStyling } from '@component/ToastContainer/ToastContainer.style';
+import { useCallback } from 'react';
+import { useRecoilState } from 'recoil';
 
-const ToastContainer = () => <div css={containerStyling} id="toast-container" />;
+import Toast from '@component/Toast/Toast';
+
+import { toastListState } from '@store/toast';
+
+const ToastContainer = () => {
+  const [toastList, setToastList] = useRecoilState(toastListState);
+
+  const removeToast = useCallback(
+    (id: number) => () => {
+      setToastList((prevToastList) => prevToastList.filter((toast) => toast.id !== id));
+    },
+    [setToastList],
+  );
+
+  return toastList.length > 0 ? (
+    <>
+      {toastList.map(({ id, message, ...attributes }) => (
+        <Toast key={id} onClose={removeToast(id)} {...attributes}>
+          {message}
+        </Toast>
+      ))}
+    </>
+  ) : (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <></>
+  );
+};
 
 export default ToastContainer;

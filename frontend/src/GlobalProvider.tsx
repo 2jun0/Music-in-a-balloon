@@ -1,7 +1,7 @@
 import { Global, ThemeProvider } from '@emotion/react';
 import type { PropsWithChildren } from 'react';
 
-import ToastContainer from '@component/ToastContainer/ToastContainer';
+import ToastProvider from '@component/ToastProvider/ToastProvider';
 
 import { GlobalStyle } from '@style/GlobalStyle';
 import { Theme } from '@style/Theme';
@@ -12,7 +12,7 @@ const GlobalProvider = ({ children }: GlobalProviderProps) => (
   <ThemeProvider theme={Theme}>
     <Global styles={GlobalStyle} />
     {children}
-    <ToastContainer />
+    <ToastProvider />
   </ThemeProvider>
 );
 

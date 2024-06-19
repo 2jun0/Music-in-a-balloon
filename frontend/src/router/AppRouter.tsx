@@ -23,7 +23,7 @@ const AppRouter = () => {
           path: PATH.MAP,
           element: (
             <Suspense>
-              <Lazy.MapPage />,
+              <Lazy.MapPage />
             </Suspense>
           ),
         },

@@ -24,5 +24,14 @@ export const mapContainerStyling = css({
   overflow: 'hidden',
   flexGrow: 1,
 });
+
+export const addButtonStyling = css({
+  position: 'absolute',
+  right: '50px',
+  bottom: '50px',
+
+  [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
+    bottom: Theme.spacer.spacing4,
+    right: Theme.spacer.spacing4,
   },
 });

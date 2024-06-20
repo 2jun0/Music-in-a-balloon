@@ -39,22 +39,6 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
   }, [centerLat, centerLon]);
 
   useEffect(() => {
-    if (balloons.length > 0) {
-      const bounds = new google.maps.LatLngBounds();
-      balloons.forEach((balloon) =>
-        bounds.extend(new google.maps.LatLng(balloon.baseLat, balloon.baseLon)),
-      );
-      const center = bounds.getCenter();
-
-      map?.panTo(center);
-      map?.fitBounds(bounds);
-    } else {
-      map?.panTo({ lat: centerLat, lng: centerLon });
-      map?.setZoom(MAP_INITIAL_ZOOM_SIZE);
-    }
-  }, [map, centerLat, centerLon, balloons]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       setPositions(
         balloons.map((balloon) => {

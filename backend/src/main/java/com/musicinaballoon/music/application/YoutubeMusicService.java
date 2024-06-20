@@ -4,7 +4,7 @@ import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.music.external.YoutubeApi;
-import com.musicinaballoon.music.external.reponse.YoutubeVideo;
+import com.musicinaballoon.music.external.response.YoutubeVideo;
 import com.musicinaballoon.music.repository.YoutubeMusicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

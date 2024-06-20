@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.external.reponse;
+package com.musicinaballoon.music.external.response;
 
 import java.util.Arrays;
 import java.util.List;

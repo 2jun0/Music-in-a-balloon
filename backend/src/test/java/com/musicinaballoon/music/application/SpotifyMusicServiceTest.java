@@ -11,9 +11,9 @@ import static org.mockito.BDDMockito.given;
 
 import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.external.SpotifyApi;
-import com.musicinaballoon.music.external.reponse.SpotifyAlbum;
-import com.musicinaballoon.music.external.reponse.SpotifyImage;
-import com.musicinaballoon.music.external.reponse.SpotifyTrack;
+import com.musicinaballoon.music.external.response.SpotifyAlbum;
+import com.musicinaballoon.music.external.response.SpotifyImage;
+import com.musicinaballoon.music.external.response.SpotifyTrack;
 import com.musicinaballoon.music.repository.SpotifyMusicRepository;
 import java.util.List;
 import java.util.Optional;

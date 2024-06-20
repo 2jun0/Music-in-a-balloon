@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.external.reponse;
+package com.musicinaballoon.music.external.response;
 
 import se.michaelthelin.spotify.model_objects.specification.Image;
 

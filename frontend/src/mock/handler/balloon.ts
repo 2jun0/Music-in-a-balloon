@@ -3,7 +3,7 @@ import { HttpResponse, http } from 'msw';
 
 import { balloon } from '@mock/data/balloon';
 
-export const balloonListHandlers = [
+export const balloonHandlers = [
   http.post(`${END_POINTS.BALLOON}`, ({ request }) => {
     return HttpResponse.json(balloon, { status: HTTP_STATUS_CODE.CREATED });
   }),

@@ -1,4 +1,6 @@
-import { useBalloonForm } from '@/hook/balloon/useBalloonForm';
+import { useCreateBalloonMutation } from '@hook/api/useCreateBalloonMutation';
+import { useBalloonForm } from '@hook/balloon/useBalloonForm';
+import type { FormEvent } from 'react';
 
 import Button from '@component/Button/Button';
 import Heading from '@component/Heading/Heading';
@@ -18,7 +20,18 @@ interface BalloonCreateModalProps {
 }
 
 const BalloonCreateModal = ({ isOpen = true, onClose }: BalloonCreateModalProps) => {
-  const { updateMusicUrl, handleSubmit, isValidated } = useBalloonForm();
+  const { balloonInfo, updateMusicUrl, isValidated } = useBalloonForm();
+  const createBalloonMutation = useCreateBalloonMutation();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isValidated) return;
+
+    createBalloonMutation.mutate(balloonInfo, {
+      onSuccess: onClose,
+    });
+  };
 
   return (
     <Modal

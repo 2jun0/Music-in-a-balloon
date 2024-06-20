@@ -1,6 +1,5 @@
-import { useCreateBalloonMutation } from '@hook/api/useCreateBalloonMutation';
 import useGeolocation from '@hook/common/useGeolocation';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 
 import type { BalloonFormData } from '@type/balloon';
@@ -16,7 +15,6 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     initialBalloonFormData ?? defaultBalloonFormData,
   );
   const [isValidated, setIsValidated] = useState<boolean>(false);
-  const createBalloonMutation = useCreateBalloonMutation();
   const { coordinates } = useGeolocation();
 
   useEffect(() => {
@@ -37,13 +35,5 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     setBalloonInfo((prev) => ({ ...prev, streamingMusicUrl: musicUrl }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!isValidated) return;
-
-    createBalloonMutation.mutate(balloonInfo);
-  };
-
-  return { balloonInfo, updateMusicUrl, handleSubmit, isValidated };
+  return { balloonInfo, updateMusicUrl, isValidated };
 };

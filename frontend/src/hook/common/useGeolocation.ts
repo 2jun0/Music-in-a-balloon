@@ -1,16 +1,12 @@
 import { useToast } from '@hook/common/useToast';
 import { useEffect, useState } from 'react';
 
-interface locationType {
-  loaded: boolean;
-  coordinates?: { lat: number; lon: number };
-  isTemporary?: boolean;
-}
+import type { GeolocationType } from '@type/geolocation';
 
 const useGeolocation = () => {
   const { createToast } = useToast();
 
-  const [location, setLocation] = useState<locationType>({
+  const [location, setLocation] = useState<GeolocationType>({
     loaded: false,
     coordinates: { lat: 0, lon: 0 },
   });
@@ -26,9 +22,10 @@ const useGeolocation = () => {
   };
 
   const onError = () => {
-    setLocation({
+    setLocation((location) => ({
+      ...location,
       loaded: true,
-    });
+    }));
 
     createToast("Can't load Geolocation", 'error');
   };

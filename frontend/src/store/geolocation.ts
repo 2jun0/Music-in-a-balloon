@@ -6,5 +6,9 @@ export const geolocationState = atom<GeolocationType>({
   key: 'geolocation',
   default: {
     loaded: false,
+    coordinates: {
+      lat: null,
+      lon: null,
+    },
   },
 });

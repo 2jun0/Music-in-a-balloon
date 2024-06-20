@@ -1,4 +1,4 @@
 export interface GeolocationType {
   loaded: boolean;
-  coordinates?: { lat: number; lon: number };
+  coordinates: { lat: number | null; lon: number | null };
 }

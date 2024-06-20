@@ -1,5 +1,5 @@
 import { useMapPageQueries } from '@hook/api/useMapPageQueries';
-import { mapContainerStyling } from '@page/MapPage/MapPage.style';
+import useGeolocation from '@hook/common/useGeolocation';
 
 import Flex from '@component/Flex/Flex';
 import BalloonMap from '@component/common/BalloonMap/BalloonMap';
@@ -10,14 +10,15 @@ const MapPage = () => {
     balloonListData: { balloons },
     waveData,
   } = useMapPageQueries();
+  const { coordinates } = useGeolocation();
 
   return (
-    <Flex>
+    <Flex css={containerStyling}>
       <section css={mapContainerStyling}>
         <GoogleMapWrapper>
           <BalloonMap
-            centerLat={balloons[0].baseLat}
-            centerLon={balloons[0].baseLon}
+            centerLat={coordinates.lat ?? balloons[0].baseLat}
+            centerLon={coordinates.lon ?? balloons[0].baseLon}
             balloons={balloons}
             wave={waveData}
           />

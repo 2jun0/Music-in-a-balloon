@@ -1,7 +1,7 @@
 package com.musicinaballoon.geolocation.application;
 
+import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
-import com.musicinaballoon.common.exception.ServiceUnavailableException;
 import com.musicinaballoon.geolocation.application.response.GeolocationResponse;
 import com.musicinaballoon.geolocation.external.IpApi;
 import com.musicinaballoon.geolocation.external.response.IpGeolocation;
@@ -17,8 +17,8 @@ public class GeolocationService {
 
     public GeolocationResponse getGeolocationByIp(String ip) {
         IpGeolocation ipGeolocation = ipApi.getGeolocationByIp(ip);
-        if (ipGeolocation.status().equals(Status.FAIL)) {
-            throw new ServiceUnavailableException(ErrorCode.IP_GEOLOCATION_UNAVAILABLE);
+        if (!ipGeolocation.status().equals(Status.SUCCESS)) {
+            throw new BadRequestException(ErrorCode.INVALID_IP_ADDRESS);
         }
 
         return GeolocationResponse.from(ipGeolocation);

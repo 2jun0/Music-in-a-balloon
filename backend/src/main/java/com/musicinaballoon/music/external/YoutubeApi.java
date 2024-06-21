@@ -9,7 +9,7 @@ import com.google.api.services.youtube.model.Video;
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
-import com.musicinaballoon.music.external.reponse.YoutubeVideo;
+import com.musicinaballoon.music.external.response.YoutubeVideo;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;

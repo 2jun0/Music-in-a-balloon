@@ -1,4 +1,4 @@
-package com.musicinaballoon.music.external.reponse;
+package com.musicinaballoon.music.external.response;
 
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoSnippet;

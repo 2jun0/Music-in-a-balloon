@@ -5,6 +5,7 @@ public enum ErrorCode {
     INVALID_STREAMING_MUSIC_URL("The streaming music url is invalid"),
     INVALID_YOUTUBE_MUSIC_ID("The YouTube music id is invalid"),
     INVALID_SPOTIFY_MUSIC_ID("The Spotify track id is invalid"),
+    INVALID_IP_ADDRESS("The ip is invalid"),
 
     // 404
     USER_NOT_FOUND("The user does not exist"),
@@ -16,7 +17,7 @@ public enum ErrorCode {
     // 503
     YOUTUBE_API_SERVICE_UNAVAILABLE("The YouTube API service is unavailable"),
     SPOTIFY_API_SERVICE_UNAVAILABLE("The Spotify API service is unavailable"),
-    ;
+    IP_GEOLOCATION_UNAVAILABLE("Ip geolocation is unavailable");
 
     private final String message;
 

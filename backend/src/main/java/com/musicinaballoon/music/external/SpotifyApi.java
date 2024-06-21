@@ -2,7 +2,7 @@ package com.musicinaballoon.music.external;
 
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
-import com.musicinaballoon.music.external.reponse.SpotifyTrack;
+import com.musicinaballoon.music.external.response.SpotifyTrack;
 import java.io.IOException;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;

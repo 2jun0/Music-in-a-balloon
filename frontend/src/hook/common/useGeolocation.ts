@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import type { GeolocationType } from '@type/geolocation';
 
+import { getGeolocation } from '@api/geolocation/getGeolocation';
+
 const useGeolocation = () => {
   const { createToast } = useToast();
 
@@ -21,13 +23,25 @@ const useGeolocation = () => {
     });
   };
 
-  const onError = () => {
-    setLocation((location) => ({
-      ...location,
-      loaded: true,
-    }));
+  const onError = async () => {
+    try {
+      const { latitude, longitude } = await getGeolocation();
 
-    createToast("Can't load Geolocation", 'error');
+      setLocation({
+        loaded: true,
+        coordinates: {
+          lat: latitude,
+          lon: longitude,
+        },
+      });
+    } catch (err) {
+      createToast("Can't load Geolocation", 'error');
+
+      setLocation((location) => ({
+        ...location,
+        loaded: true,
+      }));
+    }
   };
 
   useEffect(() => {

@@ -14,6 +14,7 @@ export const END_POINTS = {
   WAVE: '/wave',
   USER: '/user',
   USER_ME: '/user/me',
+  GEOLOCATION: '/geolocation',
 } as const;
 
 export const NETWORK = {

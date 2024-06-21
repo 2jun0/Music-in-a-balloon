@@ -16,7 +16,7 @@ public enum ErrorCode {
     // 503
     YOUTUBE_API_SERVICE_UNAVAILABLE("The YouTube API service is unavailable"),
     SPOTIFY_API_SERVICE_UNAVAILABLE("The Spotify API service is unavailable"),
-    ;
+    IP_GEOLOCATION_UNAVAILABLE("Ip geolocation is unavailable");
 
     private final String message;
 

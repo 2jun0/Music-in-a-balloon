@@ -4,14 +4,18 @@ import { useEffect, useRef } from 'react';
 import { Marker } from 'react-leaflet';
 import { useSetRecoilState } from 'recoil';
 
-import balloonPinIcons from '@asset/balloonPinIcons';
+import balloonPinIcon1 from '@asset/svg/balloon-pin-icon-1.svg?url';
+import balloonPinIcon2 from '@asset/svg/balloon-pin-icon-2.svg?url';
+import balloonPinIcon3 from '@asset/svg/balloon-pin-icon-3.svg?url';
 import selectedBalloonPinIcon from '@asset/svg/selected-balloon-pin-icon.svg?url';
 
 import { normalizeLatitude, normalizeLongitude } from '@util/math';
 
 import { clickedMarkerIdState } from '@store/scrollFocus';
 
-export const balloonIcons = balloonPinIcons.map((url) => icon({ iconUrl: url }));
+export const balloonIcons = [balloonPinIcon1, balloonPinIcon2, balloonPinIcon3].map((url) =>
+  icon({ iconUrl: url }),
+);
 export const selectedBalloonIcon = icon({ iconUrl: selectedBalloonPinIcon });
 
 interface BalloonMarkerProps {

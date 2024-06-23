@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "serve:dev": "cross-env NODE_ENV=development webpack serve --mode development --open --hot --config config/webpack.dev.js"
+    "serve:dev": "cross-env NODE_ENV=development webpack serve --mode development --open --hot --config config/webpack.dev.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --mode development --config config/webpack.dev.js"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",

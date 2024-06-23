@@ -1,7 +1,7 @@
-import BalloonPinIcon1 from '@asset/svg/balloon-pin-icon-1.svg';
-import BalloonPinIcon2 from '@asset/svg/balloon-pin-icon-2.svg';
-import BalloonPinIcon3 from '@asset/svg/balloon-pin-icon-3.svg';
+import balloonSvg1 from '@asset/svg/balloon-pin-icon-1.svg?url';
+import balloonSvg2 from '@asset/svg/balloon-pin-icon-2.svg?url';
+import balloonSvg3 from '@asset/svg/balloon-pin-icon-3.svg?url';
 
-const BalloonPinIcons = [BalloonPinIcon1, BalloonPinIcon2, BalloonPinIcon3];
+const balloonPinIcons = [balloonSvg1, balloonSvg2, balloonSvg3];
 
-export default BalloonPinIcons;
+export default balloonPinIcons;

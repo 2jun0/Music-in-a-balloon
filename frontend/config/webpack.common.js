@@ -19,18 +19,28 @@ module.exports = {
       },
       {
         test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        use: ['@svgr/webpack'],
+        issuer: /\.(style.js|style.ts)$/,
+        use: ['url-loader'],
       },
       {
         test: /\.svg$/i,
-        issuer: /\.(style.js|style.ts)$/,
-        use: ['url-loader'],
+        type: 'asset',
+        resourceQuery: /url/, // *.svg?url
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] },
+        use: ['@svgr/webpack'],
       },
       {
         test: /\.(png|jpg)$/i,
         issuer: /\.[jt]sx?$/,
         use: ['url-loader'],
+      },
+      {
+        test: /\.(css|scss)$/i,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

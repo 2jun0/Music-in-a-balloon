@@ -1,4 +1,4 @@
-import { WaveData } from '@type/wave';
+import type { WaveData } from '@type/wave';
 
 import { toRadians } from '@util/math';
 

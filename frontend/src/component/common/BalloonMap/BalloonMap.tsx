@@ -1,5 +1,7 @@
 import { MAP_INITIAL_ZOOM_SIZE, MAP_MAX_ZOOM_SIZE, MAP_MIN_ZOOM_SIZE } from '@constant/map';
+import type { Map as LeafletMap } from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 import BalloonMarkerContainer from '@component/common/BalloonMarkerContainer/BalloonMarkerContainer';
 
@@ -17,26 +19,15 @@ interface BalloonMapProps {
 }
 
 const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) => {
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const [positions, setPositions] = useState<BalloonPosition[] | null>(null);
+  const initPositions = balloons.map((balloon) => {
+    const deltaMilli = getTimeDeltaSecFrom(Date.parse(balloon.createdAt));
+    const { lat, lon } = calcCoordinate(wave, balloon.baseLat, balloon.baseLon, deltaMilli);
 
-  useEffect(() => {
-    if (wrapperRef.current) {
-      const initialMap = new google.maps.Map(wrapperRef.current, {
-        center: { lat: centerLat, lng: centerLon },
-        zoom: MAP_INITIAL_ZOOM_SIZE,
-        minZoom: MAP_MIN_ZOOM_SIZE,
-        maxZoom: MAP_MAX_ZOOM_SIZE,
-        disableDefaultUI: true,
-        gestureHandling: 'greedy',
-        clickableIcons: false,
-        mapId: process.env.GOOGLE_MAP_ID,
-      });
+    return { id: balloon.id, name: balloon.title, lat, lon };
+  });
 
-      setMap(initialMap);
-    }
-  }, [centerLat, centerLon]);
+  const [positions, setPositions] = useState<BalloonPosition[]>(initPositions);
+  const mapRef = useRef<LeafletMap | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,10 +44,30 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
     return () => clearInterval(interval);
   });
 
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.panTo([centerLat, centerLon]);
+    }
+  }, [centerLat, centerLon]);
+
   return (
-    <div id="map" ref={wrapperRef} css={{ height: 'calc(100vh - 81px)' }}>
-      {map && positions && <BalloonMarkerContainer map={map} positions={positions} />}
-    </div>
+    <MapContainer
+      ref={mapRef}
+      center={[centerLat, centerLon]}
+      zoom={MAP_INITIAL_ZOOM_SIZE}
+      style={{ height: 'calc(100vh - 81px)' }}
+      maxZoom={MAP_MAX_ZOOM_SIZE}
+      minZoom={MAP_MIN_ZOOM_SIZE}
+      worldCopyJump
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://maps.google.com">GoogleMaps</a>'
+        url="http://{s}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
+        subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
+        maxZoom={20}
+      />
+      {positions && <BalloonMarkerContainer positions={positions} />}
+    </MapContainer>
   );
 };
 

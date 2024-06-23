@@ -11,7 +11,7 @@ import Flex from '@component/Flex/Flex';
 import FloatingButton from '@component/FloatingButton/FloatingButton';
 import BalloonCreateModal from '@component/balloon/BalloonCreateModal/BalloonCreateModal';
 import BalloonMap from '@component/common/BalloonMap/BalloonMap';
-import GoogleMapWrapper from '@component/common/GoogleMapWrapper/GoogleMapWrapper';
+import LeafletWrapper from '@component/common/LeafletWrapper/LeafletWrapper';
 
 const MapPage = () => {
   const {
@@ -24,14 +24,14 @@ const MapPage = () => {
   return (
     <Flex css={containerStyling}>
       <section css={mapContainerStyling}>
-        <GoogleMapWrapper>
+        <LeafletWrapper isReady={!!coordinates.lat && !!coordinates.lon}>
           <BalloonMap
-            centerLat={coordinates.lat ?? balloons[0].baseLat}
-            centerLon={coordinates.lon ?? balloons[0].baseLon}
+            centerLat={Number(coordinates.lat)}
+            centerLon={Number(coordinates.lon)}
             balloons={balloons}
             wave={waveData}
           />
-        </GoogleMapWrapper>
+        </LeafletWrapper>
         <FloatingButton
           css={addButtonStyling}
           aria-label="Fly a music balloon"

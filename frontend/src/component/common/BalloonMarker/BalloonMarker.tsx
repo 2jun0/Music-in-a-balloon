@@ -1,22 +1,20 @@
+import type { Marker as LeafletMarker } from 'leaflet';
+import { icon } from 'leaflet';
 import { useEffect, useRef } from 'react';
-import type { Root } from 'react-dom/client';
-import { createRoot } from 'react-dom/client';
+import { Marker } from 'react-leaflet';
 import { useSetRecoilState } from 'recoil';
 
-import Flex from '@component/Flex/Flex';
-import Text from '@component/Text/Text';
-import {
-  getBalloonMarkerContainerStyling,
-  getLabelStyling,
-} from '@component/common/BalloonMarker/BalloonMarker.style';
+import balloonPinIcons from '@asset/balloonPinIcons';
+import selectedBalloonPinIcon from '@asset/svg/selected-balloon-pin-icon.svg?url';
 
-import BalloonPinIcons from '@asset/BalloonPinIcons';
-import SelectedBalloonPinIcon from '@asset/svg/selected-balloon-pin-icon.svg';
+import { normalizeLatitude, normalizeLongitude } from '@util/math';
 
 import { clickedMarkerIdState } from '@store/scrollFocus';
 
+export const balloonIcons = balloonPinIcons.map((url) => icon({ iconUrl: url }));
+export const selectedBalloonIcon = icon({ iconUrl: selectedBalloonPinIcon });
+
 interface BalloonMarkerProps {
-  map: google.maps.Map;
   id: number;
   name: string;
   lat: number;
@@ -24,71 +22,28 @@ interface BalloonMarkerProps {
   isSelected: boolean;
   isZoomedOut: boolean;
 }
-const BalloonMarker = ({
-  map,
-  id,
-  name,
-  lat,
-  lon,
-  isSelected,
-  isZoomedOut,
-}: BalloonMarkerProps) => {
+const BalloonMarker = ({ id, name, lat, lon, isSelected, isZoomedOut }: BalloonMarkerProps) => {
   const setClickedMarkerId = useSetRecoilState(clickedMarkerIdState);
-
-  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
-  const rootRef = useRef<Root | null>(null);
-
-  useEffect(() => {
-    if (!rootRef.current) {
-      const container = document.createElement('div');
-      rootRef.current = createRoot(container);
-
-      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat, lng: lon },
-        map,
-        content: container,
-      });
-    }
-
-    return () => {
-      if (markerRef.current) markerRef.current.map = null;
-    };
-  }, [id, map]);
+  const markerRef = useRef<LeafletMarker | null>(null);
 
   useEffect(() => {
     if (markerRef.current) {
-      markerRef.current.position = { lat, lng: lon };
+      markerRef.current.setLatLng([normalizeLatitude(lat), normalizeLongitude(lon)]);
     }
   }, [lat, lon]);
 
-  useEffect(() => {
-    if (rootRef.current && markerRef.current) {
-      const BalloonPinIcon = BalloonPinIcons[id % BalloonPinIcons.length];
-
-      rootRef.current.render(
-        <Flex
-          styles={{ direction: 'column', align: 'center', gap: '2px' }}
-          css={getBalloonMarkerContainerStyling(isZoomedOut)}
-        >
-          {isSelected ? <SelectedBalloonPinIcon /> : <BalloonPinIcon />}
-          {isZoomedOut ? (
-            <Text data-text={name} css={getLabelStyling(isSelected)}>
-              {name}
-            </Text>
-          ) : null}
-        </Flex>,
-      );
-
-      markerRef.current.position = { lat, lng: lon };
-      markerRef.current.map = map;
-
-      markerRef.current.addListener('click', () => {
-        setClickedMarkerId(id);
-      });
-    }
-  }, [id, isSelected, isZoomedOut, lat, lon, map, name, setClickedMarkerId]);
-
-  return null;
+  return (
+    <Marker
+      ref={markerRef}
+      icon={isSelected ? selectedBalloonIcon : balloonIcons[id % balloonIcons.length]}
+      position={[normalizeLatitude(lat), normalizeLongitude(lon)]}
+      eventHandlers={{
+        click: () => {
+          setClickedMarkerId(id);
+        },
+      }}
+    />
+  );
 };
 
 export default BalloonMarker;

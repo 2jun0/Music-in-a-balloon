@@ -29,6 +29,7 @@ export const addButtonStyling = css({
   position: 'absolute',
   right: '50px',
   bottom: '50px',
+  zIndex: 400,
 
   [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
     bottom: Theme.spacer.spacing4,

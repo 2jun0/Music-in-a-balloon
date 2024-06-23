@@ -1,12 +1,28 @@
 spring:
   application:
-    name: Music in a bottle
+    name: Music in a balloon
 
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test
     username: username
     password: password
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  profiles:
+    include:
+      - "local"
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+#        format_sql: true
+#        use_sql_comments: true
 
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
@@ -22,3 +38,11 @@ spotify:
   client_id: ${SPOTIFY_CLIENT_ID}
   client_secret: ${SPOTIFY_CLIENT_SECRET}
 
+balloon:
+  list-page-size: 100
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
+    org.springframework.orm.jpa.JpaTransactionManager: debug
+    org.hibernate.resource.transaction: debug

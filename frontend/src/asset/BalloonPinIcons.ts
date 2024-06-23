@@ -4,4 +4,4 @@ import balloonSvg3 from '@asset/svg/balloon-pin-icon-3.svg?url';
 
 const balloonPinIcons = [balloonSvg1, balloonSvg2, balloonSvg3];
 
-export default balloonPinIcons;
+export default balloonPinIcons as string[];

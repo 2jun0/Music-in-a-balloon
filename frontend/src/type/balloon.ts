@@ -1,6 +1,8 @@
 export interface BalloonData {
   id: number;
   title: string;
+  uploadedStreamingMusicType: string;
+  albumImageUrl: string;
   baseLat: number;
   baseLon: number;
   createdAt: string;

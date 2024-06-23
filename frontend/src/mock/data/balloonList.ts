@@ -1,4 +1,6 @@
-const balloons = [];
+import type { BalloonData } from '@type/balloon';
+
+const balloons: BalloonData[] = [];
 for (let i = 1; i <= 100; i += 1) {
   balloons.push({
     id: i,

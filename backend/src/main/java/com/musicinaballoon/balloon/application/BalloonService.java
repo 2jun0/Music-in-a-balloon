@@ -26,24 +26,28 @@ public class BalloonService {
         this.balloonListPageSize = balloonListPageSize;
     }
 
-    public Balloon createYoutubeMusicBalloon(YoutubeMusic youtubeMusic, BigDecimal latitude, BigDecimal longitude, User creator) {
+    public Balloon createYoutubeMusicBalloon(YoutubeMusic youtubeMusic, BigDecimal latitude, BigDecimal longitude, User creator
+            , String message) {
         Balloon balloon = Balloon.builder()
                 .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
                 .youtubeMusic(youtubeMusic)
                 .creator(creator)
                 .baseLat(latitude)
                 .baseLon(longitude)
+                .message(message)
                 .build();
         return balloonRepository.save(balloon);
     }
 
-    public Balloon createSpotifyMusicBalloon(SpotifyMusic spotifyMusic, BigDecimal latitude, BigDecimal longitude, User creator) {
+    public Balloon createSpotifyMusicBalloon(SpotifyMusic spotifyMusic, BigDecimal latitude, BigDecimal longitude, User creator
+            , String message) {
         Balloon balloon = Balloon.builder()
                 .uploadedStreamingMusicType(StreamingMusicType.SPOTIFY_MUSIC)
                 .spotifyMusic(spotifyMusic)
                 .creator(creator)
                 .baseLat(latitude)
                 .baseLon(longitude)
+                .message(message)
                 .build();
         return balloonRepository.save(balloon);
     }

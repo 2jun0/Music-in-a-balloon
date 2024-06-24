@@ -50,4 +50,25 @@ public class PostPickBalloonTest extends BalloonControllerTest {
                 }
         );
     }
+
+    @Test
+    @DisplayName("같은 풍선을 중복으로 주울시 400 에러 코드를 반환한다")
+    void pickBalloonDuplicate() {
+        // given
+        YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
+        Balloon balloon = createDefaultBalloon(youtubeMusic);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE);
+
+        // when
+        ExtractableResponse<Response> response1 = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
+        ExtractableResponse<Response> response2 = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
+
+        // then
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(response1.statusCode()).isEqualTo(HttpStatus.SC_OK);
+                    softly.assertThat(response2.statusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+                }
+        );
+    }
 }

@@ -5,6 +5,7 @@ import com.musicinaballoon.common.exception.CommonException;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.NotFoundException;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
+import com.musicinaballoon.common.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handle(BadRequestException e, HttpServletRequest request) {
         logInfo(e, request);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.from(e));
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handle(UnauthorizedException e, HttpServletRequest request) {
+        logInfo(e, request);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));
     }
 
     @ExceptionHandler(NotFoundException.class)

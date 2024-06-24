@@ -8,6 +8,9 @@ public enum ErrorCode {
     INVALID_IP_ADDRESS("The ip is invalid"),
     ALREADY_PICKED_BALLOON("A balloon is already picked"),
 
+    // 401
+    USER_COOKIE_REQUIRED("The user cookie is required"),
+
     // 404
     USER_NOT_FOUND("The user does not exist"),
     BALLOON_NOT_FOUND("The balloon does not exist"),

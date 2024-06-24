@@ -38,9 +38,11 @@ public class BalloonFacade {
         StreamingMusicType type = musicService.checkStreamingMusicType(request.streamingMusicUrl());
         Balloon balloon = switch (type) {
             case YOUTUBE_MUSIC ->
-                    createYoutubeMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
+                    createYoutubeMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user,
+                            request.message());
             case SPOTIFY_MUSIC ->
-                    createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user);
+                    createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user,
+                            request.message());
         };
         return BalloonResponse.from(balloon);
     }
@@ -50,13 +52,15 @@ public class BalloonFacade {
         return BalloonListResponse.from(balloons);
     }
 
-    private Balloon createYoutubeMusicBalloon(String youtubeMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
+    private Balloon createYoutubeMusicBalloon(String youtubeMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner,
+            String message) {
         var youtubeMusic = musicService.getYoutubeMusicByUrl(youtubeMusicUrl);
-        return balloonService.createYoutubeMusicBalloon(youtubeMusic, latitude, longitude, owner);
+        return balloonService.createYoutubeMusicBalloon(youtubeMusic, latitude, longitude, owner, message);
     }
 
-    private Balloon createSpotifyMusicBalloon(String spotifyMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner) {
+    private Balloon createSpotifyMusicBalloon(String spotifyMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner,
+            String message) {
         var spotifyMusic = musicService.getSpotifyMusicByUrl(spotifyMusicUrl);
-        return balloonService.createSpotifyMusicBalloon(spotifyMusic, latitude, longitude, owner);
+        return balloonService.createSpotifyMusicBalloon(spotifyMusic, latitude, longitude, owner, message);
     }
 }

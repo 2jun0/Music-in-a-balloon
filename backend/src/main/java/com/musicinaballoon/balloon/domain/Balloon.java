@@ -54,6 +54,9 @@ public class Balloon extends BaseEntity {
     @Column(name = "base_lon", precision = 16, scale = 13, nullable = false)
     private BigDecimal baseLon;
 
+    @Column(name = "message", length = 255, nullable = false)
+    private String message;
+
     @Builder
     public Balloon(
             @NonNull StreamingMusicType uploadedStreamingMusicType,
@@ -61,7 +64,8 @@ public class Balloon extends BaseEntity {
             SpotifyMusic spotifyMusic,
             @NonNull User creator,
             @NonNull BigDecimal baseLat,
-            @NonNull BigDecimal baseLon
+            @NonNull BigDecimal baseLon,
+            @NonNull String message
     ) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
@@ -69,6 +73,7 @@ public class Balloon extends BaseEntity {
         this.creator = creator;
         this.baseLat = baseLat;
         this.baseLon = baseLon;
+        this.message = message;
     }
 
     public String getMusicTitle() {

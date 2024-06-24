@@ -13,6 +13,7 @@ public record BalloonResponse(
         String albumImageUrl,
         BigDecimal baseLon,
         BigDecimal baseLat,
+        String message,
         ZonedDateTime createdAt) {
 
     public static BalloonResponse from(Balloon balloon) {
@@ -23,6 +24,7 @@ public record BalloonResponse(
                 .albumImageUrl(balloon.getAlbumImageUrl())
                 .baseLon(balloon.getBaseLon())
                 .baseLat(balloon.getBaseLat())
+                .message(balloon.getMessage())
                 .createdAt(balloon.getCreatedAt())
                 .build();
     }

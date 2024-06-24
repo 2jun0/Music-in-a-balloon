@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.application;
 
+import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
@@ -72,7 +73,7 @@ class BalloonServiceTest {
 
         // when
         Balloon created = balloonService.createYoutubeMusicBalloon(YOUTUBE_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON, USER);
+                PYRAMID_OF_KHUFU_LON, USER, DEFAULT_MESSAGE);
 
         // then
         assertSoftly(
@@ -94,7 +95,8 @@ class BalloonServiceTest {
 
         // when
         Balloon created = balloonService.createSpotifyMusicBalloon(SPOTIFY_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON, USER);
+                PYRAMID_OF_KHUFU_LON, USER, DEFAULT_MESSAGE
+        );
 
         // then
         assertSoftly(
@@ -118,6 +120,7 @@ class BalloonServiceTest {
                 .baseLon(PYRAMID_OF_KHUFU_LON)
                 .baseLat(PYRAMID_OF_KHUFU_LAT)
                 .creator(USER)
+                .message(DEFAULT_MESSAGE)
                 .build();
 
         given(balloonRepository.findById(anyLong())).willReturn(Optional.of(balloon));
@@ -151,6 +154,7 @@ class BalloonServiceTest {
                     .baseLon(PYRAMID_OF_KHUFU_LON)
                     .baseLat(PYRAMID_OF_KHUFU_LAT)
                     .creator(USER)
+                    .message(DEFAULT_MESSAGE)
                     .build());
         }
 

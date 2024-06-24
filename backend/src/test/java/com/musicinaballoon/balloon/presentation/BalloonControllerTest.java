@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.presentation;
 
+import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
@@ -78,8 +79,14 @@ class BalloonControllerTest extends IntegrationTest {
     void getBalloonSuccess() {
         YoutubeMusic youtubeMusic = new YoutubeMusic(YOUTUBE_MUSIC_SUPER_SHY_URL, YOUTUBE_MUSIC_SUPER_SHY_TITLE, null);
         youtubeMusicRepository.save(youtubeMusic);
-        Balloon balloon = new Balloon(StreamingMusicType.YOUTUBE_MUSIC, youtubeMusic, null, defaultUser, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON);
+        Balloon balloon = Balloon.builder()
+                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
+                .youtubeMusic(youtubeMusic)
+                .creator(defaultUser)
+                .baseLat(PYRAMID_OF_KHUFU_LAT)
+                .baseLon(PYRAMID_OF_KHUFU_LON)
+                .message(DEFAULT_MESSAGE)
+                .build();
         balloonRepository.save(balloon);
 
         ExtractableResponse<Response> response = getBalloon(balloon.getId());
@@ -114,7 +121,7 @@ class BalloonControllerTest extends IntegrationTest {
     @DisplayName("유튜브 음악 URL로 풍선을 생성한다")
     void createBalloonByYoutubeMusicUrl() {
         CreateBalloonRequest request = new CreateBalloonRequest(YOUTUBE_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON);
+                PYRAMID_OF_KHUFU_LON, DEFAULT_MESSAGE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
@@ -135,7 +142,7 @@ class BalloonControllerTest extends IntegrationTest {
     @DisplayName("스포티파이 음악 URL로 풍선을 생성한다")
     void createBalloonBySpotifyMusicUrl() {
         CreateBalloonRequest request = new CreateBalloonRequest(SPOTIFY_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON);
+                PYRAMID_OF_KHUFU_LON, DEFAULT_MESSAGE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
@@ -162,8 +169,14 @@ class BalloonControllerTest extends IntegrationTest {
         List<Balloon> balloons = new ArrayList<>();
 
         for (int i = 0; i < balloonListPageSize * 1.5; i++) {
-            balloons.add(new Balloon(StreamingMusicType.YOUTUBE_MUSIC, youtubeMusic, null, defaultUser,
-                    EIFFEL_TOWER_LAT, EIFFEL_TOWER_LON));
+            balloons.add(Balloon.builder()
+                    .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
+                    .youtubeMusic(youtubeMusic)
+                    .creator(defaultUser)
+                    .baseLat(EIFFEL_TOWER_LAT)
+                    .baseLon(EIFFEL_TOWER_LON)
+                    .message(DEFAULT_MESSAGE)
+                    .build());
         }
 
         balloonRepository.saveAll(balloons);

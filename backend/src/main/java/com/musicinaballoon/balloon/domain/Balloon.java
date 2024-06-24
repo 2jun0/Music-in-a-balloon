@@ -44,7 +44,7 @@ public class Balloon extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private SpotifyMusic spotifyMusic;
 
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 

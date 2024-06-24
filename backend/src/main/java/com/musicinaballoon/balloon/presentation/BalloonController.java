@@ -3,6 +3,7 @@ package com.musicinaballoon.balloon.presentation;
 import com.musicinaballoon.auth.presentation.UserId;
 import com.musicinaballoon.balloon.application.BalloonFacade;
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import jakarta.validation.Valid;
@@ -27,10 +28,10 @@ public class BalloonController {
         return balloonFacade.getBalloon(balloonId);
     }
 
-    @Deprecated
-    @PostMapping(path = "/balloon/pick")
-    public BalloonResponse pickBalloon() {
-        return balloonFacade.pickRandomBalloon();
+    @PostMapping(path = "/balloon/{balloonId}/pick")
+    public BalloonResponse pickBalloon(@PathVariable("balloonId") Long balloonId,
+            @Valid @RequestBody PickBalloonRequest request, @UserId Long userId) {
+        return balloonFacade.pickBalloon(balloonId, userId, request);
     }
 
     @ResponseStatus(code = HttpStatus.CREATED)

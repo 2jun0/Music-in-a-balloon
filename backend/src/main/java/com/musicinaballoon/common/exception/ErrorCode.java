@@ -6,6 +6,7 @@ public enum ErrorCode {
     INVALID_YOUTUBE_MUSIC_ID("The YouTube music id is invalid"),
     INVALID_SPOTIFY_MUSIC_ID("The Spotify track id is invalid"),
     INVALID_IP_ADDRESS("The ip is invalid"),
+    ALREADY_PICKED_BALLOON("A balloon is already picked"),
 
     // 404
     USER_NOT_FOUND("The user does not exist"),

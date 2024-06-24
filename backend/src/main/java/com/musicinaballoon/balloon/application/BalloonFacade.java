@@ -1,6 +1,7 @@
 package com.musicinaballoon.balloon.application;
 
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BalloonFacade {
 
     private final BalloonService balloonService;
+    private final BalloonReplyService balloonReplyService;
     private final MusicService musicService;
     private final UserService userService;
 
@@ -28,9 +30,12 @@ public class BalloonFacade {
         return BalloonResponse.from(balloon);
     }
 
-    @Deprecated
-    public BalloonResponse pickRandomBalloon() {
-        return BalloonResponse.from(balloonService.pickRandomBalloon());
+    public BalloonResponse pickBalloon(Long balloonId, Long userId, PickBalloonRequest request) {
+        Balloon balloon = balloonService.getBalloon(balloonId);
+        User user = userService.getUser(userId);
+        balloonReplyService.createBalloonReply(balloon, user, request.reply());
+
+        return BalloonResponse.from(balloon);
     }
 
     public BalloonResponse createBalloon(CreateBalloonRequest request, Long ownerId) {

@@ -52,13 +52,11 @@ public class BalloonService {
         return balloonRepository.save(balloon);
     }
 
-    @Deprecated
-    public Balloon pickRandomBalloon() {
-        List<Balloon> balloons = balloonRepository.findAll();
-        return balloons.getFirst();
+    public Balloon getBalloon(Long balloonId) {
+        return findBalloonById(balloonId);
     }
 
-    public Balloon getBalloon(Long balloonId) {
+    private Balloon findBalloonById(Long balloonId) {
         return balloonRepository.findById(balloonId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }

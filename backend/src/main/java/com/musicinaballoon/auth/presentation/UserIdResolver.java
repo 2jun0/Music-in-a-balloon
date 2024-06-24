@@ -1,6 +1,8 @@
 package com.musicinaballoon.auth.presentation;
 
 import com.musicinaballoon.auth.AuthenticationContext;
+import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,6 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
     public Long resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
         return authContext.getUserId()
-                .orElseThrow();
+                .orElseThrow(() -> new UnauthorizedException(ErrorCode.USER_COOKIE_REQUIRED));
     }
 }

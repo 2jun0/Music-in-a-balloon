@@ -1,6 +1,7 @@
 package com.musicinaballoon.balloon.presentation;
 
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
+import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_REPLY_MESSAGE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.IntegrationTest;
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
+import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
@@ -71,6 +73,18 @@ class BalloonControllerTest extends IntegrationTest {
                 .queryParam("page", page)
                 .when()
                 .get("/balloon/list")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> postPickBalloon(Long balloonId, Long userId, PickBalloonRequest request) {
+        return RestAssured
+                .given()
+                .cookie("userId", userId)
+                .pathParam("balloonId", balloonId)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when()
+                .post("/balloon/{balloonId}/pick")
                 .then().log().all().extract();
     }
 
@@ -196,5 +210,36 @@ class BalloonControllerTest extends IntegrationTest {
                                 .map(BalloonResponse::from).toList());
             });
         }
+    }
+
+    @Test
+    @DisplayName("풍선을 성공적으로 줍는다")
+    void pickBalloonSuccess() {
+        // given
+        YoutubeMusic youtubeMusic = new YoutubeMusic(YOUTUBE_MUSIC_SUPER_SHY_URL, YOUTUBE_MUSIC_SUPER_SHY_TITLE, null);
+        youtubeMusicRepository.save(youtubeMusic);
+        Balloon balloon = Balloon.builder()
+                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
+                .youtubeMusic(youtubeMusic)
+                .creator(defaultUser)
+                .baseLat(PYRAMID_OF_KHUFU_LAT)
+                .baseLon(PYRAMID_OF_KHUFU_LON)
+                .message(DEFAULT_MESSAGE)
+                .build();
+        balloonRepository.save(balloon);
+
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE);
+
+        // when
+        ExtractableResponse<Response> response = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
+        BalloonResponse balloonResponse = response.as(BalloonResponse.class);
+
+        // then
+        assertSoftly(
+                softly -> {
+                    softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
+                    softly.assertThat(balloonResponse).isEqualTo(BalloonResponse.from(balloon));
+                }
+        );
     }
 }

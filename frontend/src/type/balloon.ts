@@ -5,6 +5,7 @@ export interface BalloonData {
   albumImageUrl: string;
   baseLat: number;
   baseLon: number;
+  message: string;
   createdAt: string;
 }
 
@@ -13,6 +14,13 @@ export interface BalloonPosition {
   name: string;
   lat: number;
   lon: number;
+}
+
+export interface BalloonInfo {
+  id: number;
+  title: string;
+  uploadedStreamingMusicType: string;
+  albumImageUrl: string;
 }
 
 export interface BalloonFormData {

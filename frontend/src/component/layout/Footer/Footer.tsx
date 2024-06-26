@@ -1,10 +1,14 @@
+import Flex from '@/component/Flex/Flex';
+
 import Text from '@component/Text/Text';
-import { containerStyling } from '@component/layout/Footer/Footer.style';
+import { containerStyling, footerStyling } from '@component/layout/Footer/Footer.style';
 
 const Footer = () => {
   return (
-    <footer css={containerStyling}>
-      <Text>©️ 2024 Music in a balloon All rights reserved</Text>
+    <footer css={footerStyling}>
+      <Flex css={containerStyling}>
+        <Text>©️ 2024 Music in a balloon All rights reserved</Text>
+      </Flex>
     </footer>
   );
 };

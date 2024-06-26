@@ -3,5 +3,5 @@ export const wave = {
   period: 10.0,
   amplitude: 0.125,
   offsetLon: 0.0,
-  velocity: 10,
+  velocity: 0.1,
 };

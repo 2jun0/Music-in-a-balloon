@@ -28,3 +28,10 @@ export const getLabelStyling = (isSelected: boolean) => {
     },
   });
 };
+
+export const fireworksStyling = css({
+  zIndex: '500',
+  position: 'fixed',
+  width: '100%',
+  height: '100%',
+});

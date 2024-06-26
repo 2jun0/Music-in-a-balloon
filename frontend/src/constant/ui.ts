@@ -1,8 +1,3 @@
-export const HEADER_HEIGHT_PX_VALUE = 60;
-export const HEADER_HEIGHT_SMALL_PX_VALUE = 50;
-export const HEADER_HEIGHT_PX = `${HEADER_HEIGHT_PX_VALUE}px`;
-export const HEADER_HEIGHT_SMALL_PX = `${HEADER_HEIGHT_SMALL_PX_VALUE}px`;
-
 export const SMALL_MAX_WIDTH_PX = '600px';
 
 export const USER_NAME_MAX_LENGTH = 255;

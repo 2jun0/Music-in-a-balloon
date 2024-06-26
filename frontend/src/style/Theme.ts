@@ -16,6 +16,7 @@ const color = {
   gray100: '#f3f3f3',
   /** background */
   white: 'white',
+  whiteOpaque: '#ffffffc4',
 
   blue800: '#004765',
   blue700: '#006f9f',
@@ -41,7 +42,11 @@ const color = {
   /** light red */
   red100: '#fff2f2',
 
+  orange100: '#FFE0B2',
+  orange200: '#FFCC80',
+  orange300: '#FFB74D',
   orange400: '#FFA726',
+  orange500: '#FF9800',
 
   green: '#2FC56E',
 } as const;

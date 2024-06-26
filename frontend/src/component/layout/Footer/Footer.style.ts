@@ -1,26 +1,22 @@
-import { FOOTER_HEIGHT_PX } from '@constant/ui';
 import { css } from '@emotion/react';
 
 import { Theme } from '@style/Theme';
 
-export const containerStyling = css({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: Theme.spacer.spacing1,
+export const footerStyling = css({
+  position: 'absolute',
+  bottom: 0,
 
-  width: '100vw',
-  height: FOOTER_HEIGHT_PX,
-  padding: '0 64px',
-
-  backgroundColor: Theme.color.white,
-
-  '@media screen and (max-width: 600px)': {
-    height: '20px',
-  },
+  width: '100%',
 
   '& *': {
-    color: Theme.color.gray600,
+    color: Theme.color.gray700,
   },
+});
+
+export const containerStyling = css({
+  flexDirection: 'column',
+  justify: 'space-between',
+  justifyContent: 'center',
+  alignItems: 'center',
+  align: 'center',
 });

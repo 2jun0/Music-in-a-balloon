@@ -59,7 +59,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
       ref={mapRef}
       center={[centerLat, centerLon]}
       zoom={MAP_INITIAL_ZOOM_SIZE}
-      style={{ height: 'calc(100vh - 100px)' }}
+      style={{ height: '100vh' }}
       maxZoom={MAP_MAX_ZOOM_SIZE}
       minZoom={MAP_MIN_ZOOM_SIZE}
       worldCopyJump

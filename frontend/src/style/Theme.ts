@@ -16,6 +16,7 @@ const color = {
   gray100: '#f3f3f3',
   /** background */
   white: 'white',
+  whiteOpaque: '#ffffffc4',
 
   blue800: '#004765',
   blue700: '#006f9f',

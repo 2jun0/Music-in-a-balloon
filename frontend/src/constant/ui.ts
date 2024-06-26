@@ -3,6 +3,9 @@ export const HEADER_HEIGHT_SMALL_PX_VALUE = 50;
 export const HEADER_HEIGHT_PX = `${HEADER_HEIGHT_PX_VALUE}px`;
 export const HEADER_HEIGHT_SMALL_PX = `${HEADER_HEIGHT_SMALL_PX_VALUE}px`;
 
+export const FOOTER_HEIGHT_PX_VALUE = 30;
+export const FOOTER_HEIGHT_PX = `${FOOTER_HEIGHT_PX_VALUE}px`;
+
 export const SMALL_MAX_WIDTH_PX = '600px';
 
 export const USER_NAME_MAX_LENGTH = 255;

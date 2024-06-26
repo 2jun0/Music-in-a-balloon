@@ -1,41 +1,66 @@
-import { MAP_ZOOM_OUT_LABEL_LIMIT } from '@constant/map';
-import { useState } from 'react';
+import { MAP_INITIAL_ZOOM_SIZE, MAP_PICK_REACH_LIMIT, MAP_ZOOM_IN_LIMIT } from '@constant/map';
+import L from 'leaflet';
+import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { useRecoilValue } from 'recoil';
 
 import BalloonMarker from '@component/common/BalloonMarker/BalloonMarker';
 
 import type { BalloonPosition } from '@type/balloon';
 
-import { clickedMarkerIdState } from '@store/scrollFocus';
-
 interface BalloonMarkerContainerProps {
   positions: BalloonPosition[];
+  centerLat: number;
+  centerLon: number;
 }
 
-const BalloonMarkerContainer = ({ positions }: BalloonMarkerContainerProps) => {
-  const selectedId = useRecoilValue(clickedMarkerIdState);
-  const [isZoomedOut, setIsZoomedOut] = useState(false);
+const BalloonMarkerContainer = ({
+  positions,
+  centerLat,
+  centerLon,
+}: BalloonMarkerContainerProps) => {
+  const [isZoomedIn, setIsZoomedIn] = useState(MAP_INITIAL_ZOOM_SIZE >= MAP_ZOOM_IN_LIMIT);
+  const [bounds, setBounds] = useState<L.LatLngBounds | null>(null);
+  const [boundedPositions, setBoundedPositions] = useState<BalloonPosition[]>([]);
 
   const map = useMapEvents({
     zoomend() {
       const zoom = map.getZoom();
-      const isZoomedOut = zoom > MAP_ZOOM_OUT_LABEL_LIMIT;
-      setIsZoomedOut(isZoomedOut);
+      const isZoomedIn = zoom >= MAP_ZOOM_IN_LIMIT;
+      setIsZoomedIn(isZoomedIn);
+    },
+    move() {
+      const bounds = map.getBounds();
+      setBounds(bounds);
     },
   });
 
+  useEffect(() => {
+    const bounds = map.getBounds();
+    setBounds(bounds);
+  }, [map]);
+
+  useEffect(() => {
+    if (bounds) {
+      const boundedPositions = positions.filter((p) => bounds.contains([p.lat, p.lon]));
+      setBoundedPositions(boundedPositions);
+    }
+  }, [bounds, positions]);
+
+  const distanceFromCenter = (lat: number, lon: number) => {
+    return L.latLng(centerLat, centerLon).distanceTo([lat, lon]);
+  };
+
   return (
     <>
-      {positions.map((position) => (
+      {boundedPositions.map((position) => (
         <BalloonMarker
           key={position.id}
           id={position.id}
-          isZoomedOut={isZoomedOut}
+          isZoomedIn={isZoomedIn}
           name={position.name}
           lat={position.lat}
           lon={position.lon}
-          isSelected={position.id === selectedId}
+          isInRange={distanceFromCenter(position.lat, position.lon) <= MAP_PICK_REACH_LIMIT}
         />
       ))}
     </>

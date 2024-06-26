@@ -15,6 +15,13 @@ export interface BalloonPosition {
   lon: number;
 }
 
+export interface BalloonInfo {
+  id: number;
+  title: string;
+  uploadedStreamingMusicType: string;
+  albumImageUrl: string;
+}
+
 export interface BalloonFormData {
   streamingMusicUrl: string | null;
   latitude: number | null;

@@ -1,52 +1,60 @@
 import type { Marker as LeafletMarker } from 'leaflet';
 import { icon } from 'leaflet';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Marker } from 'react-leaflet';
 import { useSetRecoilState } from 'recoil';
 
-import balloonPinIcon1 from '@asset/svg/balloon-pin-icon-1.svg?url';
-import balloonPinIcon2 from '@asset/svg/balloon-pin-icon-2.svg?url';
-import balloonPinIcon3 from '@asset/svg/balloon-pin-icon-3.svg?url';
-import selectedBalloonPinIcon from '@asset/svg/selected-balloon-pin-icon.svg?url';
+import { usePickBalloonMutation } from '@/hook/api/usePickBalloonMutation';
+import { pickedBalloonIdState } from '@/store/balloon';
 
-import { normalizeLatitude, normalizeLongitude } from '@util/math';
+import balloonPinIconImage1 from '@asset/svg/balloon-pin-icon-1.svg?url';
+import balloonPinIconImage2 from '@asset/svg/balloon-pin-icon-2.svg?url';
+import balloonPinIconImage3 from '@asset/svg/balloon-pin-icon-3.svg?url';
+import outRangedBalloonPinIconImage from '@asset/svg/outranged-balloon-pin-icon.svg?url';
 
-import { clickedMarkerIdState } from '@store/scrollFocus';
-
-export const balloonIcons = [balloonPinIcon1, balloonPinIcon2, balloonPinIcon3].map((url) =>
-  icon({ iconUrl: url }),
-);
-export const selectedBalloonIcon = icon({ iconUrl: selectedBalloonPinIcon });
+const balloonPinIconImages = [balloonPinIconImage1, balloonPinIconImage2, balloonPinIconImage3];
 
 interface BalloonMarkerProps {
   id: number;
   name: string;
   lat: number;
   lon: number;
-  isSelected: boolean;
-  isZoomedOut: boolean;
+  isInRange: boolean;
+  isZoomedIn: boolean;
 }
-const BalloonMarker = ({ id, name, lat, lon, isSelected, isZoomedOut }: BalloonMarkerProps) => {
-  const setClickedMarkerId = useSetRecoilState(clickedMarkerIdState);
+const BalloonMarker = ({ id, name, lat, lon, isInRange, isZoomedIn }: BalloonMarkerProps) => {
+  const setPickedBalloonId = useSetRecoilState(pickedBalloonIdState);
   const markerRef = useRef<LeafletMarker | null>(null);
+  const pickBalloonMutation = usePickBalloonMutation();
 
-  useEffect(() => {
-    if (markerRef.current) {
-      markerRef.current.setLatLng([normalizeLatitude(lat), normalizeLongitude(lon)]);
-    }
-  }, [lat, lon]);
+  const onClick = () => {
+    if (!isInRange) return;
+
+    pickBalloonMutation.mutate(id, {
+      onSuccess: () => setPickedBalloonId(id),
+    });
+  };
+
+  const markerIcon = icon({
+    iconUrl: isInRange
+      ? balloonPinIconImages[id % balloonPinIconImages.length]
+      : outRangedBalloonPinIconImage,
+    iconSize: isZoomedIn ? [57, 75] : [19, 25],
+  });
 
   return (
     <Marker
       ref={markerRef}
-      icon={isSelected ? selectedBalloonIcon : balloonIcons[id % balloonIcons.length]}
-      position={[normalizeLatitude(lat), normalizeLongitude(lon)]}
+      title={name}
+      riseOnHover
+      icon={markerIcon}
+      position={[lat, lon]}
       eventHandlers={{
-        click: () => {
-          setClickedMarkerId(id);
-        },
+        click: onClick,
       }}
-    />
+    >
+      {/* {isSelected ? <Fireworks css={fireworksStyling} autorun={{ speed: 3 }} /> : <></>} */}
+    </Marker>
   );
 };
 

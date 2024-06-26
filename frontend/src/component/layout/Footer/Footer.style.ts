@@ -1,3 +1,4 @@
+import { FOOTER_HEIGHT_PX } from '@constant/ui';
 import { css } from '@emotion/react';
 
 import { Theme } from '@style/Theme';
@@ -10,7 +11,7 @@ export const containerStyling = css({
   gap: Theme.spacer.spacing1,
 
   width: '100vw',
-  height: '30px',
+  height: FOOTER_HEIGHT_PX,
   padding: '0 64px',
 
   backgroundColor: Theme.color.white,

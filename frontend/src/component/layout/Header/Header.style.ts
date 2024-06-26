@@ -24,7 +24,8 @@ export const containerStyling = css({
   alignItems: 'center',
   backgroundColor: Theme.color.whiteOpaque,
   borderRadius: '0 0 12px 12px',
-  padding: '10px',
+  padding: '5px 15px',
+  boxShadow: Theme.boxShadow.shadow3,
 });
 
 export const tapNavigateLogoButtonStyling = css({
@@ -39,4 +40,4 @@ export const tapNavigateLogoButtonStyling = css({
   cursor: 'pointer',
 });
 
-export const titleStyling = css({ color: Theme.color.pink300 });
+export const titleStyling = css({ color: Theme.color.pink300, fontWeight: 550 });

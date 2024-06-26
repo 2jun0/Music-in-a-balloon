@@ -5,6 +5,7 @@ export interface BalloonData {
   albumImageUrl: string;
   baseLat: number;
   baseLon: number;
+  message: string;
   createdAt: string;
 }
 

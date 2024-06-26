@@ -11,7 +11,7 @@ interface YTMusicButtonProps extends ComponentPropsWithoutRef<'a'> {
 
 const YTMusicButton = ({ musicUrl, ...attributes }: YTMusicButtonProps) => {
   return (
-    <Link to={musicUrl} css={buttonStyling} {...attributes}>
+    <Link to={musicUrl} css={buttonStyling} target="_blank" {...attributes}>
       <YTMusicImage />
     </Link>
   );

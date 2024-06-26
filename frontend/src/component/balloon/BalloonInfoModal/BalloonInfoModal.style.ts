@@ -4,30 +4,39 @@ import { SMALL_MAX_WIDTH_PX } from '@/constant/ui';
 
 import { Theme } from '@style/Theme';
 
-export const wrapperStyling = css({
+export const modalStyling = css({
   width: '500px',
-  // minHeight: '528px',
 
   [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
     width: `calc(100vw - ${Theme.spacer.spacing4})`,
-    // height: `80%`,
   },
 });
 
-export const formStyling = css({
-  display: 'flex',
+export const containerStyling = css({
   flexDirection: 'column',
-  gap: Theme.spacer.spacing4,
+  gap: Theme.spacer.spacing3,
   width: '100%',
 });
 
-export const linkContainerStyling = css({
+export const replyFormStyling = css({
   display: 'flex',
-  flexDirection: 'row',
+});
 
+export const albumImageStyling = css({
+  width: '75%',
+  margin: '0 auto',
+});
+
+export const listenMusicContainerStyling = css({
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: Theme.spacer.spacing4,
+  margin: '0 auto',
+});
+
+export const linkContainerStyling = css({
   justifyContent: 'center',
   alignItems: 'center',
-
   gap: '10px',
 });
 
@@ -42,19 +51,5 @@ export const inputStyling = css({
     position: 'absolute',
     width: '89%',
     bottom: Theme.spacer.spacing3,
-  },
-});
-
-export const listStyle = css({
-  '> li': {
-    counterIncrement: 'li',
-    paddingLeft: '30px',
-    marginBottom: '10px',
-  },
-  '> li:before': {
-    content: "counter(li) '.'",
-    width: '1.2em',
-    display: 'inline-block',
-    marginLeft: '-20px',
   },
 });

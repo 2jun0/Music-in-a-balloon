@@ -2,16 +2,24 @@ import { useBalloonQuery } from '@hook/api/useBalloonQuery';
 import type { FormEvent } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import Box from '@component/Box/Box';
+import Flex from '@/component/Flex/Flex';
+import Input from '@/component/Input/Input';
+
 import Heading from '@component/Heading/Heading';
 import Modal from '@component/Modal/Modal';
+import Text from '@component/Text/Text';
 import {
-  formStyling,
+  albumImageStyling,
+  containerStyling,
+  inputStyling,
   linkContainerStyling,
-  wrapperStyling,
+  listenMusicContainerStyling,
+  modalStyling,
+  replyFormStyling,
 } from '@component/balloon/BalloonInfoModal/BalloonInfoModal.style';
 import SpotifyButton from '@component/common/SpotifyButton/SpotifyButton';
 import YTMusicButton from '@component/common/YTMusicButton/YTMusicButton';
+import YouTubeButton from '@component/common/YouTubeButton/YouTubeButton';
 
 import { pickedBalloonIdState } from '@store/balloon';
 
@@ -30,20 +38,34 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
 
   return (
     <Modal
-      css={wrapperStyling}
+      css={modalStyling}
       isOpen={isOpen}
       closeModal={onClose}
       isBackdropClosable={false}
       hasCloseButton
     >
-      <form css={formStyling} onSubmit={handleSubmit} noValidate>
+      <Flex css={containerStyling}>
         <Heading size="small">{balloonData.title}</Heading>
-        <img src={balloonData.albumImageUrl} alt={`${balloonData.title} album`} />
-        <Box css={linkContainerStyling}>
-          <YTMusicButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
-          <SpotifyButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
-        </Box>
-      </form>
+        <img
+          css={albumImageStyling}
+          src={balloonData.albumImageUrl}
+          alt={`${balloonData.title} album`}
+        />
+        <Flex css={listenMusicContainerStyling}>
+          <Text size="large">🎧 Go to listen this music 🎧</Text>
+          <Flex css={linkContainerStyling}>
+            <YouTubeButton videoUrl="https://www.youtube.com/watch?v=Y25LDO6OLzQ" />
+            <YTMusicButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
+            <SpotifyButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
+          </Flex>
+        </Flex>
+        <Text size="small">From. username</Text>
+        <Text>{balloonData.message}</Text>
+        {/* <form css={replyFormStyling} onSubmit={handleSubmit} noValidate>
+          <Heading size="xSmall">Reply</Heading>
+          <Input css={inputStyling} placeholder="Enter the reply." />
+        </form> */}
+      </Flex>
     </Modal>
   );
 };

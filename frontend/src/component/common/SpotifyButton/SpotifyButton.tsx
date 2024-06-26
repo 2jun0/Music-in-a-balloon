@@ -11,7 +11,7 @@ interface SpotifyButtonProps extends ComponentPropsWithoutRef<'a'> {
 
 const SpotifyButton = ({ musicUrl, ...attributes }: SpotifyButtonProps) => {
   return (
-    <Link to={musicUrl} css={buttonStyling} {...attributes}>
+    <Link to={musicUrl} css={buttonStyling} target="_blank" {...attributes}>
       <SpotifyImage />
     </Link>
   );

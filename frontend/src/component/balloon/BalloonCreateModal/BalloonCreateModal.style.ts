@@ -6,11 +6,9 @@ import { Theme } from '@style/Theme';
 
 export const wrapperStyling = css({
   width: '500px',
-  // minHeight: '528px',
 
   [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
     width: `calc(100vw - ${Theme.spacer.spacing4})`,
-    // height: `80%`,
   },
 });
 
@@ -27,12 +25,6 @@ export const buttonStyling = css({
 
 export const inputStyling = css({
   width: '100%',
-
-  [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
-    position: 'absolute',
-    width: '89%',
-    bottom: Theme.spacer.spacing3,
-  },
 });
 
 export const listStyle = css({

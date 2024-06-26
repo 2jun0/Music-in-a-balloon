@@ -1,6 +1,6 @@
 import type { Marker as LeafletMarker } from 'leaflet';
 import { icon } from 'leaflet';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Marker } from 'react-leaflet';
 import { useSetRecoilState } from 'recoil';
 
@@ -26,12 +26,18 @@ const BalloonMarker = ({ id, name, lat, lon, isInRange, isZoomedIn }: BalloonMar
   const setPickedBalloonId = useSetRecoilState(pickedBalloonIdState);
   const markerRef = useRef<LeafletMarker | null>(null);
   const pickBalloonMutation = usePickBalloonMutation();
+  const [isPicked, setIsPicked] = useState<boolean>(false);
+
+  if (isPicked) return null;
 
   const onClick = () => {
     if (!isInRange) return;
 
     pickBalloonMutation.mutate(id, {
-      onSuccess: () => setPickedBalloonId(id),
+      onSuccess: () => {
+        setIsPicked(true);
+        setPickedBalloonId(id);
+      },
     });
   };
 

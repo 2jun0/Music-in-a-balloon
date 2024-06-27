@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,6 +58,9 @@ public class Balloon extends BaseEntity {
     @Column(name = "message", length = 255, nullable = false)
     private String message;
 
+    @Column(name = "based_at", nullable = false)
+    private ZonedDateTime basedAt;
+
     @Builder
     public Balloon(
             @NonNull StreamingMusicType uploadedStreamingMusicType,
@@ -74,6 +78,12 @@ public class Balloon extends BaseEntity {
         this.baseLat = baseLat;
         this.baseLon = baseLon;
         this.message = message;
+    }
+
+    @Override
+    public void prePersist() {
+        super.prePersist();
+        this.basedAt = getCreatedAt();
     }
 
     public String getMusicTitle() {

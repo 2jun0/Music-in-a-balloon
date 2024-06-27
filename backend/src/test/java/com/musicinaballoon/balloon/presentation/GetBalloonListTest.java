@@ -2,8 +2,8 @@ package com.musicinaballoon.balloon.presentation;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import com.musicinaballoon.balloon.application.response.BalloonListItemResponse;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
-import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.music.domain.YoutubeMusic;
@@ -59,7 +59,7 @@ public class GetBalloonListTest extends BalloonControllerTest {
                 softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
                 softly.assertThat(balloonListResponse.balloons())
                         .isEqualTo(balloons.stream().skip(curPage * balloonListPageSize).limit(balloonListPageSize)
-                                .map(BalloonResponse::from).toList());
+                                .map(BalloonListItemResponse::from).toList());
             });
         }
     }

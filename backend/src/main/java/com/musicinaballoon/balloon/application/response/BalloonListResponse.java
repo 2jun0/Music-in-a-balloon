@@ -6,12 +6,12 @@ import lombok.Builder;
 
 @Builder
 public record BalloonListResponse(
-        List<BalloonResponse> balloons
+        List<BalloonListItemResponse> balloons
 ) {
 
     public static BalloonListResponse from(List<Balloon> balloons) {
         return BalloonListResponse.builder()
-                .balloons(balloons.stream().map(BalloonResponse::from).toList())
+                .balloons(balloons.stream().map(BalloonListItemResponse::from).toList())
                 .build();
     }
 }

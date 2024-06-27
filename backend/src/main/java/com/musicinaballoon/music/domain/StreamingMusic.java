@@ -4,6 +4,8 @@ import com.musicinaballoon.common.domain.BaseEntity;
 
 public abstract class StreamingMusic extends BaseEntity {
 
+    public abstract Long getId();
+
     public abstract String getTitle();
 
     public abstract String getAlbumImageUrl();

@@ -2,6 +2,7 @@ package com.musicinaballoon.balloon.application.response;
 
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.music.application.response.MusicResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import lombok.Builder;
@@ -9,16 +10,35 @@ import lombok.Builder;
 @Builder
 public record BalloonResponse(
         Long id,
+
+        @Schema(example = "Super Shy")
         String title,
+
+        @Schema(example = "youtube")
         String uploadedStreamingMusicType,
+
+        @Schema(example = "https://i.ytimg.com/vi/n7ePZLn9_lQ/sddefault.jpg")
         String albumImageUrl,
+
+        @Schema(example = "29.9794559943191")
         BigDecimal baseLon,
+
+        @Schema(example = "31.1342812890919")
         BigDecimal baseLat,
+
+        @Schema(example = "I love this song 🥰")
         String message,
+
         MusicResponse youtubeMusic,
+
         MusicResponse spotifyMusic,
+
+        @Schema(example = "2024-05-01T18:04:34.53997Z")
         ZonedDateTime createdAt,
-        ZonedDateTime updatedAt) {
+
+        @Schema(example = "2024-05-01T18:04:34.53997Z")
+        ZonedDateTime updatedAt
+) {
 
     public static BalloonResponse from(Balloon balloon) {
         MusicResponse youtubeMusicResponse = getYoutubeMusicResponse(balloon);

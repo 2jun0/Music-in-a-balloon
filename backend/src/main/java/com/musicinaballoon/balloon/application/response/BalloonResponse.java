@@ -17,7 +17,8 @@ public record BalloonResponse(
         String message,
         MusicResponse youtubeMusic,
         MusicResponse spotifyMusic,
-        ZonedDateTime createdAt) {
+        ZonedDateTime createdAt,
+        ZonedDateTime updatedAt) {
 
     public static BalloonResponse from(Balloon balloon) {
         MusicResponse youtubeMusicResponse = getYoutubeMusicResponse(balloon);
@@ -34,6 +35,7 @@ public record BalloonResponse(
                 .youtubeMusic(youtubeMusicResponse)
                 .spotifyMusic(spotifyMusicResponse)
                 .createdAt(balloon.getCreatedAt())
+                .updatedAt(balloon.getUpdatedAt())
                 .build();
     }
 

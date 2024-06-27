@@ -13,7 +13,10 @@ public record BalloonListItemResponse(
         String title,
 
         @Schema(example = "2024-06-27T07:42:02.872Z")
-        ZonedDateTime createdAt
+        ZonedDateTime createdAt,
+
+        @Schema(example = "2024-06-27T07:42:02.872Z")
+        ZonedDateTime updatedAt
 ) {
 
     public static BalloonListItemResponse from(Balloon balloon) {
@@ -21,6 +24,7 @@ public record BalloonListItemResponse(
                 .id(balloon.getId())
                 .title(balloon.getMusicTitle())
                 .createdAt(balloon.getCreatedAt())
+                .updatedAt(balloon.getUpdatedAt())
                 .build();
     }
 }

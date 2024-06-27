@@ -1,15 +1,17 @@
 package com.musicinaballoon.geolocation.external.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
-import java.util.Optional;
 import lombok.Builder;
 
 @Builder
 public record IpGeolocation(
         Status status,
-        Optional<BigDecimal> lat,
-        Optional<BigDecimal> lon
+        @Nullable
+        BigDecimal lat,
+        @Nullable
+        BigDecimal lon
 ) {
     public enum Status {
         @JsonProperty("success")

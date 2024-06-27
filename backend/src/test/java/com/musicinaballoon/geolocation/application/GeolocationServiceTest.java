@@ -10,7 +10,6 @@ import com.musicinaballoon.geolocation.external.IpApi;
 import com.musicinaballoon.geolocation.external.response.IpGeolocation;
 import com.musicinaballoon.geolocation.external.response.IpGeolocation.Status;
 import java.math.BigDecimal;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,8 +32,8 @@ class GeolocationServiceTest {
         // give
         IpGeolocation ipGeolocation = IpGeolocation.builder()
                 .status(Status.SUCCESS)
-                .lat(Optional.of(new BigDecimal("45.0")))
-                .lon(Optional.of(new BigDecimal("90.0")))
+                .lat(new BigDecimal("45.0"))
+                .lon(new BigDecimal("90.0"))
                 .build();
         given(ipApi.getGeolocationByIp(anyString())).willReturn(ipGeolocation);
 

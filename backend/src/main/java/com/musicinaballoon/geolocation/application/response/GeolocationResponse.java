@@ -9,8 +9,12 @@ public record GeolocationResponse(
 ) {
 
     public static GeolocationResponse from(IpGeolocation ipGeolocation) {
-        BigDecimal lat = ipGeolocation.lat().orElseThrow();
-        BigDecimal lon = ipGeolocation.lon().orElseThrow();
+        BigDecimal lat = ipGeolocation.lat();
+        BigDecimal lon = ipGeolocation.lon();
+
+        if (lat == null || lon == null) {
+            throw new IllegalArgumentException("ipGeolocation's lat or lon is null");
+        }
 
         return new GeolocationResponse(lat, lon);
     }

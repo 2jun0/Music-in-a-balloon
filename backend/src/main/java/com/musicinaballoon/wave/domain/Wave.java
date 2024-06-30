@@ -27,8 +27,8 @@ public class Wave extends BaseEntity {
     @Column(name = "amplitude", nullable = false)
     private Double amplitude;
 
-    @Column(name = "offset_lon", nullable = false)
-    private Double offsetLon;
+    @Column(name = "offset_longitude", nullable = false)
+    private Double offsetLongitude;
 
     @Column(name = "velocity", nullable = false)
     private Double velocity;
@@ -40,20 +40,20 @@ public class Wave extends BaseEntity {
             @NonNull Double amplitude,
             @NonNull Double period) {
         this.velocity = velocity;
-        this.offsetLon = offsetLon;
+        this.offsetLongitude = offsetLon;
         this.amplitude = amplitude;
         this.period = period;
     }
 
-    public double calcLon(double baseLon, long time) {
-        return baseLon + velocity * time;
+    public double calculateLongitude(double baseLongitude, long time) {
+        return baseLongitude + velocity * time;
     }
 
-    public double calcLat(double curLon, double baseLat, double baseLon) {
-        return func(curLon) - baseLat + func(baseLon);
+    public double calculateLatitude(double currentLongitude, double baseLatitude, double baseLongitude) {
+        return func(currentLongitude) + baseLatitude - func(baseLongitude);
     }
 
-    private double func(double lonDegree) {
-        return amplitude * 90 * Math.sin(period * Math.toRadians(lonDegree + offsetLon));
+    private double func(double longitudeDegree) {
+        return amplitude * 90 * Math.sin(period * Math.toRadians(longitudeDegree + offsetLongitude));
     }
 }

@@ -50,7 +50,8 @@ public class BalloonFacade {
 
     private static Geolocation getCurrentBalloonGeolocation(Balloon balloon, Wave wave) {
         long time = secondTimeDifference(utcNow(), balloon.getBasedAt());
-        Geolocation currentBalloonGeolocation = wave.calculateGeolocation(balloon.getBaseLat(), balloon.getBaseLon(), time);
+        Geolocation currentBalloonGeolocation = wave.calculateGeolocation(balloon.getBaseLatitude(), balloon.getBaseLongitude(),
+                time);
         return currentBalloonGeolocation;
     }
 

@@ -2,10 +2,10 @@ package com.musicinaballoon.balloon.presentation;
 
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_REPLY_MESSAGE;
-import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LAT;
-import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LON;
-import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LAT;
-import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LON;
+import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LATITUDE;
+import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LONGITUDE;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LONGITUDE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -43,8 +43,8 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when
         ExtractableResponse<Response> response = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
@@ -65,7 +65,8 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LAT, PYRAMID_OF_KHUFU_LON);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when
         ExtractableResponse<Response> response1 = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
@@ -85,7 +86,8 @@ public class PostPickBalloonTest extends BalloonControllerTest {
     void pickTooFarBalloon() {
         // given
         Balloon balloon = createTooFarBalloon();
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LAT, PYRAMID_OF_KHUFU_LON);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when
         ExtractableResponse<Response> response = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
@@ -101,8 +103,8 @@ public class PostPickBalloonTest extends BalloonControllerTest {
                 .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
                 .youtubeMusic(youtubeMusic)
                 .creator(defaultUser)
-                .baseLat(EIFFEL_TOWER_LAT)
-                .baseLon(EIFFEL_TOWER_LON)
+                .baseLatitude(EIFFEL_TOWER_LATITUDE)
+                .baseLongitude(EIFFEL_TOWER_LONGITUDE)
                 .message(DEFAULT_MESSAGE)
                 .build();
         balloonRepository.save(balloon);

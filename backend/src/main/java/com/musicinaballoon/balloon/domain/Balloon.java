@@ -49,11 +49,11 @@ public class Balloon extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
-    @Column(name = "base_lat", precision = 16, scale = 13, nullable = false)
-    private BigDecimal baseLat;
+    @Column(name = "base_latitude", precision = 16, scale = 13, nullable = false)
+    private BigDecimal baseLatitude;
 
-    @Column(name = "base_lon", precision = 16, scale = 13, nullable = false)
-    private BigDecimal baseLon;
+    @Column(name = "base_longitude", precision = 16, scale = 13, nullable = false)
+    private BigDecimal baseLongitude;
 
     @Column(name = "message", length = 255, nullable = false)
     private String message;
@@ -67,16 +67,16 @@ public class Balloon extends BaseEntity {
             YoutubeMusic youtubeMusic,
             SpotifyMusic spotifyMusic,
             @NonNull User creator,
-            @NonNull BigDecimal baseLat,
-            @NonNull BigDecimal baseLon,
+            @NonNull BigDecimal baseLatitude,
+            @NonNull BigDecimal baseLongitude,
             @NonNull String message
     ) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
         this.spotifyMusic = spotifyMusic;
         this.creator = creator;
-        this.baseLat = baseLat;
-        this.baseLon = baseLon;
+        this.baseLatitude = baseLatitude;
+        this.baseLongitude = baseLongitude;
         this.message = message;
     }
 

@@ -32,6 +32,7 @@ spotify:
 
 balloon:
   list-page-size: 5
+  pick-reach-kilometer-limit: 300
 
 logging:
   level:

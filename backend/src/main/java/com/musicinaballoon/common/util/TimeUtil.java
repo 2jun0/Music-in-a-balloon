@@ -10,7 +10,7 @@ public final class TimeUtil {
         return ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
     }
 
-    public static long mircoTimeDifference(ZonedDateTime start, ZonedDateTime end) {
-        return ChronoUnit.MICROS.between(start, end);
+    public static long secondTimeDifference(ZonedDateTime a, ZonedDateTime b) {
+        return Math.abs(ChronoUnit.SECONDS.between(a, b));
     }
 }

@@ -1,7 +1,7 @@
 package com.musicinaballoon.balloon.application;
 
 import static com.musicinaballoon.common.util.GeolocationUtil.distanceBetween;
-import static com.musicinaballoon.common.util.TimeUtil.mircoTimeDifference;
+import static com.musicinaballoon.common.util.TimeUtil.secondTimeDifference;
 import static com.musicinaballoon.common.util.TimeUtil.utcNow;
 
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
@@ -49,7 +49,7 @@ public class BalloonFacade {
     }
 
     private static Geolocation getCurrentBalloonGeolocation(Balloon balloon, Wave wave) {
-        long time = mircoTimeDifference(utcNow(), balloon.getBasedAt());
+        long time = secondTimeDifference(utcNow(), balloon.getBasedAt());
         Geolocation currentBalloonGeolocation = wave.calculateGeolocation(balloon.getBaseLat(), balloon.getBaseLon(), time);
         return currentBalloonGeolocation;
     }

@@ -1,6 +1,8 @@
 package com.musicinaballoon.balloon.presentation;
 
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_REPLY_MESSAGE;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LAT;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LON;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
@@ -36,7 +38,8 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LAT,
+                PYRAMID_OF_KHUFU_LON);
 
         // when
         ExtractableResponse<Response> response = postPickBalloon(balloon.getId(), defaultUser.getId(), request);
@@ -57,7 +60,7 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE);
+        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LAT, PYRAMID_OF_KHUFU_LON);
 
         // when
         ExtractableResponse<Response> response1 = postPickBalloon(balloon.getId(), defaultUser.getId(), request);

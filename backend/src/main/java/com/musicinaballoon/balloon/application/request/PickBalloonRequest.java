@@ -14,11 +14,11 @@ public record PickBalloonRequest(
         @NotNull
         @Digits(integer = 3, fraction = 13)
         @Schema(example = "29.97945599431905")
-        BigDecimal latitude,
+        BigDecimal userLatitude,
 
         @NotNull
         @Digits(integer = 3, fraction = 13)
         @Schema(example = "31.134281289091934")
-        BigDecimal longitude
+        BigDecimal userLongitude
 ) {
 }

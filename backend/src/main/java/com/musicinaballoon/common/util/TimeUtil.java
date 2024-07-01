@@ -6,8 +6,6 @@ import java.time.temporal.ChronoUnit;
 
 public final class TimeUtil {
 
-    public static final double R = 6372.8; // In kilometers
-
     public static ZonedDateTime utcNow() {
         return ZonedDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
     }

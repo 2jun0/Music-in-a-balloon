@@ -7,6 +7,7 @@ public enum ErrorCode {
     INVALID_SPOTIFY_MUSIC_ID("The Spotify track id is invalid"),
     INVALID_IP_ADDRESS("The ip is invalid"),
     ALREADY_PICKED_BALLOON("A balloon is already picked"),
+    TOO_FAR_TO_PICK_BALLOON("Too far to pick a balloon"),
 
     // 401
     USER_COOKIE_REQUIRED("The user cookie is required"),

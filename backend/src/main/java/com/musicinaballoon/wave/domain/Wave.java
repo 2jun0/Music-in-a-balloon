@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,15 +46,26 @@ public class Wave extends BaseEntity {
         this.period = period;
     }
 
-    public double calculateLongitude(double baseLongitude, long time) {
+    public Geolocation calculateGeolocation(BigDecimal baseLatitude, BigDecimal baseLongitude, long time) {
+        double longitude = calculateLongitude(baseLongitude.doubleValue(), time);
+        double latitude = calculateLatitude(longitude, baseLatitude.doubleValue(),
+                baseLongitude.doubleValue());
+
+        return Geolocation.builder()
+                .latitude(BigDecimal.valueOf(latitude))
+                .longitude(BigDecimal.valueOf(longitude))
+                .build();
+    }
+
+    private double calculateLongitude(double baseLongitude, long time) {
         return baseLongitude + velocity * time;
     }
 
-    public double calculateLatitude(double currentLongitude, double baseLatitude, double baseLongitude) {
-        return func(currentLongitude) + baseLatitude - func(baseLongitude);
+    private double calculateLatitude(double currentLongitude, double baseLatitude, double baseLongitude) {
+        return function(currentLongitude) + baseLatitude - function(baseLongitude);
     }
 
-    private double func(double longitudeDegree) {
+    private double function(double longitudeDegree) {
         return amplitude * 90 * Math.sin(period * Math.toRadians(longitudeDegree + offsetLongitude));
     }
 }

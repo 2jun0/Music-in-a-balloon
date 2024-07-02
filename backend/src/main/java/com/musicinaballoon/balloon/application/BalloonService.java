@@ -32,8 +32,8 @@ public class BalloonService {
                 .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
                 .youtubeMusic(youtubeMusic)
                 .creator(creator)
-                .baseLat(latitude)
-                .baseLon(longitude)
+                .baseLatitude(latitude)
+                .baseLongitude(longitude)
                 .message(message)
                 .build();
         return balloonRepository.save(balloon);
@@ -45,8 +45,8 @@ public class BalloonService {
                 .uploadedStreamingMusicType(StreamingMusicType.SPOTIFY_MUSIC)
                 .spotifyMusic(spotifyMusic)
                 .creator(creator)
-                .baseLat(latitude)
-                .baseLon(longitude)
+                .baseLatitude(latitude)
+                .baseLongitude(longitude)
                 .message(message)
                 .build();
         return balloonRepository.save(balloon);

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,8 +28,8 @@ public class Wave extends BaseEntity {
     @Column(name = "amplitude", nullable = false)
     private Double amplitude;
 
-    @Column(name = "offset_lon", nullable = false)
-    private Double offsetLon;
+    @Column(name = "offset_longitude", nullable = false)
+    private Double offsetLongitude;
 
     @Column(name = "velocity", nullable = false)
     private Double velocity;
@@ -40,20 +41,31 @@ public class Wave extends BaseEntity {
             @NonNull Double amplitude,
             @NonNull Double period) {
         this.velocity = velocity;
-        this.offsetLon = offsetLon;
+        this.offsetLongitude = offsetLon;
         this.amplitude = amplitude;
         this.period = period;
     }
 
-    public double calcLon(double baseLon, long time) {
-        return baseLon + velocity * time;
+    public Geolocation calculateGeolocation(BigDecimal baseLatitude, BigDecimal baseLongitude, long time) {
+        double longitude = calculateLongitude(baseLongitude.doubleValue(), time);
+        double latitude = calculateLatitude(longitude, baseLatitude.doubleValue(),
+                baseLongitude.doubleValue());
+
+        return Geolocation.builder()
+                .latitude(BigDecimal.valueOf(latitude))
+                .longitude(BigDecimal.valueOf(longitude))
+                .build();
     }
 
-    public double calcLat(double curLon, double baseLat, double baseLon) {
-        return func(curLon) - baseLat + func(baseLon);
+    private double calculateLongitude(double baseLongitude, long time) {
+        return baseLongitude + velocity * time;
     }
 
-    private double func(double lonDegree) {
-        return amplitude * 90 * Math.sin(period * Math.toRadians(lonDegree + offsetLon));
+    private double calculateLatitude(double currentLongitude, double baseLatitude, double baseLongitude) {
+        return function(currentLongitude) + baseLatitude - function(baseLongitude);
+    }
+
+    private double function(double longitudeDegree) {
+        return amplitude * 90 * Math.sin(period * Math.toRadians(longitudeDegree + offsetLongitude));
     }
 }

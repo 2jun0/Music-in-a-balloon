@@ -8,7 +8,7 @@ public record WaveResponse(
         Long id,
         Double period,
         Double amplitude,
-        Double offsetLon,
+        Double offsetLongitude,
         Double velocity) {
 
     public static WaveResponse from(Wave wave) {
@@ -16,7 +16,7 @@ public record WaveResponse(
                 .id(wave.getId())
                 .period(wave.getPeriod())
                 .amplitude(wave.getAmplitude())
-                .offsetLon(wave.getOffsetLon())
+                .offsetLongitude(wave.getOffsetLongitude())
                 .velocity(wave.getVelocity())
                 .build();
     }

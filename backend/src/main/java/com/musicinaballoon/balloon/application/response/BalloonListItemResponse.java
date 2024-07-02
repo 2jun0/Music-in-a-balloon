@@ -31,8 +31,8 @@ public record BalloonListItemResponse(
                 .id(balloon.getId())
                 .title(balloon.getMusicTitle())
 
-                .baseLat(balloon.getBaseLat())
-                .baseLon(balloon.getBaseLon())
+                .baseLat(balloon.getBaseLatitude())
+                .baseLon(balloon.getBaseLongitude())
                 .basedAt(balloon.getBasedAt())
 
                 .createdAt(balloon.getCreatedAt())

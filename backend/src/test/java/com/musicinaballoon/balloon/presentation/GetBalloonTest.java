@@ -40,8 +40,8 @@ public class GetBalloonTest extends BalloonControllerTest {
                     softly.assertThat(balloonResponse.title()).isEqualTo(balloon.getMusicTitle());
                     softly.assertThat(balloonResponse.uploadedStreamingMusicType())
                             .isEqualTo(balloon.getUploadedStreamingMusicType().toString());
-                    softly.assertThat(balloonResponse.baseLat()).isEqualTo(balloon.getBaseLat());
-                    softly.assertThat(balloonResponse.baseLon()).isEqualTo(balloon.getBaseLon());
+                    softly.assertThat(balloonResponse.baseLat()).isEqualTo(balloon.getBaseLatitude());
+                    softly.assertThat(balloonResponse.baseLon()).isEqualTo(balloon.getBaseLongitude());
                 }
         );
     }

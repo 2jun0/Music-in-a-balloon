@@ -5,8 +5,8 @@ import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_T
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_URL;
-import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LAT;
-import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LON;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;
+import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LONGITUDE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
@@ -37,8 +37,8 @@ public class PostBalloonTest extends BalloonControllerTest {
     @Test
     @DisplayName("유튜브 음악 URL로 풍선을 생성한다")
     void createBalloonByYoutubeMusicUrl() {
-        CreateBalloonRequest request = new CreateBalloonRequest(YOUTUBE_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON, DEFAULT_MESSAGE);
+        CreateBalloonRequest request = new CreateBalloonRequest(YOUTUBE_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
@@ -58,8 +58,8 @@ public class PostBalloonTest extends BalloonControllerTest {
     @Test
     @DisplayName("스포티파이 음악 URL로 풍선을 생성한다")
     void createBalloonBySpotifyMusicUrl() {
-        CreateBalloonRequest request = new CreateBalloonRequest(SPOTIFY_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LAT,
-                PYRAMID_OF_KHUFU_LON, DEFAULT_MESSAGE);
+        CreateBalloonRequest request = new CreateBalloonRequest(SPOTIFY_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);

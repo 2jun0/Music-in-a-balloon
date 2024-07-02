@@ -38,7 +38,7 @@ class WaveControllerTest extends IntegrationTest {
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
                     softly.assertThat(waveResponse.amplitude()).isEqualTo(WaveDataLoader.WAVE_AMPLITUDE);
-                    softly.assertThat(waveResponse.offsetLon()).isEqualTo(WaveDataLoader.WAVE_OFFSET_LON);
+                    softly.assertThat(waveResponse.offsetLongitude()).isEqualTo(WaveDataLoader.WAVE_OFFSET_LON);
                     softly.assertThat(waveResponse.period()).isEqualTo(WaveDataLoader.WAVE_PERIOD);
                     softly.assertThat(waveResponse.velocity()).isEqualTo(WaveDataLoader.WAVE_VELOCITY);
                 }

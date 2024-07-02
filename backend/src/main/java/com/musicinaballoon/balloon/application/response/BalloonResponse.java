@@ -44,14 +44,14 @@ public record BalloonResponse(
                 .id(balloon.getId())
                 .title(balloon.getMusicTitle())
                 .message(balloon.getMessage())
-                
+
                 .uploadedStreamingMusicType(balloon.getUploadedStreamingMusicType().name())
                 .albumImageUrl(balloon.getAlbumImageUrl())
                 .youtubeMusic(youtubeMusicResponse)
                 .spotifyMusic(spotifyMusicResponse)
 
-                .baseLon(balloon.getBaseLon())
-                .baseLat(balloon.getBaseLat())
+                .baseLon(balloon.getBaseLongitude())
+                .baseLat(balloon.getBaseLatitude())
                 .basedAt(balloon.getBasedAt())
 
                 .createdAt(balloon.getCreatedAt())

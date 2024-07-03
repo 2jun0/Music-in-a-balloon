@@ -1,6 +1,6 @@
 package com.musicinaballoon.user.application;
 
-import static com.musicinaballoon.fixture.UserFixture.USERNAME_CAOCAO;
+import static com.musicinaballoon.fixture.UserFixture.DEFAULT_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -35,10 +35,10 @@ class UserServiceTest {
         given(userRepository.save(any(User.class))).will(returnsFirstArg());
 
         // when
-        User created = userService.createUser(USERNAME_CAOCAO);
+        User created = userService.createUser(DEFAULT_USERNAME);
 
         // then
-        assertThat(created.getName()).isEqualTo(USERNAME_CAOCAO);
+        assertThat(created.getName()).isEqualTo(DEFAULT_USERNAME);
     }
 
     @DisplayName("유저를 조회한다")
@@ -46,7 +46,7 @@ class UserServiceTest {
     void getUser() {
         // given
         User user = User.builder()
-                .name(USERNAME_CAOCAO)
+                .name(DEFAULT_USERNAME)
                 .build();
         given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
 

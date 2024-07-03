@@ -1,7 +1,6 @@
 package com.musicinaballoon.balloon.presentation;
 
-import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
-import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_REPLY_MESSAGE;
+import static com.musicinaballoon.fixture.BalloonReplyFixture.DEFAULT_REPLY_MESSAGE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LATITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LONGITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;
@@ -12,7 +11,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
-import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.fixture.BalloonFixture;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -99,15 +98,9 @@ public class PostPickBalloonTest extends BalloonControllerTest {
     private Balloon createTooFarBalloon() {
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
 
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
-                .youtubeMusic(youtubeMusic)
-                .creator(defaultUser)
+        return balloonRepository.save(BalloonFixture.youtubeMusicBalloonBuilder(youtubeMusic, defaultUser)
                 .baseLatitude(EIFFEL_TOWER_LATITUDE)
                 .baseLongitude(EIFFEL_TOWER_LONGITUDE)
-                .message(DEFAULT_MESSAGE)
-                .build();
-        balloonRepository.save(balloon);
-        return balloon;
+                .build());
     }
 }

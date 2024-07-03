@@ -1,12 +1,12 @@
 package com.musicinaballoon.balloon.application;
 
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
-import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
-import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
-import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
-import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
+import static com.musicinaballoon.fixture.BalloonFixture.youtubeMusicBalloonBuilder;
+import static com.musicinaballoon.fixture.MusicFixture.spotifyMusicBuilder;
+import static com.musicinaballoon.fixture.MusicFixture.youtubeMusicBuilder;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LONGITUDE;
+import static com.musicinaballoon.fixture.UserFixture.userBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -39,22 +39,6 @@ class BalloonServiceTest {
 
     private final static int BALLOON_LIST_PAGE_SIZE = 5;
 
-    public final User USER = User.builder()
-            .name("username")
-            .build();
-
-    public final YoutubeMusic YOUTUBE_MUSIC_SUPER_SHY = YoutubeMusic.builder()
-            .youtubeId(YOUTUBE_MUSIC_SUPER_SHY_ID)
-            .title(YOUTUBE_MUSIC_SUPER_SHY_TITLE)
-            .thumbnailUrl("https:/image.com/aaaaa")
-            .build();
-
-    public final SpotifyMusic SPOTIFY_MUSIC_SUPER_SHY = SpotifyMusic.builder()
-            .spotifyId(SPOTIFY_MUSIC_SUPER_SHY_ID)
-            .title(SPOTIFY_MUSIC_SUPER_SHY_TITLE)
-            .albumImageUrl("https:/image.com/aaaaa")
-            .build();
-
     private BalloonService balloonService;
 
     @Mock
@@ -69,20 +53,23 @@ class BalloonServiceTest {
     @Test
     void createYoutubeMusicBalloon() {
         // given
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
+        User user = userBuilder().build();
+
         given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
-        Balloon created = balloonService.createYoutubeMusicBalloon(YOUTUBE_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, USER, DEFAULT_MESSAGE);
+        Balloon created = balloonService.createYoutubeMusicBalloon(youtubeMusic, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE);
 
         // then
         assertSoftly(
                 softly -> {
                     softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.YOUTUBE_MUSIC);
-                    softly.assertThat(created.getYoutubeMusic()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY);
+                    softly.assertThat(created.getYoutubeMusic()).isEqualTo(youtubeMusic);
                     softly.assertThat(created.getBaseLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LONGITUDE);
                     softly.assertThat(created.getBaseLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LATITUDE);
-                    softly.assertThat(created.getCreator()).isEqualTo(USER);
+                    softly.assertThat(created.getCreator()).isEqualTo(user);
                 }
         );
     }
@@ -91,21 +78,24 @@ class BalloonServiceTest {
     @Test
     void createSpotifyMusicBalloon() {
         // given
+        SpotifyMusic spotifyMusic = spotifyMusicBuilder().build();
+        User user = userBuilder().build();
+
         given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
-        Balloon created = balloonService.createSpotifyMusicBalloon(SPOTIFY_MUSIC_SUPER_SHY, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, USER, DEFAULT_MESSAGE
+        Balloon created = balloonService.createSpotifyMusicBalloon(spotifyMusic, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE
         );
 
         // then
         assertSoftly(
                 softly -> {
                     softly.assertThat(created.getUploadedStreamingMusicType()).isEqualTo(StreamingMusicType.SPOTIFY_MUSIC);
-                    softly.assertThat(created.getSpotifyMusic()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY);
+                    softly.assertThat(created.getSpotifyMusic()).isEqualTo(spotifyMusic);
                     softly.assertThat(created.getBaseLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LONGITUDE);
                     softly.assertThat(created.getBaseLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LATITUDE);
-                    softly.assertThat(created.getCreator()).isEqualTo(USER);
+                    softly.assertThat(created.getCreator()).isEqualTo(user);
                 }
         );
     }
@@ -114,14 +104,9 @@ class BalloonServiceTest {
     @Test
     void getBalloon() {
         // given
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
-                .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
-                .baseLongitude(PYRAMID_OF_KHUFU_LONGITUDE)
-                .baseLatitude(PYRAMID_OF_KHUFU_LATITUDE)
-                .creator(USER)
-                .message(DEFAULT_MESSAGE)
-                .build();
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
+        User user = userBuilder().build();
+        Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, user).build();
 
         given(balloonRepository.findById(anyLong())).willReturn(Optional.of(balloon));
 
@@ -146,22 +131,18 @@ class BalloonServiceTest {
     @Test
     void getBalloonList() {
         // given
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
+        User user = userBuilder().build();
+
         List<Balloon> balloons = new ArrayList<>();
         for (int i = 0; i < BALLOON_LIST_PAGE_SIZE; i++) {
-            balloons.add(Balloon.builder()
-                    .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
-                    .youtubeMusic(YOUTUBE_MUSIC_SUPER_SHY)
-                    .baseLongitude(PYRAMID_OF_KHUFU_LONGITUDE)
-                    .baseLatitude(PYRAMID_OF_KHUFU_LATITUDE)
-                    .creator(USER)
-                    .message(DEFAULT_MESSAGE)
-                    .build());
+            balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, user).build());
         }
 
         given(balloonRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(balloons));
 
         // when
-        List<Balloon> gotten = balloonService.getBalloonListSortedByCreatedAt(0);
+        List<Balloon> gotten = balloonService.getBalloonListSortedByCreatedAt(user, 0);
 
         // then
         assertThat(gotten).isEqualTo(balloons);

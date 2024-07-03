@@ -27,6 +27,7 @@ public class GetBalloonListTest extends BalloonControllerTest {
     private ExtractableResponse<Response> getBalloonList(int page) {
         return RestAssured
                 .given()
+                .cookie("userId", defaultUser.getId())
                 .queryParam("page", page)
                 .when()
                 .get("/balloon/list")

@@ -96,8 +96,9 @@ public class BalloonFacade {
         return BalloonResponse.from(balloon);
     }
 
-    public BalloonListResponse getBalloonList(int page) {
-        List<Balloon> balloons = balloonService.getBalloonListSortedByCreatedAt(page);
+    public BalloonListResponse getBalloonList(Long userId, int page) {
+        User user = userService.getUser(userId);
+        List<Balloon> balloons = balloonService.getNotRepliedBalloonList(user, page);
         return BalloonListResponse.from(balloons);
     }
 

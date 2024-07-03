@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
@@ -127,9 +126,9 @@ class BalloonServiceTest {
         assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
     }
 
-    @DisplayName("풍선 여러개를 가져온다")
+    @DisplayName("getNotRepliedBalloonList 는 유효한 입력을 받으면 풍선리스트를 반환한다.")
     @Test
-    void getBalloonList() {
+    void getNotRepliedBalloonList_InvalidInputs_ReturnsBalloonList() {
         // given
         YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
         User user = userBuilder().build();
@@ -139,10 +138,10 @@ class BalloonServiceTest {
             balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, user).build());
         }
 
-        given(balloonRepository.findAll(any(Pageable.class))).willReturn(new PageImpl<>(balloons));
+        given(balloonRepository.findNotRepliedOrderByCreatedAtDesc(any(User.class), any(Pageable.class))).willReturn(balloons);
 
         // when
-        List<Balloon> gotten = balloonService.getBalloonListSortedByCreatedAt(user, 0);
+        List<Balloon> gotten = balloonService.getNotRepliedBalloonList(user, 0);
 
         // then
         assertThat(gotten).isEqualTo(balloons);

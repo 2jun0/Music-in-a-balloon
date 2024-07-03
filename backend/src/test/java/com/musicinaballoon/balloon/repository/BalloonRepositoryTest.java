@@ -37,23 +37,23 @@ class BalloonRepositoryTest {
     BalloonPickedRepository balloonPickedRepository;
 
     @Test
-    @DisplayName("findNotPickedOrderByCreatedAtDesc는 유효한 입력을 받으면 풍선리스트를 반환한다.")
-    void findNotPickedOrderByCreatedAtDesc_InvalidInputs_ReturnsBalloons() {
+    @DisplayName("findNotPickedNotCreatedByUserOrderByCreatedAtDesc 는 유효한 입력을 받으면 풍선리스트를 반환한다.")
+    void findNotPickedNotCreatedByUserOrderByCreatedAtDesc_InvalidInputs_ReturnsBalloons() {
         // given
         List<Balloon> balloons = balloons();
         User user = userRepository.save(userBuilder().build());
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<Balloon> founds = balloonRepository.findNotPickedOrderByCreatedAtDesc(user, pageable);
+        List<Balloon> founds = balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, pageable);
 
         // then
         assertThat(founds).isEqualTo(balloons);
     }
 
     @Test
-    @DisplayName("findNotPickedOrderByCreatedAtDesc는 유저가 주운 풍선이 있으면 줍지 않은 풍선을 반환한다.")
-    void findNotPickedOrderByCreatedAtDesc_HasPickedBalloonsByUser_ReturnNotPickedBalloons() {
+    @DisplayName("findNotPickedNotCreatedByUserOrderByCreatedAtDesc 는 유저가 주운 풍선이 있으면 줍지 않은 풍선을 반환한다.")
+    void findNotPickedNotCreatedByUserOrderByCreatedAtDesc_HasPickedBalloonsByUser_ReturnNotPickedBalloons() {
         // given
         List<Balloon> balloons = balloons();
         User user = userRepository.save(userBuilder().build());
@@ -66,11 +66,40 @@ class BalloonRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<Balloon> founds = balloonRepository.findNotPickedOrderByCreatedAtDesc(user, pageable);
+        List<Balloon> founds = balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, pageable);
 
         // then
         List<Balloon> expectedBalloons = balloons.subList(2, balloons.size());
         assertThat(founds).isEqualTo(expectedBalloons);
+    }
+
+    @Test
+    @DisplayName("findNotPickedNotCreatedByUserOrderByCreatedAtDesc 는 유저가 생성한 풍선이 있으면 자신이 생성하지 않은 풍선을 반환한다.")
+    void findNotPickedNotCreatedByUserOrderByCreatedAtDesc_HasCreatedBalloonsByUser_ReturnNotCreatedBalloonsByUser() {
+        // given
+        User me = userRepository.save(userBuilder().build());
+        User other = userRepository.save(userBuilder().build());
+
+        YoutubeMusic youtubeMusic = youtubeMusicRepository.save(youtubeMusicBuilder().build());
+
+        balloonRepository.saveAll(List.of(
+                youtubeMusicBalloonBuilder(youtubeMusic, me).build(),
+                youtubeMusicBalloonBuilder(youtubeMusic, me).build()
+        )); // my balloons
+
+        List<Balloon> otherBalloons = balloonRepository.saveAll(List.of(
+                youtubeMusicBalloonBuilder(youtubeMusic, other).build(),
+                youtubeMusicBalloonBuilder(youtubeMusic, other).build()
+        ));
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        // when
+        List<Balloon> founds = balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(me, pageable);
+
+        // then
+        otherBalloons.sort(Comparator.comparing(BaseEntity::getCreatedAt).reversed());
+        assertThat(founds).isEqualTo(otherBalloons);
     }
 
     List<Balloon> balloons() {

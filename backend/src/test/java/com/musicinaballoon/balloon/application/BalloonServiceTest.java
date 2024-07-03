@@ -138,7 +138,8 @@ class BalloonServiceTest {
             balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, user).build());
         }
 
-        given(balloonRepository.findNotPickedOrderByCreatedAtDesc(any(User.class), any(Pageable.class))).willReturn(balloons);
+        given(balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(any(User.class),
+                any(Pageable.class))).willReturn(balloons);
 
         // when
         List<Balloon> gotten = balloonService.getNotPickedBalloonList(user, 0);

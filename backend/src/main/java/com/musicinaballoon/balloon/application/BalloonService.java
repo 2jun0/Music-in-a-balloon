@@ -61,7 +61,7 @@ public class BalloonService {
     }
 
     public List<Balloon> getNotPickedBalloonList(User user, int page) {
-        return balloonRepository.findNotPickedOrderByCreatedAtDesc(user, PageRequest.of(page,
+        return balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, PageRequest.of(page,
                 balloonListPageSize));
     }
 }

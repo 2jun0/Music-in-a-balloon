@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface BalloonCustomRepository {
 
-    List<Balloon> findNotPickedOrderByCreatedAtDesc(User user, Pageable pageable);
+    List<Balloon> findNotPickedNotCreatedByUserOrderByCreatedAtDesc(User user, Pageable pageable);
 }

@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -61,8 +60,8 @@ public class BalloonService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }
 
-    public List<Balloon> getBalloonListSortedByCreatedAt(int page) {
-        Sort sort = Sort.by("createdAt").descending();
-        return balloonRepository.findAll(PageRequest.of(page, balloonListPageSize, sort)).getContent();
+    public List<Balloon> getNotPickedBalloonList(User user, int page) {
+        return balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, PageRequest.of(page,
+                balloonListPageSize));
     }
 }

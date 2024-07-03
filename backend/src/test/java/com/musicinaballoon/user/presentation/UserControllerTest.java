@@ -1,9 +1,9 @@
 package com.musicinaballoon.user.presentation;
 
+import static com.musicinaballoon.fixture.UserFixture.DEFAULT_USERNAME;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.IntegrationTest;
-import com.musicinaballoon.fixture.UserFixture;
 import com.musicinaballoon.user.application.request.CreateUserRequest;
 import com.musicinaballoon.user.application.response.UserResponse;
 import io.restassured.RestAssured;
@@ -52,7 +52,7 @@ class UserControllerTest extends IntegrationTest {
     @Test
     @DisplayName("유저를 생성하고 쿠키에 ID를 저장한다")
     void createUser() {
-        CreateUserRequest request = new CreateUserRequest(UserFixture.USERNAME_CAOCAO);
+        CreateUserRequest request = new CreateUserRequest(DEFAULT_USERNAME);
         ExtractableResponse<Response> response = postUser(request);
 
         assertSoftly(

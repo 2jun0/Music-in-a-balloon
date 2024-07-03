@@ -43,8 +43,8 @@ public class BalloonController {
     }
 
     @GetMapping(path = "/balloon/list")
-    public ResponseEntity<BalloonListResponse> getBalloonList(@RequestParam(name = "page") Integer page) {
-        BalloonListResponse balloonList = balloonFacade.getBalloonList(page);
+    public ResponseEntity<BalloonListResponse> getBalloonList(@RequestParam(name = "page") Integer page, @UserId Long userId) {
+        BalloonListResponse balloonList = balloonFacade.getBalloonList(userId, page);
         return ResponseEntity.ok(balloonList);
     }
 }

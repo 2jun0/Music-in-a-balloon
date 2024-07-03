@@ -1,7 +1,9 @@
 package com.musicinaballoon.music.application;
 
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
+import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
+import static com.musicinaballoon.fixture.MusicFixture.youtubeMusicBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -27,7 +29,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class YoutubeMusicServiceTest {
 
-    static final String ALBUM_URL = "https://image.com/aaaa";
     static final String VALID_VIDEO_DESCRIPTION = "Provided to YouTube";
 
     @InjectMocks
@@ -46,8 +47,9 @@ class YoutubeMusicServiceTest {
         given(youtubeMusicRepository.findByYoutubeId(anyString())).willReturn(Optional.empty());
         given(youtubeMusicRepository.save(any(YoutubeMusic.class))).will(returnsFirstArg());
 
-        YoutubeVideo video = new YoutubeVideo(YOUTUBE_MUSIC_SUPER_SHY_ID, YOUTUBE_MUSIC_SUPER_SHY_TITLE, VALID_VIDEO_DESCRIPTION,
-                new YoutubeThumbnail(ALBUM_URL));
+        YoutubeVideo video = new YoutubeVideo(YOUTUBE_MUSIC_SUPER_SHY_ID, YOUTUBE_MUSIC_SUPER_SHY_TITLE,
+                VALID_VIDEO_DESCRIPTION,
+                new YoutubeThumbnail(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL));
 
         given(youtubeApi.getVideo(anyString())).willReturn(video);
 
@@ -59,7 +61,7 @@ class YoutubeMusicServiceTest {
                 softly -> {
                     softly.assertThat(gotten.getYoutubeId()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_ID);
                     softly.assertThat(gotten.getTitle()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_TITLE);
-                    softly.assertThat(gotten.getThumbnailUrl()).isEqualTo(ALBUM_URL);
+                    softly.assertThat(gotten.getThumbnailUrl()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL);
                 }
         );
     }
@@ -71,7 +73,7 @@ class YoutubeMusicServiceTest {
         given(youtubeMusicRepository.findByYoutubeId(anyString())).willReturn(Optional.empty());
 
         YoutubeVideo video = new YoutubeVideo(YOUTUBE_MUSIC_SUPER_SHY_ID, YOUTUBE_MUSIC_SUPER_SHY_TITLE, "invalid description",
-                new YoutubeThumbnail(ALBUM_URL));
+                new YoutubeThumbnail(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL));
 
         given(youtubeApi.getVideo(anyString())).willReturn(video);
 
@@ -84,15 +86,11 @@ class YoutubeMusicServiceTest {
     @Test
     void getYoutubeMusicExisted() {
         // given
-        YoutubeMusic youtubeMusic = YoutubeMusic.builder()
-                .youtubeId(YOUTUBE_MUSIC_SUPER_SHY_ID)
-                .title(YOUTUBE_MUSIC_SUPER_SHY_TITLE)
-                .thumbnailUrl(ALBUM_URL)
-                .build();
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
         given(youtubeMusicRepository.findByYoutubeId(anyString())).willReturn(Optional.of(youtubeMusic));
 
         // when
-        YoutubeMusic gotton = youtubeMusicService.getYoutubeMusic(YOUTUBE_MUSIC_SUPER_SHY_ID);
+        YoutubeMusic gotton = youtubeMusicService.getYoutubeMusic(youtubeMusic.getYoutubeId());
 
         // then
         assertThat(gotton).isEqualTo(youtubeMusic);

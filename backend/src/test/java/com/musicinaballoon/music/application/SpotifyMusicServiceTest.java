@@ -1,5 +1,6 @@
 package com.musicinaballoon.music.application;
 
+import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,8 +28,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SpotifyMusicServiceTest {
 
-    static final String ALBUM_URL = "https://image.com/aaaa";
-
     @InjectMocks
     private SpotifyMusicService spotifyMusicService;
 
@@ -46,7 +45,7 @@ class SpotifyMusicServiceTest {
         given(spotifyMusicRepository.save(any(SpotifyMusic.class))).will(returnsFirstArg());
 
         SpotifyTrack track = new SpotifyTrack(SPOTIFY_MUSIC_SUPER_SHY_ID, SPOTIFY_MUSIC_SUPER_SHY_TITLE,
-                new SpotifyAlbum(List.of(new SpotifyImage(ALBUM_URL))));
+                new SpotifyAlbum(List.of(new SpotifyImage(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL))));
 
         given(spotifyApi.getTrack(anyString())).willReturn(track);
 
@@ -57,7 +56,7 @@ class SpotifyMusicServiceTest {
         assertSoftly(softly -> {
             softly.assertThat(gotten.getSpotifyId()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ID);
             softly.assertThat(gotten.getTitle()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_TITLE);
-            softly.assertThat(gotten.getAlbumImageUrl()).isEqualTo(ALBUM_URL);
+            softly.assertThat(gotten.getAlbumImageUrl()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL);
         });
     }
 
@@ -68,7 +67,7 @@ class SpotifyMusicServiceTest {
         SpotifyMusic spotifyMusic = SpotifyMusic.builder()
                 .spotifyId(SPOTIFY_MUSIC_SUPER_SHY_ID)
                 .title(SPOTIFY_MUSIC_SUPER_SHY_TITLE)
-                .albumImageUrl(ALBUM_URL)
+                .albumImageUrl(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL)
                 .build();
         given(spotifyMusicRepository.findBySpotifyId(anyString())).willReturn(Optional.of(spotifyMusic));
 

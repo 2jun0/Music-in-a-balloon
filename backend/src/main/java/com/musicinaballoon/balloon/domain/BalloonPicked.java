@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Getter
-@Entity(name = "balloon_reply")
+@Entity(name = "balloon_picked")
 @NoArgsConstructor
-public class BalloonReply {
+public class BalloonPicked {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,17 +27,17 @@ public class BalloonReply {
     @ManyToOne(fetch = FetchType.LAZY)
     private Balloon balloon;
 
-    @JoinColumn(name = "replier_id", nullable = false)
+    @JoinColumn(name = "picker_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User replier;
+    private User picker;
 
-    @Column(name = "message", length = 255, nullable = false)
-    private String message;
+    @Column(name = "reply_message", length = 255)
+    private String replyMessage;
 
     @Builder
-    public BalloonReply(@NonNull Balloon balloon, @NonNull User replier, @NonNull String message) {
+    public BalloonPicked(@NonNull Balloon balloon, @NonNull User picker, String replyMessage) {
         this.balloon = balloon;
-        this.replier = replier;
-        this.message = message;
+        this.picker = picker;
+        this.replyMessage = replyMessage;
     }
 }

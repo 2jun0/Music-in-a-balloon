@@ -60,8 +60,8 @@ public class BalloonService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }
 
-    public List<Balloon> getNotRepliedBalloonList(User replier, int page) {
-        return balloonRepository.findNotRepliedOrderByCreatedAtDesc(replier, PageRequest.of(page,
+    public List<Balloon> getNotPickedBalloonList(User user, int page) {
+        return balloonRepository.findNotPickedOrderByCreatedAtDesc(user, PageRequest.of(page,
                 balloonListPageSize));
     }
 }

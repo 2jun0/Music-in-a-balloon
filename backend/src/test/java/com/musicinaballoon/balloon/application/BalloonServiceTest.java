@@ -126,9 +126,9 @@ class BalloonServiceTest {
         assertThatThrownBy(() -> balloonService.getBalloon(1L)).isInstanceOf(NotFoundException.class);
     }
 
-    @DisplayName("getNotRepliedBalloonList 는 유효한 입력을 받으면 풍선리스트를 반환한다.")
+    @DisplayName("getNotPickedBalloonList 는 유효한 입력을 받으면 풍선리스트를 반환한다.")
     @Test
-    void getNotRepliedBalloonList_InvalidInputs_ReturnsBalloonList() {
+    void getNotPickedBalloonList_InvalidInputs_ReturnsBalloonList() {
         // given
         YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
         User user = userBuilder().build();
@@ -138,10 +138,10 @@ class BalloonServiceTest {
             balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, user).build());
         }
 
-        given(balloonRepository.findNotRepliedOrderByCreatedAtDesc(any(User.class), any(Pageable.class))).willReturn(balloons);
+        given(balloonRepository.findNotPickedOrderByCreatedAtDesc(any(User.class), any(Pageable.class))).willReturn(balloons);
 
         // when
-        List<Balloon> gotten = balloonService.getNotRepliedBalloonList(user, 0);
+        List<Balloon> gotten = balloonService.getNotPickedBalloonList(user, 0);
 
         // then
         assertThat(gotten).isEqualTo(balloons);

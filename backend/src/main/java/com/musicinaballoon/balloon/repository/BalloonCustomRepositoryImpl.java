@@ -1,7 +1,7 @@
 package com.musicinaballoon.balloon.repository;
 
 import static com.musicinaballoon.balloon.domain.QBalloon.balloon;
-import static com.musicinaballoon.balloon.domain.QBalloonReply.balloonReply;
+import static com.musicinaballoon.balloon.domain.QBalloonPicked.balloonPicked;
 
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.user.domain.User;
@@ -18,11 +18,11 @@ public class BalloonCustomRepositoryImpl implements BalloonCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Balloon> findNotRepliedOrderByCreatedAtDesc(User replier, Pageable pageable) {
+    public List<Balloon> findNotPickedOrderByCreatedAtDesc(User user, Pageable pageable) {
         return jpaQueryFactory.selectFrom(balloon)
-                .leftJoin(balloonReply)
-                .on(balloon.eq(balloonReply.balloon).and(balloonReply.replier.eq(replier)))
-                .where(balloonReply.isNull())
+                .leftJoin(balloonPicked)
+                .on(balloon.eq(balloonPicked.balloon).and(balloonPicked.picker.eq(user)))
+                .where(balloonPicked.isNull())
                 .orderBy(balloon.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

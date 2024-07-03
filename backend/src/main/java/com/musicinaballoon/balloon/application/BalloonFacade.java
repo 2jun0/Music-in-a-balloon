@@ -30,18 +30,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class BalloonFacade {
 
     private final BalloonService balloonService;
-    private final BalloonReplyService balloonReplyService;
+    private final BalloonPickService balloonPickService;
     private final MusicService musicService;
     private final UserService userService;
     private final WaveService waveService;
 
     private final double balloonPickReachKilometerLimit;
 
-    public BalloonFacade(BalloonService balloonService, BalloonReplyService balloonReplyService, MusicService musicService,
+    public BalloonFacade(BalloonService balloonService, BalloonPickService balloonPickService, MusicService musicService,
             UserService userService, WaveService waveService,
             @Value("${balloon.pick-reach-kilometer-limit}") double balloonPickReachKilometerLimit) {
         this.balloonService = balloonService;
-        this.balloonReplyService = balloonReplyService;
+        this.balloonPickService = balloonPickService;
         this.musicService = musicService;
         this.userService = userService;
         this.waveService = waveService;
@@ -66,7 +66,7 @@ public class BalloonFacade {
         Wave wave = waveService.getCurrentWave();
         validateBalloonInReach(request.userLatitude(), request.userLongitude(), balloon, wave);
 
-        balloonReplyService.createBalloonReply(balloon, user, request.reply());
+        balloonPickService.pickBalloon(balloon, user, request.reply());
         return BalloonResponse.from(balloon);
     }
 
@@ -98,7 +98,7 @@ public class BalloonFacade {
 
     public BalloonListResponse getBalloonList(Long userId, int page) {
         User user = userService.getUser(userId);
-        List<Balloon> balloons = balloonService.getNotRepliedBalloonList(user, page);
+        List<Balloon> balloons = balloonService.getNotPickedBalloonList(user, page);
         return BalloonListResponse.from(balloons);
     }
 

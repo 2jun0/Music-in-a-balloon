@@ -1,7 +1,7 @@
 package com.musicinaballoon.balloon.repository;
 
 import static com.musicinaballoon.fixture.BalloonFixture.youtubeMusicBalloonBuilder;
-import static com.musicinaballoon.fixture.BalloonReplyFixture.balloonReplyBuilder;
+import static com.musicinaballoon.fixture.BalloonPickedFixture.balloonPickedBuilder;
 import static com.musicinaballoon.fixture.MusicFixture.youtubeMusicBuilder;
 import static com.musicinaballoon.fixture.UserFixture.userBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,43 +34,43 @@ class BalloonRepositoryTest {
     YoutubeMusicRepository youtubeMusicRepository;
 
     @Autowired
-    BalloonReplyRepository balloonReplyRepository;
+    BalloonPickedRepository balloonPickedRepository;
 
     @Test
-    @DisplayName("findNotRepliedOrderByCreatedAtDesc는 유효한 입력을 받으면 풍선리스트를 반환한다.")
-    void findNotRepliedOrderByCreatedAtDesc_InvalidInputs_ReturnsBalloons() {
+    @DisplayName("findNotPickedOrderByCreatedAtDesc는 유효한 입력을 받으면 풍선리스트를 반환한다.")
+    void findNotPickedOrderByCreatedAtDesc_InvalidInputs_ReturnsBalloons() {
         // given
         List<Balloon> balloons = balloons();
         User user = userRepository.save(userBuilder().build());
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<Balloon> founds = balloonRepository.findNotRepliedOrderByCreatedAtDesc(user, pageable);
+        List<Balloon> founds = balloonRepository.findNotPickedOrderByCreatedAtDesc(user, pageable);
 
         // then
         assertThat(founds).isEqualTo(balloons);
     }
 
     @Test
-    @DisplayName("findNotRepliedOrderByCreatedAtDesc는 유저가 회신한 풍선이 있으면 회신하지 않은 풍선을 반환한다.")
-    void findNotRepliedOrderByCreatedAtDesc_HasRepliedBalloonsByUser_ReturnNotRepliedBalloons() {
+    @DisplayName("findNotPickedOrderByCreatedAtDesc는 유저가 주운 풍선이 있으면 줍지 않은 풍선을 반환한다.")
+    void findNotPickedOrderByCreatedAtDesc_HasPickedBalloonsByUser_ReturnNotPickedBalloons() {
         // given
         List<Balloon> balloons = balloons();
         User user = userRepository.save(userBuilder().build());
 
-        List<Balloon> repliedBalloons = balloons.subList(0, 2);
-        for (Balloon repliedBalloon : repliedBalloons) {
-            balloonReplyRepository.save(balloonReplyBuilder(repliedBalloon, user).build());
+        List<Balloon> pickedBalloons = balloons.subList(0, 2);
+        for (Balloon pickedBalloon : pickedBalloons) {
+            balloonPickedRepository.save(balloonPickedBuilder(pickedBalloon, user).build());
         }
 
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        List<Balloon> founds = balloonRepository.findNotRepliedOrderByCreatedAtDesc(user, pageable);
+        List<Balloon> founds = balloonRepository.findNotPickedOrderByCreatedAtDesc(user, pageable);
 
         // then
-        List<Balloon> notRepliedBalloons = balloons.subList(2, balloons.size());
-        assertThat(founds).isEqualTo(notRepliedBalloons);
+        List<Balloon> expectedBalloons = balloons.subList(2, balloons.size());
+        assertThat(founds).isEqualTo(expectedBalloons);
     }
 
     List<Balloon> balloons() {

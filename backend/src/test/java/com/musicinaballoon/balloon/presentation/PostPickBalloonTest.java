@@ -1,6 +1,6 @@
 package com.musicinaballoon.balloon.presentation;
 
-import static com.musicinaballoon.fixture.BalloonReplyFixture.DEFAULT_REPLY_MESSAGE;
+import static com.musicinaballoon.fixture.BalloonPickedFixture.DEFAULT_REPLY_MESSAGE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LATITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LONGITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;

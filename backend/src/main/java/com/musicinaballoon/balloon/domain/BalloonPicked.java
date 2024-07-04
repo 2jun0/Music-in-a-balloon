@@ -3,6 +3,8 @@ package com.musicinaballoon.balloon.domain;
 import com.musicinaballoon.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 
 @Getter
 @Entity(name = "balloon_picked")
@@ -31,13 +34,15 @@ public class BalloonPicked {
     @ManyToOne(fetch = FetchType.LAZY)
     private User picker;
 
-    @Column(name = "reply_message", length = 255)
-    private String replyMessage;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "react_type")
+    @Setter
+    private BalloonReactType reactType;
 
     @Builder
-    public BalloonPicked(@NonNull Balloon balloon, @NonNull User picker, String replyMessage) {
+    public BalloonPicked(@NonNull Balloon balloon, @NonNull User picker, BalloonReactType reactType) {
         this.balloon = balloon;
         this.picker = picker;
-        this.replyMessage = replyMessage;
+        this.reactType = reactType;
     }
 }

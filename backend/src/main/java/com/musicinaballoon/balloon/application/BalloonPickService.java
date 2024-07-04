@@ -15,13 +15,12 @@ public class BalloonPickService {
 
     private final BalloonPickedRepository balloonPickedRepository;
 
-    public BalloonPicked pickBalloon(Balloon balloon, User picker, String replyMessage) {
+    public BalloonPicked pickBalloon(Balloon balloon, User picker) {
         validateNotPicked(balloon, picker);
 
         return balloonPickedRepository.save(BalloonPicked.builder()
                 .balloon(balloon)
                 .picker(picker)
-                .replyMessage(replyMessage)
                 .build());
     }
 

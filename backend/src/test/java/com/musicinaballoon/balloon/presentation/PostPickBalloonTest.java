@@ -42,7 +42,7 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+        PickBalloonRequest request = new PickBalloonRequest(PYRAMID_OF_KHUFU_LATITUDE,
                 PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when

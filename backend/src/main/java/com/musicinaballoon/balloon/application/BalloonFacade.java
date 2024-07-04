@@ -66,7 +66,7 @@ public class BalloonFacade {
         Wave wave = waveService.getCurrentWave();
         validateBalloonInReach(request.userLatitude(), request.userLongitude(), balloon, wave);
 
-        balloonPickService.pickBalloon(balloon, user, request.reply());
+        balloonPickService.pickBalloon(balloon, user);
         return BalloonResponse.from(balloon);
     }
 

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
+import com.musicinaballoon.balloon.domain.BalloonReactType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -35,7 +36,7 @@ public class PostReactBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        ReactBalloonRequest request = new ReactBalloonRequest();
+        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactType.BALLOON);
 
         // when
         ExtractableResponse<Response> response = postReactBalloon(balloon.getId(), request);

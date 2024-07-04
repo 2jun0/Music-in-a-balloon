@@ -6,9 +6,11 @@ import static com.musicinaballoon.common.util.TimeUtil.utcNow;
 
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
 import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
+import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
+import com.musicinaballoon.balloon.domain.BalloonPicked;
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.music.application.MusicService;
@@ -82,6 +84,13 @@ public class BalloonFacade {
         if (distance > balloonPickReachKilometerLimit) {
             throw new BadRequestException(ErrorCode.TOO_FAR_TO_PICK_BALLOON);
         }
+    }
+
+    public void reactBalloon(Long balloonId, ReactBalloonRequest request, Long userId) {
+        balloonPickService.validatePicked(balloonId, userId);
+
+        BalloonPicked balloonPicked = balloonPickService.getBalloonPicked(balloonId, userId);
+        balloonPicked.setReactType(request.balloonReactType());
     }
 
     public BalloonResponse createBalloon(CreateBalloonRequest request, Long ownerId) {

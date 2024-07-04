@@ -9,6 +9,7 @@ public enum ErrorCode {
     INVALID_USER_ID("The user id is invalid"),
     ALREADY_PICKED_BALLOON("The balloon is already picked"),
     TOO_FAR_TO_PICK_BALLOON("Too far to pick a balloon"),
+    NOT_PICKED_BALLOON("The balloon was not picked"),
 
     // 401
     USER_COOKIE_REQUIRED("The user cookie is required"),

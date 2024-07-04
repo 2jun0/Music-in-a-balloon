@@ -4,6 +4,7 @@ import com.musicinaballoon.auth.presentation.UserId;
 import com.musicinaballoon.balloon.application.BalloonFacade;
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
 import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
+import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import jakarta.validation.Valid;
@@ -34,6 +35,13 @@ public class BalloonController {
             @Valid @RequestBody PickBalloonRequest request, @UserId Long userId) {
         BalloonResponse balloon = balloonFacade.pickBalloon(balloonId, userId, request);
         return ResponseEntity.ok(balloon);
+    }
+
+    @PostMapping(path = "/balloon/{balloonId}/react")
+    public ResponseEntity<BalloonResponse> reactBalloon(@PathVariable("balloonId") Long balloonId,
+            @Valid @RequestBody ReactBalloonRequest request, @UserId Long userId) {
+        balloonFacade.reactBalloon(balloonId, request, userId);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/balloon")

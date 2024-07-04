@@ -30,4 +30,16 @@ public class BalloonPickService {
                 .picker(picker)
                 .build());
     }
+
+    public void validatePicked(Long balloonId, Long pickerId) {
+        boolean exists = balloonPickedRepository.existsByBalloonIdAndPickerId(balloonId, pickerId);
+        if (!exists) {
+            throw new BadRequestException(ErrorCode.NOT_PICKED_BALLOON);
+        }
+    }
+
+    public BalloonPicked getBalloonPicked(Long balloonId, Long pickerId) {
+        return balloonPickedRepository.findByBalloonIdAndPickerId(balloonId, pickerId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_PICKED_BALLOON));
+    }
 }

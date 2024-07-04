@@ -1,5 +1,7 @@
 package com.musicinaballoon.balloon.presentation;
 
+import static com.musicinaballoon.fixture.BalloonFixture.youtubeMusicBalloonBuilder;
+import static com.musicinaballoon.fixture.UserFixture.userBuilder;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.balloon.application.response.BalloonListItemResponse;
@@ -7,6 +9,7 @@ import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.music.domain.YoutubeMusic;
+import com.musicinaballoon.user.domain.User;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -35,15 +38,15 @@ public class GetBalloonListTest extends BalloonControllerTest {
     }
 
     @Test
-    @DisplayName("풍선 여러개를 페이지 단위로 불러온다")
-    void getBalloonListSuccess() {
+    @DisplayName("유효한 요청을 받으면 풍선 여러개를 응답한다")
+    void getBalloonList_ValidRequest_ResponsesBalloonList() {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
-
         List<Balloon> balloons = new ArrayList<>();
+        User otherUser = userRepository.save(userBuilder().name("Other").build());
 
         for (int i = 0; i < balloonListPageSize * 1.5; i++) {
-            balloons.add(createDefaultBalloon(youtubeMusic));
+            balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, otherUser).build());
         }
 
         balloonRepository.saveAll(balloons);

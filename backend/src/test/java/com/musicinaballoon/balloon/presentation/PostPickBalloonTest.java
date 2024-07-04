@@ -1,6 +1,5 @@
 package com.musicinaballoon.balloon.presentation;
 
-import static com.musicinaballoon.fixture.BalloonPickedFixture.DEFAULT_REPLY_MESSAGE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LATITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.EIFFEL_TOWER_LONGITUDE;
 import static com.musicinaballoon.fixture.PositionFixture.PYRAMID_OF_KHUFU_LATITUDE;
@@ -42,7 +41,7 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+        PickBalloonRequest request = new PickBalloonRequest(PYRAMID_OF_KHUFU_LATITUDE,
                 PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when
@@ -64,7 +63,7 @@ public class PostPickBalloonTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+        PickBalloonRequest request = new PickBalloonRequest(PYRAMID_OF_KHUFU_LATITUDE,
                 PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when
@@ -85,7 +84,7 @@ public class PostPickBalloonTest extends BalloonControllerTest {
     void pickTooFarBalloon() {
         // given
         Balloon balloon = createTooFarBalloon();
-        PickBalloonRequest request = new PickBalloonRequest(DEFAULT_REPLY_MESSAGE, PYRAMID_OF_KHUFU_LATITUDE,
+        PickBalloonRequest request = new PickBalloonRequest(PYRAMID_OF_KHUFU_LATITUDE,
                 PYRAMID_OF_KHUFU_LONGITUDE);
 
         // when

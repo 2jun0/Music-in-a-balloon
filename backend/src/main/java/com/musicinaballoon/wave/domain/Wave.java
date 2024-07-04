@@ -1,6 +1,7 @@
 package com.musicinaballoon.wave.domain;
 
 import com.musicinaballoon.common.domain.BaseEntity;
+import com.musicinaballoon.geolocation.domain.Geolocation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

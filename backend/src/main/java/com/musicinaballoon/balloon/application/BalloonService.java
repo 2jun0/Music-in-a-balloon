@@ -20,7 +20,8 @@ public class BalloonService {
     private final BalloonRepository balloonRepository;
     private final int balloonListPageSize;
 
-    public BalloonService(BalloonRepository balloonRepository, @Value("${balloon.list-page-size}") int balloonListPageSize) {
+    public BalloonService(BalloonRepository balloonRepository,
+            @Value("${balloon.list-page-size}") int balloonListPageSize) {
         this.balloonRepository = balloonRepository;
         this.balloonListPageSize = balloonListPageSize;
     }

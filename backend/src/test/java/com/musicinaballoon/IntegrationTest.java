@@ -15,10 +15,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 public abstract class IntegrationTest {
 
     protected User defaultUser;
+    @Autowired
+    protected UserRepository userRepository;
     @LocalServerPort
     private int port;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private DatabaseCleaner databaseCleaner;
     @Autowired

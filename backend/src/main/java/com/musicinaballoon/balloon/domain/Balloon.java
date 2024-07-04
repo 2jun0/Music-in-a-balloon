@@ -1,11 +1,16 @@
 package com.musicinaballoon.balloon.domain;
 
+import static com.musicinaballoon.common.util.TimeUtil.secondTimeDifference;
+import static com.musicinaballoon.common.util.TimeUtil.utcNow;
+
 import com.musicinaballoon.common.domain.BaseEntity;
+import com.musicinaballoon.geolocation.domain.Geolocation;
 import com.musicinaballoon.music.domain.SpotifyMusic;
 import com.musicinaballoon.music.domain.StreamingMusic;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.domain.User;
+import com.musicinaballoon.wave.domain.Wave;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -78,6 +83,11 @@ public class Balloon extends BaseEntity {
         this.baseLatitude = baseLatitude;
         this.baseLongitude = baseLongitude;
         this.message = message;
+    }
+
+    public Geolocation getCurrentGeolocation(Wave wave) {
+        long time = secondTimeDifference(utcNow(), basedAt);
+        return wave.calculateGeolocation(baseLatitude, baseLongitude, time);
     }
 
     @Override

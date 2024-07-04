@@ -1,6 +1,7 @@
 package com.musicinaballoon.balloon.application;
 
 import static com.musicinaballoon.common.util.GeolocationUtil.distanceBetween;
+import static com.musicinaballoon.common.util.GeolocationUtil.toRadiansFromDegree;
 
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonPicked;
@@ -57,9 +58,9 @@ public class BalloonPickService {
     public void validateBalloonInReach(BigDecimal userLatitude, BigDecimal userLongitude, Balloon balloon, Wave wave) {
         Geolocation currentBalloonGeolocation = balloon.getCurrentGeolocation(wave);
 
-        double distance = distanceBetween(currentBalloonGeolocation.latitude(), userLatitude,
-                currentBalloonGeolocation.longitude(),
-                userLongitude);
+        double distance = distanceBetween(
+                toRadiansFromDegree(currentBalloonGeolocation),
+                toRadiansFromDegree(Geolocation.of(userLatitude, userLongitude)));
 
         if (distance > balloonPickReachKilometerLimit) {
             throw new BadRequestException(ErrorCode.TOO_FAR_TO_PICK_BALLOON);

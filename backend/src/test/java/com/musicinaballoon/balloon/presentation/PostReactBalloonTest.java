@@ -30,8 +30,8 @@ public class PostReactBalloonTest extends BalloonControllerTest {
     }
 
     @Test
-    @DisplayName("올바른 요청이면 Created 를 응답한다.")
-    void postReactBalloon_ValidRequest_ResponsesCreated() {
+    @DisplayName("올바른 요청이면 OK 를 응답한다.")
+    void postReactBalloon_ValidRequest_ResponsesOK() {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
@@ -42,6 +42,6 @@ public class PostReactBalloonTest extends BalloonControllerTest {
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

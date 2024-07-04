@@ -1,4 +1,4 @@
-package com.musicinaballoon.wave.domain;
+package com.musicinaballoon.geolocation.domain;
 
 import java.math.BigDecimal;
 import lombok.Builder;

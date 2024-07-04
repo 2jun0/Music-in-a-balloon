@@ -15,19 +15,19 @@ public class BalloonPickService {
 
     private final BalloonPickedRepository balloonPickedRepository;
 
+    public void validateNotPicked(Long balloonId, Long pickerId) {
+        boolean exists = balloonPickedRepository.existsByBalloonIdAndPickerId(balloonId, pickerId);
+        if (exists) {
+            throw new BadRequestException(ErrorCode.ALREADY_PICKED_BALLOON);
+        }
+    }
+
     public BalloonPicked pickBalloon(Balloon balloon, User picker) {
-        validateNotPicked(balloon, picker);
+        validateNotPicked(balloon.getId(), picker.getId());
 
         return balloonPickedRepository.save(BalloonPicked.builder()
                 .balloon(balloon)
                 .picker(picker)
                 .build());
-    }
-
-    private void validateNotPicked(Balloon balloon, User picker) {
-        boolean exists = balloonPickedRepository.existsByBalloonAndPicker(balloon, picker);
-        if (exists) {
-            throw new BadRequestException(ErrorCode.ALREADY_PICKED_BALLOON);
-        }
     }
 }

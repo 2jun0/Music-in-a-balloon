@@ -61,6 +61,8 @@ public class BalloonFacade {
     }
 
     public BalloonResponse pickBalloon(Long balloonId, Long userId, PickBalloonRequest request) {
+        balloonPickService.validateNotPicked(balloonId, userId);
+
         Balloon balloon = balloonService.getBalloon(balloonId);
         User user = userService.getUser(userId);
         Wave wave = waveService.getCurrentWave();

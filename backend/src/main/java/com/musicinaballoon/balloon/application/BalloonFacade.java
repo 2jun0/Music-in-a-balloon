@@ -1,9 +1,5 @@
 package com.musicinaballoon.balloon.application;
 
-import static com.musicinaballoon.common.util.GeolocationUtil.distanceBetween;
-import static com.musicinaballoon.common.util.TimeUtil.secondTimeDifference;
-import static com.musicinaballoon.common.util.TimeUtil.utcNow;
-
 import com.musicinaballoon.balloon.application.request.CreateBalloonRequest;
 import com.musicinaballoon.balloon.application.request.PickBalloonRequest;
 import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
@@ -11,24 +7,22 @@ import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonPicked;
-import com.musicinaballoon.common.exception.BadRequestException;
-import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.music.application.MusicService;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.user.application.UserService;
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.wave.application.WaveService;
-import com.musicinaballoon.wave.domain.Geolocation;
 import com.musicinaballoon.wave.domain.Wave;
 import java.math.BigDecimal;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 //@RequiredArgsConstructor
 @Transactional
 @Component
+@RequiredArgsConstructor
 public class BalloonFacade {
 
     private final BalloonService balloonService;
@@ -36,26 +30,6 @@ public class BalloonFacade {
     private final MusicService musicService;
     private final UserService userService;
     private final WaveService waveService;
-
-    private final double balloonPickReachKilometerLimit;
-
-    public BalloonFacade(BalloonService balloonService, BalloonPickService balloonPickService, MusicService musicService,
-            UserService userService, WaveService waveService,
-            @Value("${balloon.pick-reach-kilometer-limit}") double balloonPickReachKilometerLimit) {
-        this.balloonService = balloonService;
-        this.balloonPickService = balloonPickService;
-        this.musicService = musicService;
-        this.userService = userService;
-        this.waveService = waveService;
-        this.balloonPickReachKilometerLimit = balloonPickReachKilometerLimit;
-    }
-
-    private static Geolocation getCurrentBalloonGeolocation(Balloon balloon, Wave wave) {
-        long time = secondTimeDifference(utcNow(), balloon.getBasedAt());
-        Geolocation currentBalloonGeolocation = wave.calculateGeolocation(balloon.getBaseLatitude(), balloon.getBaseLongitude(),
-                time);
-        return currentBalloonGeolocation;
-    }
 
     public BalloonResponse getBalloon(Long balloonId) {
         Balloon balloon = balloonService.getBalloon(balloonId);
@@ -68,22 +42,10 @@ public class BalloonFacade {
         Balloon balloon = balloonService.getBalloon(balloonId);
         User user = userService.getUser(userId);
         Wave wave = waveService.getCurrentWave();
-        validateBalloonInReach(request.userLatitude(), request.userLongitude(), balloon, wave);
+        balloonPickService.validateBalloonInReach(request.userLatitude(), request.userLongitude(), balloon, wave);
 
         balloonPickService.pickBalloon(balloon, user);
         return BalloonResponse.from(balloon);
-    }
-
-    private void validateBalloonInReach(BigDecimal userLatitude, BigDecimal userLongitude, Balloon balloon, Wave wave) {
-        Geolocation currentBalloonGeolocation = getCurrentBalloonGeolocation(balloon, wave);
-
-        double distance = distanceBetween(currentBalloonGeolocation.latitude(), userLatitude,
-                currentBalloonGeolocation.longitude(),
-                userLongitude);
-
-        if (distance > balloonPickReachKilometerLimit) {
-            throw new BadRequestException(ErrorCode.TOO_FAR_TO_PICK_BALLOON);
-        }
     }
 
     public void reactBalloon(Long balloonId, ReactBalloonRequest request, Long userId) {

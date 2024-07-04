@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 
-import com.musicinaballoon.common.exception.NotFoundException;
+import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.user.repository.UserRepository;
 import java.util.Optional;
@@ -57,13 +57,13 @@ class UserServiceTest {
         assertThat(gotten).isEqualTo(user);
     }
 
-    @DisplayName("없는 유저를 조회할시 NotFound 예외를 던진다")
+    @DisplayName("없는 유저를 조회할시 BadRequest 예외를 던진다")
     @Test
-    void getUserNotExisted() {
+    void getUser_NotExisted_ThrowsBadRequestException() {
         // given
         given(userRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> userService.getUser(1L)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> userService.getUser(1L)).isInstanceOf(BadRequestException.class);
     }
 }

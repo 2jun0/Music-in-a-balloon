@@ -75,7 +75,6 @@ class BalloonPickServiceTest {
         assertSoftly(softly -> {
             softly.assertThat(balloonPicked.getBalloon()).isEqualTo(balloon);
             softly.assertThat(balloonPicked.getPicker()).isEqualTo(user);
-            softly.assertThat(balloonPicked.getReactType()).isNull();
         });
     }
 

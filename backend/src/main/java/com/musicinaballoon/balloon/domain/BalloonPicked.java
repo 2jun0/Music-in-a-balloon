@@ -1,6 +1,8 @@
 package com.musicinaballoon.balloon.domain;
 
+import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.user.domain.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,18 +22,18 @@ import lombok.Setter;
 @Getter
 @Entity(name = "balloon_picked")
 @NoArgsConstructor
-public class BalloonPicked {
+public class BalloonPicked extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JoinColumn(name = "balloon_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Balloon balloon;
 
     @JoinColumn(name = "picker_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User picker;
 
     @Enumerated(EnumType.STRING)

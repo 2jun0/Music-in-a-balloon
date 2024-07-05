@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class BalloonController {
         return ResponseEntity.ok(balloon);
     }
 
-    @PostMapping(path = "/balloon/{balloonId}/react")
+    @PutMapping(path = "/balloon/{balloonId}/reaction")
     public ResponseEntity<BalloonResponse> reactBalloon(@PathVariable("balloonId") Long balloonId,
             @Valid @RequestBody ReactBalloonRequest request, @UserId Long userId) {
         balloonFacade.reactBalloon(balloonId, request, userId);

@@ -15,9 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @DisplayName("풍선에 반응하기")
-public class PostReactBalloonTest extends BalloonControllerTest {
+public class PutBalloonReactionTest extends BalloonControllerTest {
 
-    private ExtractableResponse<Response> postReactBalloon(Long balloonId, ReactBalloonRequest request) {
+    private ExtractableResponse<Response> putBalloonReaction(Long balloonId, ReactBalloonRequest request) {
         return RestAssured
                 .given()
                 .cookie("userId", defaultUser.getId())
@@ -25,13 +25,13 @@ public class PostReactBalloonTest extends BalloonControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when()
-                .post("/balloon/{balloonId}/react")
+                .put("/balloon/{balloonId}/reaction")
                 .then().log().all().extract();
     }
 
     @Test
     @DisplayName("올바른 요청이면 OK 를 응답한다.")
-    void postReactBalloon_ValidRequest_ResponsesOK() {
+    void putBalloonReaction_ValidRequest_ResponsesOK() {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
@@ -39,7 +39,7 @@ public class PostReactBalloonTest extends BalloonControllerTest {
         ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactType.BALLOON);
 
         // when
-        ExtractableResponse<Response> response = postReactBalloon(balloon.getId(), request);
+        ExtractableResponse<Response> response = putBalloonReaction(balloon.getId(), request);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -47,14 +47,14 @@ public class PostReactBalloonTest extends BalloonControllerTest {
 
     @Test
     @DisplayName("풍선을 줍지 않았으면 BadRequest 를 응답한다.")
-    void postReactBalloon_NotPickedBalloon_ResponsesBadRequest() {
+    void putBalloonReaction_NotPickedBalloon_ResponsesBadRequest() {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
         ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactType.BALLOON);
 
         // when
-        ExtractableResponse<Response> response = postReactBalloon(balloon.getId(), request);
+        ExtractableResponse<Response> response = putBalloonReaction(balloon.getId(), request);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());

@@ -1,6 +1,6 @@
 package com.musicinaballoon.balloon.domain;
 
-public enum BalloonReactType {
+public enum BalloonReactionType {
     THUMBS_UP, // 👍
     THUMBS_DOWN, // 👎
     BALLOON, // 🎈

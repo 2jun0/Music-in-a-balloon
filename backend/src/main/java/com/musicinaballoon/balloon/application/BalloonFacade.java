@@ -6,7 +6,7 @@ import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
 import com.musicinaballoon.balloon.application.response.BalloonListResponse;
 import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
-import com.musicinaballoon.balloon.domain.BalloonPicked;
+import com.musicinaballoon.balloon.domain.BalloonReaction;
 import com.musicinaballoon.music.application.MusicService;
 import com.musicinaballoon.music.domain.StreamingMusicType;
 import com.musicinaballoon.user.application.UserService;
@@ -27,6 +27,7 @@ public class BalloonFacade {
 
     private final BalloonService balloonService;
     private final BalloonPickService balloonPickService;
+    private final BalloonReactionService balloonReactionService;
     private final MusicService musicService;
     private final UserService userService;
     private final WaveService waveService;
@@ -49,10 +50,21 @@ public class BalloonFacade {
     }
 
     public void reactBalloon(Long balloonId, ReactBalloonRequest request, Long userId) {
-        balloonPickService.validatePicked(balloonId, userId);
+        if (balloonReactionService.existsBalloonReaction(balloonId, userId)) {
+            BalloonReaction balloonReaction = balloonReactionService.getBalloonReaction(balloonId, userId);
+            balloonReaction.setType(request.balloonReactionType());
+        } else {
+            balloonPickService.validatePicked(balloonId, userId);
+            Balloon balloon = balloonService.getBalloon(balloonId);
+            User user = userService.getUser(userId);
 
-        BalloonPicked balloonPicked = balloonPickService.getBalloonPicked(balloonId, userId);
-        balloonPicked.setReactType(request.balloonReactType());
+            balloonReactionService.createBalloonReaction(balloon, user, request.balloonReactionType());
+        }
+    }
+
+    public void deleteBalloonReaction(Long balloonId, Long userId) {
+        balloonReactionService.validateBalloonReactionExisted(balloonId, userId);
+        balloonReactionService.deleteBalloonReaction(balloonId, userId);
     }
 
     public BalloonResponse createBalloon(CreateBalloonRequest request, Long ownerId) {

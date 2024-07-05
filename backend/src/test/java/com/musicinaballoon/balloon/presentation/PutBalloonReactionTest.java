@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.musicinaballoon.balloon.application.request.ReactBalloonRequest;
 import com.musicinaballoon.balloon.domain.Balloon;
-import com.musicinaballoon.balloon.domain.BalloonReactType;
+import com.musicinaballoon.balloon.domain.BalloonReactionType;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -36,7 +36,7 @@ public class PutBalloonReactionTest extends BalloonControllerTest {
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
         createBalloonPicked(balloon);
-        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactType.BALLOON);
+        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactionType.BALLOON);
 
         // when
         ExtractableResponse<Response> response = putBalloonReaction(balloon.getId(), request);
@@ -51,12 +51,28 @@ public class PutBalloonReactionTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
-        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactType.BALLOON);
+        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactionType.BALLOON);
 
         // when
         ExtractableResponse<Response> response = putBalloonReaction(balloon.getId(), request);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("풍선에 이미 반응했으면 OK 를 응답한다.")
+    void putBalloonReaction_AlreadyReacted_ResponsesOK() {
+        // given
+        YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
+        Balloon balloon = createDefaultBalloon(youtubeMusic);
+        createBalloonReaction(balloon);
+        ReactBalloonRequest request = new ReactBalloonRequest(BalloonReactionType.BALLOON);
+
+        // when
+        ExtractableResponse<Response> response = putBalloonReaction(balloon.getId(), request);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

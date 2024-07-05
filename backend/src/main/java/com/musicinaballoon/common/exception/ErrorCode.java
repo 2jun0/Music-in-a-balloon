@@ -17,6 +17,7 @@ public enum ErrorCode {
     // 404
     USER_NOT_FOUND("The user does not exist"),
     BALLOON_NOT_FOUND("The balloon does not exist"),
+    BALLOON_REACTION_NOT_FOUND("The balloon reaction does not exist"),
 
     // 500
     INTERNAL_SERVER_ERROR("Internal server has a problem"),

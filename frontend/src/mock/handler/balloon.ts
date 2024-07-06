@@ -12,6 +12,14 @@ export const balloonHandlers = [
     return HttpResponse.json(balloon, { status: HTTP_STATUS_CODE.SUCCESS });
   }),
 
+  http.put('/balloon/:balloonId/reaction', ({ request }) => {
+    return new HttpResponse(null, { status: HTTP_STATUS_CODE.SUCCESS });
+  }),
+
+  http.delete('/balloon/:balloonId/reaction', ({ request }) => {
+    return new HttpResponse(null, { status: HTTP_STATUS_CODE.SUCCESS });
+  }),
+
   http.get('/balloon/:balloonId', ({ request }) => {
     return HttpResponse.json(balloon, { status: HTTP_STATUS_CODE.SUCCESS });
   }),

@@ -18,10 +18,6 @@ export const containerStyling = css({
   width: '100%',
 });
 
-export const replyFormStyling = css({
-  display: 'flex',
-});
-
 export const albumImageStyling = css({
   width: '75%',
   margin: '0 auto',
@@ -44,12 +40,14 @@ export const buttonStyling = css({
   width: '100%',
 });
 
-export const inputStyling = css({
-  width: '100%',
+export const creatorNameStyling = css({
+  position: 'absolute',
+  right: '0',
+  bottom: '0',
+});
 
-  [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
-    position: 'absolute',
-    width: '89%',
-    bottom: Theme.spacer.spacing3,
-  },
+export const bottomContainerStyling = css({
+  position: 'relative',
+  width: '100%',
+  bottom: 0,
 });

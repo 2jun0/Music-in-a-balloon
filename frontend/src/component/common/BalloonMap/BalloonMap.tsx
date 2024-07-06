@@ -4,15 +4,15 @@ import {
   MAP_MIN_ZOOM_SIZE,
   MAP_PICK_REACH_LIMIT,
 } from '@constant/map';
+import { useCurrentMs } from '@hook/common/useCurrentMs';
 import type L from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { Circle, MapContainer, TileLayer } from 'react-leaflet';
 
-import { useCurrentMs } from '@/hook/common/useCurrentMs';
-
 import BalloonMarkerContainer from '@component/common/BalloonMarkerContainer/BalloonMarkerContainer';
 
-import type { BalloonData, BalloonPosition } from '@type/balloon';
+import type { BalloonPosition } from '@type/balloon';
+import type { BalloonListItemData } from '@type/balloonList';
 import type { WaveData } from '@type/wave';
 
 import { Theme } from '@style/Theme';
@@ -23,7 +23,7 @@ import { calcCoordinate } from '@util/wave';
 interface BalloonMapProps {
   centerLat: number;
   centerLon: number;
-  balloons: BalloonData[];
+  balloons: BalloonListItemData[];
   wave: WaveData;
 }
 

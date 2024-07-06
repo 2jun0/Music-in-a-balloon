@@ -1,3 +1,5 @@
+import type { ReactionKeyType } from './reaction';
+
 export interface BalloonData {
   id: number;
   title: string;
@@ -6,7 +8,9 @@ export interface BalloonData {
   baseLat: number;
   baseLon: number;
   message: string;
+  basedAt: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface BalloonPosition {
@@ -27,4 +31,8 @@ export interface BalloonFormData {
   streamingMusicUrl: string | null;
   latitude: number | null;
   longitude: number | null;
+}
+
+export interface BalloonReactData {
+  balloonReactType: ReactionKeyType | null;
 }

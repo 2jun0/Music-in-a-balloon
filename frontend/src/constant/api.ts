@@ -11,6 +11,7 @@ export const AXIOS_BASE_URL = PROD
 export const END_POINTS = {
   BALLOON_LIST: '/balloon/list',
   BALLOON_PICK: (balloonId: number) => `/balloon/${balloonId}/pick`,
+  BALLOON_REACTION: (balloonId: number) => `/balloon/${balloonId}/reaction`,
   BALLOON_CREATE: '/balloon',
   BALLOON: (balloonId: number) => `/balloon/${balloonId}`,
   WAVE: '/wave',

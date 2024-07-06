@@ -8,13 +8,15 @@ const defaultBalloonFormData: BalloonFormData = {
   streamingMusicUrl: null,
   latitude: null,
   longitude: null,
+  message: null,
 };
 
 export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
   const [balloonInfo, setBalloonInfo] = useState<BalloonFormData>(
     initialBalloonFormData ?? defaultBalloonFormData,
   );
-  const [isValidated, setIsValidated] = useState<boolean>(false);
+  const [canPressNext, setCanPressNext] = useState<boolean>(false);
+  const [canSubmit, setCanSubmit] = useState<boolean>(false);
   const { coordinates } = useGeolocation();
 
   useEffect(() => {
@@ -26,7 +28,13 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
   useEffect(() => {
     const { streamingMusicUrl, latitude, longitude } = balloonInfo;
 
-    setIsValidated(!!streamingMusicUrl && !!latitude && !!longitude);
+    setCanPressNext(!!streamingMusicUrl && !!latitude && !!longitude);
+  }, [balloonInfo]);
+
+  useEffect(() => {
+    const { streamingMusicUrl, latitude, longitude, message } = balloonInfo;
+
+    setCanSubmit(!!streamingMusicUrl && !!latitude && !!longitude && !!message);
   }, [balloonInfo]);
 
   const updateMusicUrl = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,5 +43,11 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     setBalloonInfo((prev) => ({ ...prev, streamingMusicUrl: musicUrl }));
   };
 
-  return { balloonInfo, updateMusicUrl, isValidated };
+  const updateMessage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const message = event.target.value;
+
+    setBalloonInfo((prev) => ({ ...prev, message }));
+  };
+
+  return { balloonInfo, updateMusicUrl, updateMessage, canPressNext, canSubmit };
 };

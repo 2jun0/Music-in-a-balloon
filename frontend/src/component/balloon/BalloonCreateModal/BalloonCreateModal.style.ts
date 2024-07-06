@@ -27,16 +27,24 @@ export const inputStyling = css({
   width: '100%',
 });
 
-export const listStyle = css({
-  '> li': {
-    counterIncrement: 'li',
-    paddingLeft: '30px',
-    marginBottom: '10px',
-  },
-  '> li:before': {
-    content: "counter(li) '.'",
-    width: '1.2em',
-    display: 'inline-block',
-    marginLeft: '-20px',
-  },
+export const getListStyle = (startNumber: number) =>
+  css({
+    counterReset: `li ${startNumber}`,
+    '> li': {
+      counterIncrement: 'li',
+      paddingLeft: '30px',
+      marginBottom: '10px',
+    },
+    '> li:before': {
+      content: "counter(li) '.'",
+      width: '1.2em',
+      display: 'inline-block',
+      marginLeft: '-20px',
+    },
+  });
+
+export const backButtonStyling = css({
+  width: 'fit-content',
+  borderRadius: Theme.borderRadius.large,
+  margin: '-10px auto',
 });

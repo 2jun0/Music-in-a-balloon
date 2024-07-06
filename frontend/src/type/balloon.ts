@@ -31,6 +31,7 @@ export interface BalloonFormData {
   streamingMusicUrl: string | null;
   latitude: number | null;
   longitude: number | null;
+  message: string | null;
 }
 
 export interface BalloonReactData {

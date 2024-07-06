@@ -21,7 +21,7 @@ const AppRouter = () => {
       errorElement: <NotFoundPage />,
       children: [
         {
-          path: '',
+          path: '/',
           element: <Navigate to={PATH.MAP} replace />,
         },
         {

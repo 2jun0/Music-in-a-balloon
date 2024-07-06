@@ -1,22 +1,26 @@
 import { useBalloonQuery } from '@hook/api/useBalloonQuery';
 import JSConfetti from 'js-confetti';
-import { FormEvent, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+
+import { useReactBalloonMutation } from '@/hook/api/useReactBalloonMutation';
+import { useUndoReactBalloonMutation } from '@/hook/api/useUndoReactBalloonMutation';
+import type { ReactionKeyType } from '@/type/reaction';
 
 import Flex from '@component/Flex/Flex';
 import Heading from '@component/Heading/Heading';
-import Input from '@component/Input/Input';
 import Modal from '@component/Modal/Modal';
 import Text from '@component/Text/Text';
 import {
   albumImageStyling,
+  bottomContainerStyling,
   containerStyling,
-  inputStyling,
+  creatorNameStyling,
   linkContainerStyling,
   listenMusicContainerStyling,
   modalStyling,
-  replyFormStyling,
 } from '@component/balloon/BalloonInfoModal/BalloonInfoModal.style';
+import ReactionSelector from '@component/balloon/BalloonInfoModal/ReactionSelector/ReactionSelector';
 import SpotifyButton from '@component/common/SpotifyButton/SpotifyButton';
 import YTMusicButton from '@component/common/YTMusicButton/YTMusicButton';
 import YouTubeButton from '@component/common/YouTubeButton/YouTubeButton';
@@ -31,19 +35,37 @@ interface BalloonInfoModalProps {
 }
 
 const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => {
-  const pickedBalloonId = useRecoilValue(pickedBalloonIdState);
-  const { balloonData } = useBalloonQuery(pickedBalloonId);
+  const balloonId = useRecoilValue(pickedBalloonIdState);
+  const { balloonData } = useBalloonQuery(balloonId);
+  const reactBalloonMutation = useReactBalloonMutation();
+  const undoReactBalloonMutation = useUndoReactBalloonMutation();
+  const [selectedReactionKey, setSelectedReactionKey] = useState<ReactionKeyType | null>(null);
 
   const confettiCanvas = document.getElementById('confetti-canvas');
   const jsConfetti = new JSConfetti({ canvas: confettiCanvas as unknown as HTMLCanvasElement });
 
-  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  // };
+  const onReact = (reactionKey: ReactionKeyType | null) => {
+    if (reactionKey) {
+      reactBalloonMutation.mutate(
+        { balloonId, data: { balloonReactType: reactionKey } },
+        {
+          onSuccess: () => {
+            setSelectedReactionKey(reactionKey);
+          },
+        },
+      );
+    } else {
+      undoReactBalloonMutation.mutate(balloonId, {
+        onSuccess: () => {
+          setSelectedReactionKey(null);
+        },
+      });
+    }
+  };
 
   // 색종이 커스터마이징
   useEffect(() => {
-    switch (pickedBalloonId % 3) {
+    switch (balloonId % 3) {
       case 0:
         jsConfetti.addConfetti({
           confettiColors: [
@@ -95,6 +117,7 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
     >
       <Flex css={containerStyling}>
         <Heading size="small">{balloonData.title}</Heading>
+        <Text>{balloonData.message}</Text>
         <img
           css={albumImageStyling}
           src={balloonData.albumImageUrl}
@@ -108,12 +131,12 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
             <SpotifyButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
           </Flex>
         </Flex>
-        <Text size="small">From. username</Text>
-        <Text>{balloonData.message}</Text>
-        {/* <form css={replyFormStyling} onSubmit={handleSubmit} noValidate>
-          <Heading size="xSmall">Reply</Heading>
-          <Input css={inputStyling} placeholder="Enter the reply." />
-        </form> */}
+        <Flex css={bottomContainerStyling}>
+          <ReactionSelector selectedKey={selectedReactionKey} onSelect={onReact} />
+          <Text css={creatorNameStyling} size="small">
+            From. username
+          </Text>
+        </Flex>
       </Flex>
     </Modal>
   );

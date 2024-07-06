@@ -1,5 +1,6 @@
-import { END_POINTS } from '@/constant/api';
-import type { BalloonListData } from '@/type/balloonList';
+import { END_POINTS } from '@constant/api';
+
+import type { BalloonListData } from '@type/balloonList';
 
 import { axiosInstance } from '@api/axiosInstance';
 

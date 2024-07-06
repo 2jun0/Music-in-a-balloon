@@ -35,3 +35,10 @@ export const moveUp = keyframes`
     transform: translateY(0%);
   }    
 `;
+
+export const growRight = keyframes`
+        0% {width:100%}
+        40% {width:0%}
+        60% {width:0%;}
+        100% {width:100%;}
+`;

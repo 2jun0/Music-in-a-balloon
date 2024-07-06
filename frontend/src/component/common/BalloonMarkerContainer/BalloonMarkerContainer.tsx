@@ -61,6 +61,8 @@ const BalloonMarkerContainer = ({
           lat={position.lat}
           lon={position.lon}
           isInRange={distanceFromCenter(position.lat, position.lon) <= MAP_PICK_REACH_LIMIT}
+          userLat={centerLat}
+          userLon={centerLon}
         />
       ))}
     </>

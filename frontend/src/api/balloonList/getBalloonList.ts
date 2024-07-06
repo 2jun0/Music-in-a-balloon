@@ -5,7 +5,11 @@ import type { BalloonListData } from '@type/balloonList';
 import { axiosInstance } from '@api/axiosInstance';
 
 export const getBalloonList = async () => {
-  const { data } = await axiosInstance.get<BalloonListData>(END_POINTS.BALLOON_LIST);
+  const { data } = await axiosInstance.get<BalloonListData>(END_POINTS.BALLOON_LIST, {
+    params: {
+      page: 0,
+    },
+  });
 
   return data;
 };

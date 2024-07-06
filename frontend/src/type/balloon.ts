@@ -37,3 +37,8 @@ export interface BalloonFormData {
 export interface BalloonReactData {
   balloonReactType: ReactionKeyType | null;
 }
+
+export interface BalloonPickData {
+  userLatitude: number;
+  userLongitude: number;
+}

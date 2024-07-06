@@ -127,8 +127,18 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
           <Text size="large">🎧 Go to listen this music 🎧</Text>
           <Flex css={linkContainerStyling}>
             <YouTubeButton videoUrl="https://www.youtube.com/watch?v=Y25LDO6OLzQ" />
-            <YTMusicButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
-            <SpotifyButton musicUrl="https://music.youtube.com/watch?v=MDNzHG4DDhE&si=_fjhW7PsBzpiAjY-" />
+            {balloonData.youtubeMusic ? (
+              <YTMusicButton musicUrl={balloonData.youtubeMusic.url} />
+            ) : (
+              // eslint-disable-next-line react/jsx-no-useless-fragment
+              <></>
+            )}
+            {balloonData.spotifyeMusic ? (
+              <SpotifyButton musicUrl={balloonData.spotifyeMusic.url} />
+            ) : (
+              // eslint-disable-next-line react/jsx-no-useless-fragment
+              <></>
+            )}
           </Flex>
         </Flex>
         <Flex css={bottomContainerStyling}>

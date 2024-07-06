@@ -3,7 +3,7 @@ import type { WaveData } from '@type/wave';
 import { toRadians } from '@util/math';
 
 function func(wave: WaveData, lonDegree: number) {
-  return wave.amplitude * 90 * Math.sin(wave.period * toRadians(lonDegree + wave.offsetLon));
+  return wave.amplitude * 90 * Math.sin(wave.period * toRadians(lonDegree + wave.offsetLongitude));
 }
 
 export function calcCoordinate(

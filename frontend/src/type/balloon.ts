@@ -38,7 +38,7 @@ export interface BalloonFormData {
 }
 
 export interface BalloonReactData {
-  balloonReactType: ReactionKeyType | null;
+  balloonReactionType: ReactionKeyType | null;
 }
 
 export interface BalloonPickData {

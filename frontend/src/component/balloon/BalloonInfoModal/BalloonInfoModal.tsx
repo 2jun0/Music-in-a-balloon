@@ -47,7 +47,7 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
   const onReact = (reactionKey: ReactionKeyType | null) => {
     if (reactionKey) {
       reactBalloonMutation.mutate(
-        { balloonId, data: { balloonReactType: reactionKey } },
+        { balloonId, data: { balloonReactionType: reactionKey } },
         {
           onSuccess: () => {
             setSelectedReactionKey(reactionKey);

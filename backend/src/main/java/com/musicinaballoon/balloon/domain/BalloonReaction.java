@@ -2,7 +2,6 @@ package com.musicinaballoon.balloon.domain;
 
 import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.user.domain.User;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,11 +33,11 @@ public class BalloonReaction extends BaseEntity {
     private Long id;
 
     @JoinColumn(name = "balloon_id", updatable = false, nullable = false)
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Balloon balloon;
 
     @JoinColumn(name = "user_id", updatable = false, nullable = false)
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Enumerated(EnumType.STRING)

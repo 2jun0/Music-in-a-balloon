@@ -30,6 +30,7 @@ public class DeleteBalloonReactionTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
+        createBalloonPicked(balloon);
         createBalloonReaction(balloon);
 
         // when
@@ -45,6 +46,7 @@ public class DeleteBalloonReactionTest extends BalloonControllerTest {
         // given
         YoutubeMusic youtubeMusic = createDefaultYoutubeMusic();
         Balloon balloon = createDefaultBalloon(youtubeMusic);
+        createBalloonPicked(balloon);
 
         // when
         ExtractableResponse<Response> response = deleteBalloonReaction(balloon.getId());

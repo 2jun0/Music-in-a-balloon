@@ -1,5 +1,4 @@
 import { HTTP_STATUS_CODE } from '@constant/api';
-import * as Sentry from '@sentry/react';
 import type { AxiosError } from 'axios';
 
 import { HTTPError } from '@api/HTTPError';
@@ -11,11 +10,6 @@ export interface ErrorResponseData {
 }
 
 export const handleAPIError = (error: AxiosError<ErrorResponseData>) => {
-  Sentry.withScope((scope) => {
-    scope.setLevel('error');
-    Sentry.captureMessage(`[APIError] ${window.location.href} \n ${error.response?.data}`);
-  });
-
   if (!error.response) throw error;
 
   const { data, status } = error.response;

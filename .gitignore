@@ -23,6 +23,7 @@ hs_err_pid*
 *.ipr
 /scratch
 out/
+.run
 
 ### VS Code ###
 .vscode/

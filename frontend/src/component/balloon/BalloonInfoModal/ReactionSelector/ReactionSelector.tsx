@@ -72,8 +72,8 @@ const ReactionSelector = ({ selectedKey, onSelect }: ReactionSelectorProps) => {
 
   const onSelectReaction = (key: string) => {
     setIsOpen((isOpen) => !isOpen);
-    if (key === 'TOGGLE' && isOpen) {
-      onSelect(null);
+    if (key === 'TOGGLE') {
+      if (isOpen) onSelect(null);
     } else {
       onSelect(key as ReactionKeyType);
     }

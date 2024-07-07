@@ -54,14 +54,14 @@ export const getVariantStyling = (variant: Required<InputProps>['variant']) => {
 export const getSizeStyling = (size: Required<InputProps>['size']) => {
   const style = {
     large: css({
-      padding: '14px 16px',
+      padding: '14px 0',
 
       fontSize: Theme.text.medium.fontSize,
       lineHeight: Theme.text.medium.lineHeight,
     }),
 
     medium: css({
-      padding: '12px 16px',
+      padding: '12px 0',
 
       fontSize: Theme.text.medium.fontSize,
       lineHeight: Theme.text.medium.lineHeight,
@@ -78,13 +78,30 @@ export const getSizeStyling = (size: Required<InputProps>['size']) => {
   return style[size];
 };
 
-export const getInputStyling = css({
-  width: '100%',
-  paddingLeft: 0,
-  paddingRight: 0,
-  border: 'none',
-  borderRadius: Theme.borderRadius.small,
-  outline: 0,
+export const getInputStyling = (size: Required<InputProps>['size']) => {
+  const style = {
+    large: {
+      paddingLeft: '16px',
+      paddingRight: '16px',
+    },
+    medium: {
+      paddingLeft: '12px',
+      paddingRight: '12px',
+    },
+    small: {
+      paddingLeft: '12px',
+      paddingRight: '12px',
+    },
+  };
 
-  backgroundColor: 'transparent',
-});
+  return css({
+    ...style[size],
+
+    width: '100%',
+    border: 'none',
+    borderRadius: Theme.borderRadius.small,
+    outline: 0,
+
+    backgroundColor: 'transparent',
+  });
+};

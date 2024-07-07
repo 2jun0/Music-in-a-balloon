@@ -1,3 +1,4 @@
+import type { MusicData } from './music';
 import type { ReactionKeyType } from './reaction';
 
 export interface BalloonData {
@@ -5,6 +6,8 @@ export interface BalloonData {
   title: string;
   uploadedStreamingMusicType: string;
   albumImageUrl: string;
+  youtubeMusic: MusicData | null;
+  spotifyeMusic: MusicData | null;
   baseLat: number;
   baseLon: number;
   message: string;
@@ -31,8 +34,14 @@ export interface BalloonFormData {
   streamingMusicUrl: string | null;
   latitude: number | null;
   longitude: number | null;
+  message: string | null;
 }
 
 export interface BalloonReactData {
-  balloonReactType: ReactionKeyType | null;
+  balloonReactionType: ReactionKeyType;
+}
+
+export interface BalloonPickData {
+  userLatitude: number;
+  userLongitude: number;
 }

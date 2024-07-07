@@ -21,8 +21,19 @@ interface BalloonMarkerProps {
   lon: number;
   isInRange: boolean;
   isZoomedIn: boolean;
+  userLat: number;
+  userLon: number;
 }
-const BalloonMarker = ({ id, name, lat, lon, isInRange, isZoomedIn }: BalloonMarkerProps) => {
+const BalloonMarker = ({
+  id,
+  name,
+  lat,
+  lon,
+  isInRange,
+  isZoomedIn,
+  userLat,
+  userLon,
+}: BalloonMarkerProps) => {
   const setPickedBalloonId = useSetRecoilState(pickedBalloonIdState);
   const markerRef = useRef<LeafletMarker | null>(null);
   const pickBalloonMutation = usePickBalloonMutation();
@@ -33,12 +44,15 @@ const BalloonMarker = ({ id, name, lat, lon, isInRange, isZoomedIn }: BalloonMar
   const onClick = () => {
     if (!isInRange) return;
 
-    pickBalloonMutation.mutate(id, {
-      onSuccess: () => {
-        setIsPicked(true);
-        setPickedBalloonId(id);
+    pickBalloonMutation.mutate(
+      { balloonId: id, data: { userLatitude: userLat, userLongitude: userLon } },
+      {
+        onSuccess: () => {
+          setIsPicked(true);
+          setPickedBalloonId(id);
+        },
       },
-    });
+    );
   };
 
   const markerIcon = icon({

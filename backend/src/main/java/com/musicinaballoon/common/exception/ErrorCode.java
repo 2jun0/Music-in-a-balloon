@@ -2,6 +2,7 @@ package com.musicinaballoon.common.exception;
 
 public enum ErrorCode {
     // 400
+    INVALID_REQUEST_ARGUMENT("The request argument is invalid."),
     INVALID_STREAMING_MUSIC_URL("The streaming music url is invalid"),
     INVALID_YOUTUBE_MUSIC_ID("The YouTube music id is invalid"),
     INVALID_SPOTIFY_MUSIC_ID("The Spotify track id is invalid"),

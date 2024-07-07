@@ -1,7 +1,4 @@
-import { SMALL_MAX_WIDTH_PX } from '@constant/ui';
 import { css } from '@emotion/react';
-
-import { Theme } from '@style/Theme';
 
 export const containerStyling = css({
   position: 'relative',

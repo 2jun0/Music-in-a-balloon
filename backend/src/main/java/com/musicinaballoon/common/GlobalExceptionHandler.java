@@ -1,5 +1,7 @@
 package com.musicinaballoon.common;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.CommonException;
 import com.musicinaballoon.common.exception.ErrorCode;
@@ -7,12 +9,19 @@ import com.musicinaballoon.common.exception.NotFoundException;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
 import com.musicinaballoon.common.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
@@ -43,6 +52,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
          com.musicinaballoon.common.exception.InternalServerException: 테스트용 에러입니다.
           at com.musicinaballoon.user.presentation.UserController.getWarn(UserController.java:129)
      */
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+            HttpStatusCode status, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ValidErrorResponse.from(ex));
+    }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handle(BadRequestException e, HttpServletRequest request) {
@@ -96,6 +111,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         static ErrorResponse from(ErrorCode errorCode) {
             return new ErrorResponse(errorCode, errorCode.getMessage());
+        }
+    }
+
+    record ValidErrorResponse(
+            ErrorCode errorCode,
+            String message,
+            Map<String, String> result
+    ) {
+
+        public static ValidErrorResponse from(MethodArgumentNotValidException e) {
+            Map<String, String> result = e.getBindingResult().getFieldErrors().stream()
+                    .collect(toMap(FieldError::getField, ValidErrorResponse::getFieldErrorMessage));
+            return new ValidErrorResponse(
+                    ErrorCode.INVALID_REQUEST_ARGUMENT,
+                    ErrorCode.INVALID_REQUEST_ARGUMENT.getMessage(),
+                    result
+            );
+        }
+
+        private static String getFieldErrorMessage(FieldError error) {
+            return Objects.requireNonNull(error.getDefaultMessage());
         }
     }
 }

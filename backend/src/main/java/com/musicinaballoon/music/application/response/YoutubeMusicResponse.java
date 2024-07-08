@@ -23,7 +23,7 @@ public class YoutubeMusicResponse extends MusicResponse {
         this.youtubeUrl = youtubeUrl;
     }
 
-    public static MusicResponse from(YoutubeMusic youtubeMusic) {
+    public static YoutubeMusicResponse from(YoutubeMusic youtubeMusic) {
         return YoutubeMusicResponse.builder()
                 .title(youtubeMusic.getTitle())
                 .albumImageUrl(youtubeMusic.getAlbumImageUrl())

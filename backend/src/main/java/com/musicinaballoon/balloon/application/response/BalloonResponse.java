@@ -1,7 +1,6 @@
 package com.musicinaballoon.balloon.application.response;
 
 import com.musicinaballoon.balloon.domain.Balloon;
-import com.musicinaballoon.music.application.response.MusicResponse;
 import com.musicinaballoon.music.application.response.SpotifyMusicResponse;
 import com.musicinaballoon.music.application.response.YoutubeMusicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,8 +21,8 @@ public record BalloonResponse(
         String uploadedStreamingMusicType,
         @Schema(example = "https://i.ytimg.com/vi/n7ePZLn9_lQ/sddefault.jpg")
         String albumImageUrl,
-        MusicResponse youtubeMusic,
-        MusicResponse spotifyMusic,
+        YoutubeMusicResponse youtubeMusic,
+        SpotifyMusicResponse spotifyMusic,
 
         @Schema(example = "29.9794559943191")
         BigDecimal baseLon,
@@ -39,8 +38,8 @@ public record BalloonResponse(
 ) {
 
     public static BalloonResponse from(Balloon balloon) {
-        MusicResponse youtubeMusicResponse = getYoutubeMusicResponse(balloon);
-        MusicResponse spotifyMusicResponse = getSpotifyMusicResponse(balloon);
+        YoutubeMusicResponse youtubeMusicResponse = getYoutubeMusicResponse(balloon);
+        SpotifyMusicResponse spotifyMusicResponse = getSpotifyMusicResponse(balloon);
 
         return BalloonResponse.builder()
                 .id(balloon.getId())
@@ -61,7 +60,7 @@ public record BalloonResponse(
                 .build();
     }
 
-    private static MusicResponse getYoutubeMusicResponse(Balloon balloon) {
+    private static YoutubeMusicResponse getYoutubeMusicResponse(Balloon balloon) {
         if (balloon.getYoutubeMusic() == null) {
             return null;
         }
@@ -69,7 +68,7 @@ public record BalloonResponse(
         return YoutubeMusicResponse.from(balloon.getYoutubeMusic());
     }
 
-    private static MusicResponse getSpotifyMusicResponse(Balloon balloon) {
+    private static SpotifyMusicResponse getSpotifyMusicResponse(Balloon balloon) {
         if (balloon.getSpotifyMusic() == null) {
             return null;
         }

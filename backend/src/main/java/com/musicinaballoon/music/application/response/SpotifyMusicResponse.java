@@ -21,7 +21,7 @@ public class SpotifyMusicResponse extends MusicResponse {
         this.spotifyId = spotifyId;
     }
 
-    public static MusicResponse from(SpotifyMusic spotifyMusic) {
+    public static SpotifyMusicResponse from(SpotifyMusic spotifyMusic) {
         return SpotifyMusicResponse.builder()
                 .title(spotifyMusic.getTitle())
                 .albumImageUrl(spotifyMusic.getAlbumImageUrl())

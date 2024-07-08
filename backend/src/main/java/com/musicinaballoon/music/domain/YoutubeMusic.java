@@ -45,4 +45,13 @@ public class YoutubeMusic extends StreamingMusic {
     public String getMusicUrl() {
         return "https://music.youtube.com/watch?v=" + youtubeId;
     }
+
+    public String getYoutubeUrl() {
+        return "https://youtu.be/" + youtubeId;
+    }
+
+    @Override
+    public StreamingMusicType getStreamingMusicType() {
+        return StreamingMusicType.YOUTUBE_MUSIC;
+    }
 }

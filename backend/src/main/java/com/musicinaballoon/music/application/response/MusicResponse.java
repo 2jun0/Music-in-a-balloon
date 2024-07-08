@@ -5,7 +5,6 @@ import lombok.Builder;
 
 @Builder
 public record MusicResponse(
-        Long id,
         String title,
         String albumImageUrl,
         String url
@@ -13,7 +12,6 @@ public record MusicResponse(
 
     public static MusicResponse from(StreamingMusic music) {
         return MusicResponse.builder()
-                .id(music.getId())
                 .title(music.getTitle())
                 .albumImageUrl(music.getAlbumImageUrl())
                 .url(music.getMusicUrl())

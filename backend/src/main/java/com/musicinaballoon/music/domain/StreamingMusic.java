@@ -11,4 +11,6 @@ public abstract class StreamingMusic extends BaseEntity {
     public abstract String getAlbumImageUrl();
 
     public abstract String getMusicUrl();
+
+    public abstract StreamingMusicType getStreamingMusicType();
 }

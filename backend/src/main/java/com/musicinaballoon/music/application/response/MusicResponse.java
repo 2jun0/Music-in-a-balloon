@@ -1,13 +1,15 @@
 package com.musicinaballoon.music.application.response;
 
 import com.musicinaballoon.music.domain.StreamingMusic;
+import com.musicinaballoon.music.domain.StreamingMusicType;
 import lombok.Builder;
 
 @Builder
 public record MusicResponse(
         String title,
         String albumImageUrl,
-        String url
+        String url,
+        StreamingMusicType streamingType
 ) {
 
     public static MusicResponse from(StreamingMusic music) {
@@ -15,6 +17,7 @@ public record MusicResponse(
                 .title(music.getTitle())
                 .albumImageUrl(music.getAlbumImageUrl())
                 .url(music.getMusicUrl())
+                .streamingType(music.getStreamingMusicType())
                 .build();
     }
 }

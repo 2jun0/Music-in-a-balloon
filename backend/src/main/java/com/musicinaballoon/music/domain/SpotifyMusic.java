@@ -40,4 +40,9 @@ public class SpotifyMusic extends StreamingMusic {
     public String getMusicUrl() {
         return "https://api.spotify.com/v1/tracks/" + spotifyId;
     }
+
+    @Override
+    public StreamingMusicType getStreamingMusicType() {
+        return StreamingMusicType.SPOTIFY_MUSIC;
+    }
 }

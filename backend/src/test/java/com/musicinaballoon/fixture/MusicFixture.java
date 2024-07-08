@@ -10,6 +10,7 @@ public final class MusicFixture {
     public static final String YOUTUBE_MUSIC_SUPER_SHY_ID = "n7ePZLn9_lQ";
     public static final String YOUTUBE_MUSIC_SUPER_SHY_TITLE = "Super Shy";
     public static final String YOUTUBE_MUSIC_SUPER_SHY_URL = "https://music.youtube.com/watch?v=n7ePZLn9_lQ";
+    public static final String YOUTUBE_SUPER_SHY_URL = "https://youtu.be/n7ePZLn9_lQ";
     public static final String YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL = "https://i.ytimg.com/vi/n7ePZLn9_lQ/sddefault.jpg";
 
     public static final String SPOTIFY_MUSIC_SUPER_SHY_ID = "5sdQOyqq2IDhvmx2lHOpwd";

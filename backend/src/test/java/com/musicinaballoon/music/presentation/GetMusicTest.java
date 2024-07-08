@@ -1,16 +1,21 @@
 package com.musicinaballoon.music.presentation;
 
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL;
+import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
+import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_ID;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_URL;
+import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_SUPER_SHY_URL;
 import static com.musicinaballoon.music.domain.StreamingMusicType.SPOTIFY_MUSIC;
 import static com.musicinaballoon.music.domain.StreamingMusicType.YOUTUBE_MUSIC;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.music.application.response.MusicResponse;
+import com.musicinaballoon.music.application.response.SpotifyMusicResponse;
+import com.musicinaballoon.music.application.response.YoutubeMusicResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -35,16 +40,18 @@ public class GetMusicTest extends MusicControllerTest {
     void getMusic_StreamingUrlIsYoutubeMusicUrl_ResponsesYoutubeMusic() {
         // when
         ExtractableResponse<Response> response = getMusic(YOUTUBE_MUSIC_SUPER_SHY_URL);
-        MusicResponse musicResponse = response.as(MusicResponse.class);
+        YoutubeMusicResponse musicResponse = response.as(YoutubeMusicResponse.class);
 
         // then
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-                    softly.assertThat(musicResponse.title()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_TITLE);
-                    softly.assertThat(musicResponse.url()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_URL);
-                    softly.assertThat(musicResponse.albumImageUrl()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL);
-                    softly.assertThat(musicResponse.streamingType()).isEqualTo(YOUTUBE_MUSIC);
+                    softly.assertThat(musicResponse.getTitle()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_TITLE);
+                    softly.assertThat(musicResponse.getUrl()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_URL);
+                    softly.assertThat(musicResponse.getAlbumImageUrl()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL);
+                    softly.assertThat(musicResponse.getStreamingType()).isEqualTo(YOUTUBE_MUSIC);
+                    softly.assertThat(musicResponse.getYoutubeUrl()).isEqualTo(YOUTUBE_SUPER_SHY_URL);
+                    softly.assertThat(musicResponse.getYoutubeId()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_ID);
                 }
         );
     }
@@ -54,16 +61,17 @@ public class GetMusicTest extends MusicControllerTest {
     void getMusic_StreamingUrlIsSpotifyMusicUrl_ResponsesSpotifyMusic() {
         // when
         ExtractableResponse<Response> response = getMusic(SPOTIFY_MUSIC_SUPER_SHY_URL);
-        MusicResponse musicResponse = response.as(MusicResponse.class);
+        SpotifyMusicResponse musicResponse = response.as(SpotifyMusicResponse.class);
 
         // then
         assertSoftly(
                 softly -> {
                     softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-                    softly.assertThat(musicResponse.title()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_TITLE);
-                    softly.assertThat(musicResponse.url()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_URL);
-                    softly.assertThat(musicResponse.albumImageUrl()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL);
-                    softly.assertThat(musicResponse.streamingType()).isEqualTo(SPOTIFY_MUSIC);
+                    softly.assertThat(musicResponse.getTitle()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_TITLE);
+                    softly.assertThat(musicResponse.getUrl()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_URL);
+                    softly.assertThat(musicResponse.getAlbumImageUrl()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL);
+                    softly.assertThat(musicResponse.getStreamingType()).isEqualTo(SPOTIFY_MUSIC);
+                    softly.assertThat(musicResponse.getSpotifyId()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ID);
                 }
         );
     }
@@ -73,9 +81,9 @@ public class GetMusicTest extends MusicControllerTest {
     void getMusic_SameRequestTwice_ResponsesSameMusics() {
         // when
         ExtractableResponse<Response> responseFirst = getMusic(YOUTUBE_MUSIC_SUPER_SHY_URL);
-        MusicResponse musicResponseFirst = responseFirst.as(MusicResponse.class);
+        MusicResponse musicResponseFirst = responseFirst.as(YoutubeMusicResponse.class);
         ExtractableResponse<Response> responseSecond = getMusic(YOUTUBE_MUSIC_SUPER_SHY_URL);
-        MusicResponse musicResponseSecond = responseSecond.as(MusicResponse.class);
+        MusicResponse musicResponseSecond = responseSecond.as(YoutubeMusicResponse.class);
 
         // then
         assertSoftly(

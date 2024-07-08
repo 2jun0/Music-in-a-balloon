@@ -2,6 +2,8 @@ package com.musicinaballoon.balloon.application.response;
 
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.music.application.response.MusicResponse;
+import com.musicinaballoon.music.application.response.SpotifyMusicResponse;
+import com.musicinaballoon.music.application.response.YoutubeMusicResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -64,7 +66,7 @@ public record BalloonResponse(
             return null;
         }
 
-        return MusicResponse.from(balloon.getYoutubeMusic());
+        return YoutubeMusicResponse.from(balloon.getYoutubeMusic());
     }
 
     private static MusicResponse getSpotifyMusicResponse(Balloon balloon) {
@@ -72,6 +74,6 @@ public record BalloonResponse(
             return null;
         }
 
-        return MusicResponse.from(balloon.getSpotifyMusic());
+        return SpotifyMusicResponse.from(balloon.getSpotifyMusic());
     }
 }

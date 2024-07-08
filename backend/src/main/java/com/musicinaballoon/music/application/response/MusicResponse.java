@@ -1,23 +1,27 @@
 package com.musicinaballoon.music.application.response;
 
-import com.musicinaballoon.music.domain.StreamingMusic;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.musicinaballoon.music.domain.StreamingMusicType;
-import lombok.Builder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Builder
-public record MusicResponse(
-        String title,
-        String albumImageUrl,
-        String url,
-        StreamingMusicType streamingType
-) {
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = SpotifyMusicResponse.class),
+        @JsonSubTypes.Type(value = YoutubeMusicResponse.class),
+})
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class MusicResponse {
+    protected String title;
+    protected String albumImageUrl;
+    protected String url;
+    protected StreamingMusicType streamingType;
 
-    public static MusicResponse from(StreamingMusic music) {
-        return MusicResponse.builder()
-                .title(music.getTitle())
-                .albumImageUrl(music.getAlbumImageUrl())
-                .url(music.getMusicUrl())
-                .streamingType(music.getStreamingMusicType())
-                .build();
+    public MusicResponse(String title, String albumImageUrl, String url, StreamingMusicType streamingType) {
+        this.title = title;
+        this.albumImageUrl = albumImageUrl;
+        this.url = url;
+        this.streamingType = streamingType;
     }
 }

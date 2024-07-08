@@ -6,6 +6,8 @@ import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_U
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_URL;
+import static com.musicinaballoon.music.domain.StreamingMusicType.SPOTIFY_MUSIC;
+import static com.musicinaballoon.music.domain.StreamingMusicType.YOUTUBE_MUSIC;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.music.application.response.MusicResponse;
@@ -42,6 +44,7 @@ public class GetMusicTest extends MusicControllerTest {
                     softly.assertThat(musicResponse.title()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_TITLE);
                     softly.assertThat(musicResponse.url()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_URL);
                     softly.assertThat(musicResponse.albumImageUrl()).isEqualTo(YOUTUBE_MUSIC_SUPER_SHY_THUMBNAIL_URL);
+                    softly.assertThat(musicResponse.streamingType()).isEqualTo(YOUTUBE_MUSIC);
                 }
         );
     }
@@ -60,6 +63,7 @@ public class GetMusicTest extends MusicControllerTest {
                     softly.assertThat(musicResponse.title()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_TITLE);
                     softly.assertThat(musicResponse.url()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_URL);
                     softly.assertThat(musicResponse.albumImageUrl()).isEqualTo(SPOTIFY_MUSIC_SUPER_SHY_ALBUM_IMAGE_URL);
+                    softly.assertThat(musicResponse.streamingType()).isEqualTo(SPOTIFY_MUSIC);
                 }
         );
     }

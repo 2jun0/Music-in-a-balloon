@@ -39,7 +39,7 @@ public class YoutubeApi {
                     .getItems();
 
             if (items.isEmpty()) {
-                throw new BadRequestException(ErrorCode.INVALID_YOUTUBE_MUSIC_ID);
+                throw new BadRequestException(ErrorCode.YOUTUBE_MUSIC_NOT_FOUND);
             }
             return items.getFirst();
         } catch (IOException e) {

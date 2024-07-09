@@ -19,6 +19,8 @@ public enum ErrorCode {
     USER_NOT_FOUND("The user does not exist"),
     BALLOON_NOT_FOUND("The balloon does not exist"),
     BALLOON_REACTION_NOT_FOUND("The balloon reaction does not exist"),
+    YOUTUBE_MUSIC_NOT_FOUND("The YouTube music does not exist"),
+    SPOTIFY_MUSIC_NOT_FOUND("The Spotify music does not exist"),
 
     // 500
     INTERNAL_SERVER_ERROR("Internal server has a problem"),

@@ -39,7 +39,7 @@ public class SpotifyApi {
                     .build()
                     .execute();
         } catch (NotFoundException exception) {
-            throw new com.musicinaballoon.common.exception.BadRequestException(ErrorCode.INVALID_SPOTIFY_MUSIC_ID);
+            throw new com.musicinaballoon.common.exception.BadRequestException(ErrorCode.SPOTIFY_MUSIC_NOT_FOUND);
         } catch (IOException | ParseException | SpotifyWebApiException exception) {
             throw new ServiceUnavailableException(ErrorCode.SPOTIFY_API_SERVICE_UNAVAILABLE, exception);
         }

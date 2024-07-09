@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.presentation;
 
+import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_COLOR_CODE;
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_TITLE;
 import static com.musicinaballoon.fixture.MusicFixture.SPOTIFY_MUSIC_SUPER_SHY_URL;
@@ -35,10 +36,10 @@ public class PostBalloonTest extends BalloonControllerTest {
     }
 
     @Test
-    @DisplayName("유튜브 음악 URL로 풍선을 생성한다")
-    void createBalloonByYoutubeMusicUrl() {
+    @DisplayName("유튜브 음악 URL 의 유효한 요청은 풍선을 응답한다")
+    void postBalloon_ValidRequestWithYoutubeMusicUrl_ResponsesBalloon() {
         CreateBalloonRequest request = new CreateBalloonRequest(YOUTUBE_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE);
+                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE, DEFAULT_COLOR_CODE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
@@ -51,15 +52,16 @@ public class PostBalloonTest extends BalloonControllerTest {
                     softly.assertThat(balloonResponse.uploadedStreamingMusicType())
                             .isEqualTo(StreamingMusicType.YOUTUBE_MUSIC.name());
                     softly.assertThat(balloonResponse.albumImageUrl()).isNotNull();
+                    softly.assertThat(balloonResponse.colorCode()).isEqualTo(DEFAULT_COLOR_CODE);
                 }
         );
     }
 
     @Test
-    @DisplayName("스포티파이 음악 URL로 풍선을 생성한다")
-    void createBalloonBySpotifyMusicUrl() {
+    @DisplayName("스포티파이 음악 URL 의 유효한 요청은 풍선을 응답한다")
+    void postBalloon_ValidRequestWithSpotifyMusicUrl_ResponsesBalloon() {
         CreateBalloonRequest request = new CreateBalloonRequest(SPOTIFY_MUSIC_SUPER_SHY_URL, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE);
+                PYRAMID_OF_KHUFU_LONGITUDE, DEFAULT_MESSAGE, DEFAULT_COLOR_CODE);
 
         ExtractableResponse<Response> response = postBalloon(request);
         BalloonResponse balloonResponse = response.as(BalloonResponse.class);
@@ -72,6 +74,7 @@ public class PostBalloonTest extends BalloonControllerTest {
                     softly.assertThat(balloonResponse.uploadedStreamingMusicType())
                             .isEqualTo(StreamingMusicType.SPOTIFY_MUSIC.name());
                     softly.assertThat(balloonResponse.albumImageUrl()).isNotNull();
+                    softly.assertThat(balloonResponse.colorCode()).isEqualTo(DEFAULT_COLOR_CODE);
                 }
         );
     }

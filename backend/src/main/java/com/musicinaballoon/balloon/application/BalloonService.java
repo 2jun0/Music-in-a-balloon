@@ -1,11 +1,15 @@
 package com.musicinaballoon.balloon.application;
 
+import static com.musicinaballoon.music.domain.StreamingMusicType.SPOTIFY_MUSIC;
+import static com.musicinaballoon.music.domain.StreamingMusicType.YOUTUBE_MUSIC;
+
 import com.musicinaballoon.balloon.domain.Balloon;
+import com.musicinaballoon.balloon.domain.Balloon.BalloonBuilder;
 import com.musicinaballoon.balloon.repository.BalloonRepository;
 import com.musicinaballoon.common.exception.ErrorCode;
 import com.musicinaballoon.common.exception.NotFoundException;
 import com.musicinaballoon.music.domain.SpotifyMusic;
-import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.music.domain.StreamingMusic;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.user.domain.User;
 import java.math.BigDecimal;
@@ -26,30 +30,24 @@ public class BalloonService {
         this.balloonListPageSize = balloonListPageSize;
     }
 
-    public Balloon createYoutubeMusicBalloon(YoutubeMusic youtubeMusic, BigDecimal latitude, BigDecimal longitude, User creator
-            , String message) {
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.YOUTUBE_MUSIC)
-                .youtubeMusic(youtubeMusic)
+    public Balloon createBalloon(StreamingMusic streamingMusic, BigDecimal latitude, BigDecimal longitude, User creator
+            , String message, String colorCode) {
+        BalloonBuilder balloonBuilder = Balloon.builder()
                 .creator(creator)
                 .baseLatitude(latitude)
                 .baseLongitude(longitude)
                 .message(message)
-                .build();
-        return balloonRepository.save(balloon);
-    }
+                .colorCode(colorCode);
 
-    public Balloon createSpotifyMusicBalloon(SpotifyMusic spotifyMusic, BigDecimal latitude, BigDecimal longitude, User creator
-            , String message) {
-        Balloon balloon = Balloon.builder()
-                .uploadedStreamingMusicType(StreamingMusicType.SPOTIFY_MUSIC)
-                .spotifyMusic(spotifyMusic)
-                .creator(creator)
-                .baseLatitude(latitude)
-                .baseLongitude(longitude)
-                .message(message)
-                .build();
-        return balloonRepository.save(balloon);
+        return balloonRepository.save(
+                switch (streamingMusic.getStreamingMusicType()) {
+                    case YOUTUBE_MUSIC -> balloonBuilder.uploadedStreamingMusicType(YOUTUBE_MUSIC)
+                            .youtubeMusic((YoutubeMusic) streamingMusic)
+                            .build();
+                    case SPOTIFY_MUSIC -> balloonBuilder.uploadedStreamingMusicType(SPOTIFY_MUSIC)
+                            .spotifyMusic((SpotifyMusic) streamingMusic)
+                            .build();
+                });
     }
 
     public Balloon getBalloon(Long balloonId) {

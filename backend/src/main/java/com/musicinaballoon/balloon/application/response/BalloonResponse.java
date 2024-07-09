@@ -16,6 +16,8 @@ public record BalloonResponse(
         String title,
         @Schema(example = "I love this song 🥰")
         String message,
+        @Schema(example = "#F06292")
+        String colorCode,
 
         @Schema(example = "youtube")
         String uploadedStreamingMusicType,
@@ -45,6 +47,7 @@ public record BalloonResponse(
                 .id(balloon.getId())
                 .title(balloon.getMusicTitle())
                 .message(balloon.getMessage())
+                .colorCode(balloon.getColorCode())
 
                 .uploadedStreamingMusicType(balloon.getUploadedStreamingMusicType().name())
                 .albumImageUrl(balloon.getAlbumImageUrl())

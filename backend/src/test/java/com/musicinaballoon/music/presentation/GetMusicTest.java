@@ -110,7 +110,7 @@ public class GetMusicTest extends MusicControllerTest {
     @DisplayName("존재하지 않는 스포티파이 음악에 대한 요청을 받으면 NotFound 를 응답한다.")
     void getMusic_StreamingUrlIsNotExistedSpotifyMusicUrl_ResponsesNotFound() {
         // when
-        ExtractableResponse<Response> response = getMusic("https://open.spotify.com/track/AAAAAAAAAAAAAAAAAA");
+        ExtractableResponse<Response> response = getMusic("https://open.spotify.com/track/aaaaaaaaaaaaaaaaaaaaaa");
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());

@@ -6,8 +6,8 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Video;
-import com.musicinaballoon.common.exception.BadRequestException;
 import com.musicinaballoon.common.exception.ErrorCode;
+import com.musicinaballoon.common.exception.NotFoundException;
 import com.musicinaballoon.common.exception.ServiceUnavailableException;
 import com.musicinaballoon.music.external.response.YoutubeVideo;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class YoutubeApi {
                     .getItems();
 
             if (items.isEmpty()) {
-                throw new BadRequestException(ErrorCode.YOUTUBE_MUSIC_NOT_FOUND);
+                throw new NotFoundException(ErrorCode.YOUTUBE_MUSIC_NOT_FOUND);
             }
             return items.getFirst();
         } catch (IOException e) {

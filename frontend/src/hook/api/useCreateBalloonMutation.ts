@@ -13,7 +13,7 @@ export const useCreateBalloonMutation = () => {
   const createBalloonMutation = useMutation({
     mutationFn: postBalloon,
     onError: (error: ErrorResponseData) => {
-      if (error.code && error.code === HTTP_STATUS_CODE.UNAUTHORIZED) {
+      if (error.statusCode && error.statusCode === HTTP_STATUS_CODE.UNAUTHORIZED) {
         handleCookieError();
         return;
       }

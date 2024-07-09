@@ -43,7 +43,6 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Sta
       return (
         <Fallback
           statusCode={error instanceof HTTPError ? error.statusCode : undefined}
-          errorCode={error instanceof HTTPError ? error.code : undefined}
           resetError={this.resetErrorBoundary}
         />
       );

@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.application.request;
 
+import com.musicinaballoon.balloon.annotation.ColorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +27,11 @@ public record CreateBalloonRequest(
         @NotBlank
         @Size(max = 255)
         @Schema(example = "My favorite music 🎧")
-        String message
+        String message,
+
+        @NotNull
+        @ColorCode
+        @Schema(example = "#F06292")
+        String colorCode
 ) {
 }

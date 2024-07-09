@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 public final class BalloonFixture {
 
     public static final String DEFAULT_MESSAGE = "노래 투하!";
+    public static final String DEFAULT_COLOR_CODE = "#F06292";
 
     public static final BigDecimal DEFAULT_BASE_LATITUDE = PYRAMID_OF_KHUFU_LATITUDE;
     public static final BigDecimal DEFAULT_BASE_LONGITUDE = PYRAMID_OF_KHUFU_LONGITUDE;
@@ -24,6 +25,7 @@ public final class BalloonFixture {
                 .creator(creator)
                 .baseLatitude(DEFAULT_BASE_LATITUDE)
                 .baseLongitude(DEFAULT_BASE_LONGITUDE)
+                .colorCode(DEFAULT_COLOR_CODE)
                 .message(DEFAULT_MESSAGE);
     }
 }

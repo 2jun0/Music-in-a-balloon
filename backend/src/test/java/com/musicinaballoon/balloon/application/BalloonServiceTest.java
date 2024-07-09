@@ -1,5 +1,6 @@
 package com.musicinaballoon.balloon.application;
 
+import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_COLOR_CODE;
 import static com.musicinaballoon.fixture.BalloonFixture.DEFAULT_MESSAGE;
 import static com.musicinaballoon.fixture.BalloonFixture.youtubeMusicBalloonBuilder;
 import static com.musicinaballoon.fixture.MusicFixture.spotifyMusicBuilder;
@@ -50,7 +51,7 @@ class BalloonServiceTest {
 
     @DisplayName("유튜브 뮤직으로 풍선을 생성한다")
     @Test
-    void createYoutubeMusicBalloon() {
+    void createBalloon_ValidInputsWithYoutubeMusic_ReturnsBalloon() {
         // given
         YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
         User user = userBuilder().build();
@@ -58,8 +59,8 @@ class BalloonServiceTest {
         given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
-        Balloon created = balloonService.createYoutubeMusicBalloon(youtubeMusic, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE);
+        Balloon created = balloonService.createBalloon(youtubeMusic, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE, DEFAULT_COLOR_CODE);
 
         // then
         assertSoftly(
@@ -69,13 +70,15 @@ class BalloonServiceTest {
                     softly.assertThat(created.getBaseLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LONGITUDE);
                     softly.assertThat(created.getBaseLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LATITUDE);
                     softly.assertThat(created.getCreator()).isEqualTo(user);
+                    softly.assertThat(created.getColorCode()).isEqualTo(DEFAULT_COLOR_CODE);
+                    softly.assertThat(created.getMessage()).isEqualTo(DEFAULT_MESSAGE);
                 }
         );
     }
 
     @DisplayName("스포티파이 뮤직으로 풍선을 생성한다")
     @Test
-    void createSpotifyMusicBalloon() {
+    void createBalloon_ValidInputsWithSpotifyMusic_ReturnsBalloon() {
         // given
         SpotifyMusic spotifyMusic = spotifyMusicBuilder().build();
         User user = userBuilder().build();
@@ -83,9 +86,8 @@ class BalloonServiceTest {
         given(balloonRepository.save(any(Balloon.class))).will(returnsFirstArg());
 
         // when
-        Balloon created = balloonService.createSpotifyMusicBalloon(spotifyMusic, PYRAMID_OF_KHUFU_LATITUDE,
-                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE
-        );
+        Balloon created = balloonService.createBalloon(spotifyMusic, PYRAMID_OF_KHUFU_LATITUDE,
+                PYRAMID_OF_KHUFU_LONGITUDE, user, DEFAULT_MESSAGE, DEFAULT_COLOR_CODE);
 
         // then
         assertSoftly(
@@ -95,6 +97,8 @@ class BalloonServiceTest {
                     softly.assertThat(created.getBaseLongitude()).isEqualTo(PYRAMID_OF_KHUFU_LONGITUDE);
                     softly.assertThat(created.getBaseLatitude()).isEqualTo(PYRAMID_OF_KHUFU_LATITUDE);
                     softly.assertThat(created.getCreator()).isEqualTo(user);
+                    softly.assertThat(created.getColorCode()).isEqualTo(DEFAULT_COLOR_CODE);
+                    softly.assertThat(created.getMessage()).isEqualTo(DEFAULT_MESSAGE);
                 }
         );
     }

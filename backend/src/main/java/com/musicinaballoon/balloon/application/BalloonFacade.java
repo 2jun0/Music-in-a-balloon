@@ -8,12 +8,11 @@ import com.musicinaballoon.balloon.application.response.BalloonResponse;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonReaction;
 import com.musicinaballoon.music.application.MusicService;
-import com.musicinaballoon.music.domain.StreamingMusicType;
+import com.musicinaballoon.music.domain.StreamingMusic;
 import com.musicinaballoon.user.application.UserService;
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.wave.application.WaveService;
 import com.musicinaballoon.wave.domain.Wave;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -69,33 +68,23 @@ public class BalloonFacade {
 
     public BalloonResponse createBalloon(CreateBalloonRequest request, Long ownerId) {
         User user = userService.getUser(ownerId);
-        StreamingMusicType type = musicService.checkStreamingMusicType(request.streamingMusicUrl());
-        Balloon balloon = switch (type) {
-            case YOUTUBE_MUSIC ->
-                    createYoutubeMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user,
-                            request.message());
-            case SPOTIFY_MUSIC ->
-                    createSpotifyMusicBalloon(request.streamingMusicUrl(), request.latitude(), request.longitude(), user,
-                            request.message());
-        };
+        StreamingMusic streamingMusic = getStreamingMusic(request.streamingMusicUrl());
+
+        Balloon balloon = balloonService.createBalloon(streamingMusic, request.latitude(), request.longitude(), user,
+                request.message(), request.colorCode());
         return BalloonResponse.from(balloon);
+    }
+
+    private StreamingMusic getStreamingMusic(String streamingUrl) {
+        return switch (musicService.checkStreamingMusicType(streamingUrl)) {
+            case YOUTUBE_MUSIC -> musicService.getYoutubeMusicByUrl(streamingUrl);
+            case SPOTIFY_MUSIC -> musicService.getSpotifyMusicByUrl(streamingUrl);
+        };
     }
 
     public BalloonListResponse getBalloonList(Long userId, int page) {
         User user = userService.getUser(userId);
         List<Balloon> balloons = balloonService.getNotPickedBalloonList(user, page);
         return BalloonListResponse.from(balloons);
-    }
-
-    private Balloon createYoutubeMusicBalloon(String youtubeMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner,
-            String message) {
-        var youtubeMusic = musicService.getYoutubeMusicByUrl(youtubeMusicUrl);
-        return balloonService.createYoutubeMusicBalloon(youtubeMusic, latitude, longitude, owner, message);
-    }
-
-    private Balloon createSpotifyMusicBalloon(String spotifyMusicUrl, BigDecimal latitude, BigDecimal longitude, User owner,
-            String message) {
-        var spotifyMusic = musicService.getSpotifyMusicByUrl(spotifyMusicUrl);
-        return balloonService.createSpotifyMusicBalloon(spotifyMusic, latitude, longitude, owner, message);
     }
 }

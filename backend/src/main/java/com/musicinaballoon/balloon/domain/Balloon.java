@@ -38,6 +38,12 @@ public class Balloon extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "message", length = 255, nullable = false)
+    private String message;
+
+    @Column(name = "color_code", nullable = false)
+    private String colorCode;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "uploaded_streaming_music_type", nullable = false)
     private StreamingMusicType uploadedStreamingMusicType;
@@ -60,21 +66,19 @@ public class Balloon extends BaseEntity {
     @Column(name = "base_longitude", precision = 16, scale = 13, nullable = false)
     private BigDecimal baseLongitude;
 
-    @Column(name = "message", length = 255, nullable = false)
-    private String message;
-
     @Column(name = "based_at", nullable = false)
     private ZonedDateTime basedAt;
 
     @Builder
-    public Balloon(
+    protected Balloon(
             @NonNull StreamingMusicType uploadedStreamingMusicType,
             YoutubeMusic youtubeMusic,
             SpotifyMusic spotifyMusic,
             @NonNull User creator,
             @NonNull BigDecimal baseLatitude,
             @NonNull BigDecimal baseLongitude,
-            @NonNull String message
+            @NonNull String message,
+            @NonNull String colorCode
     ) {
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
@@ -83,6 +87,7 @@ public class Balloon extends BaseEntity {
         this.baseLatitude = baseLatitude;
         this.baseLongitude = baseLongitude;
         this.message = message;
+        this.colorCode = colorCode;
     }
 
     public Geolocation getCurrentGeolocation(Wave wave) {

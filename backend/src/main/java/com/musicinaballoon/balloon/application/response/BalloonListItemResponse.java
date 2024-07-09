@@ -12,6 +12,8 @@ public record BalloonListItemResponse(
 
         @Schema(example = "Super Shy")
         String title,
+        @Schema(example = "#F06292")
+        String colorCode,
 
         @Schema(example = "29.9794559943191")
         BigDecimal baseLon,
@@ -30,6 +32,7 @@ public record BalloonListItemResponse(
         return BalloonListItemResponse.builder()
                 .id(balloon.getId())
                 .title(balloon.getMusicTitle())
+                .colorCode(balloon.getColorCode())
 
                 .baseLat(balloon.getBaseLatitude())
                 .baseLon(balloon.getBaseLongitude())

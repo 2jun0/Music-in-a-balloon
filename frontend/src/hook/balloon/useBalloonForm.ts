@@ -2,9 +2,12 @@ import useGeolocation from '@hook/common/useGeolocation';
 import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 
+import { HTTP_STATUS_CODE } from '@/constant/api';
+
 import type { BalloonFormData } from '@type/balloon';
 import type { SpotifyMusicData, YoutubeMusicData } from '@type/music';
 
+import { HTTPError } from '@api/HTTPError';
 import { getMusic } from '@api/music/getMusic';
 
 const defaultBalloonFormData: BalloonFormData = {
@@ -55,8 +58,18 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     if (!validateMusicUrl(musicUrl)) {
       setMusicData(null);
     } else {
-      const musicData = await getMusic(musicUrl);
-      setMusicData(musicData);
+      try {
+        const musicData = await getMusic(musicUrl);
+        setMusicData(musicData);
+      } catch (e) {
+        if (
+          !(e instanceof HTTPError) ||
+          (!(e.statusCode === HTTP_STATUS_CODE.BAD_REQUEST) &&
+            !(e.statusCode === HTTP_STATUS_CODE.NOT_FOUND))
+        ) {
+          throw e;
+        }
+      }
     }
 
     setBalloonInfo((prev) => ({ ...prev, streamingMusicUrl: musicUrl }));

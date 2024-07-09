@@ -2,7 +2,13 @@ import useGeolocation from '@hook/common/useGeolocation';
 import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 
+import { HTTP_STATUS_CODE } from '@/constant/api';
+
 import type { BalloonFormData } from '@type/balloon';
+import type { SpotifyMusicData, YoutubeMusicData } from '@type/music';
+
+import { HTTPError } from '@api/HTTPError';
+import { getMusic } from '@api/music/getMusic';
 
 const defaultBalloonFormData: BalloonFormData = {
   streamingMusicUrl: null,
@@ -15,9 +21,10 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
   const [balloonInfo, setBalloonInfo] = useState<BalloonFormData>(
     initialBalloonFormData ?? defaultBalloonFormData,
   );
-  const [canPressNext, setCanPressNext] = useState<boolean>(false);
-  const [canSubmit, setCanSubmit] = useState<boolean>(false);
+  const [canSumitMusicUrl, setCanPressNext] = useState<boolean>(false);
+  const [canSubmitBalloon, setCanSubmit] = useState<boolean>(false);
   const { coordinates } = useGeolocation();
+  const [musicData, setMusicData] = useState<SpotifyMusicData | YoutubeMusicData | null>(null);
 
   useEffect(() => {
     setBalloonInfo((prevBalloonInfo) => {
@@ -28,17 +35,42 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
   useEffect(() => {
     const { streamingMusicUrl, latitude, longitude } = balloonInfo;
 
-    setCanPressNext(!!streamingMusicUrl && !!latitude && !!longitude);
+    setCanPressNext(!!streamingMusicUrl && !!latitude && !!longitude && !!musicData);
   }, [balloonInfo]);
 
   useEffect(() => {
     const { streamingMusicUrl, latitude, longitude, message } = balloonInfo;
 
-    setCanSubmit(!!streamingMusicUrl && !!latitude && !!longitude && !!message);
+    setCanSubmit(!!streamingMusicUrl && !!latitude && !!longitude && !!message && !!musicData);
   }, [balloonInfo]);
 
-  const updateMusicUrl = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const YOUTUBE_URL_REGEX =
+    /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/gi;
+  const SPOTIFY_URL_REGEX = /^https?:\/\/open\.spotify\.com\/track\/.*$/i;
+
+  const validateMusicUrl = (musicUrl: string) => {
+    return !!musicUrl.match(SPOTIFY_URL_REGEX) || !!musicUrl.match(YOUTUBE_URL_REGEX);
+  };
+
+  const updateMusicUrl = async (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const musicUrl = event.target.value;
+
+    if (!validateMusicUrl(musicUrl)) {
+      setMusicData(null);
+    } else {
+      try {
+        const musicData = await getMusic(musicUrl);
+        setMusicData(musicData);
+      } catch (e) {
+        if (
+          !(e instanceof HTTPError) ||
+          (!(e.statusCode === HTTP_STATUS_CODE.BAD_REQUEST) &&
+            !(e.statusCode === HTTP_STATUS_CODE.NOT_FOUND))
+        ) {
+          throw e;
+        }
+      }
+    }
 
     setBalloonInfo((prev) => ({ ...prev, streamingMusicUrl: musicUrl }));
   };
@@ -49,5 +81,12 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     setBalloonInfo((prev) => ({ ...prev, message }));
   };
 
-  return { balloonInfo, updateMusicUrl, updateMessage, canPressNext, canSubmit };
+  return {
+    balloonInfo,
+    updateMusicUrl,
+    updateMessage,
+    canSumitMusicUrl,
+    canSubmitBalloon,
+    musicData,
+  };
 };

@@ -6,17 +6,20 @@ import { Theme } from '@style/Theme';
 
 export const wrapperStyling = css({
   width: '500px',
+  display: 'flex',
+  gap: Theme.spacer.spacing4,
+  alignItems: 'start',
+
+  '> form': {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    gap: Theme.spacer.spacing4,
+  },
 
   [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
     width: `calc(100vw - ${Theme.spacer.spacing4})`,
   },
-});
-
-export const formStyling = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: Theme.spacer.spacing4,
-  width: '100%',
 });
 
 export const buttonStyling = css({

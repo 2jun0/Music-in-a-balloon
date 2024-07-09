@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const { convertToAbsolutePath } = require('./webpackUtil');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: convertToAbsolutePath('src/index.tsx'),
@@ -78,6 +79,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: convertToAbsolutePath('public/index.html'),
       favicon: convertToAbsolutePath('public/favicon.ico'),
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'public/_redirects', to: '' }],
     }),
     new Dotenv(),
     new ForkTsCheckerWebpackPlugin(),

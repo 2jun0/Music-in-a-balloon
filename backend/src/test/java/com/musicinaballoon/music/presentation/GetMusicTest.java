@@ -11,6 +11,7 @@ import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_MUSIC_SUPER_SHY_U
 import static com.musicinaballoon.fixture.MusicFixture.YOUTUBE_SUPER_SHY_URL;
 import static com.musicinaballoon.music.domain.StreamingMusicType.SPOTIFY_MUSIC;
 import static com.musicinaballoon.music.domain.StreamingMusicType.YOUTUBE_MUSIC;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import com.musicinaballoon.music.application.response.MusicResponse;
@@ -93,5 +94,25 @@ public class GetMusicTest extends MusicControllerTest {
                     softly.assertThat(musicResponseSecond).isEqualTo(musicResponseFirst);
                 }
         );
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 유튜브 음악에 대한 요청을 받으면 NotFound 를 응답한다.")
+    void getMusic_StreamingUrlIsNotExistedYoutubeMusicUrl_ResponsesNotFound() {
+        // when
+        ExtractableResponse<Response> response = getMusic("https://music.youtube.com/watch?v=AAAAAAAAAAA");
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 스포티파이 음악에 대한 요청을 받으면 NotFound 를 응답한다.")
+    void getMusic_StreamingUrlIsNotExistedSpotifyMusicUrl_ResponsesNotFound() {
+        // when
+        ExtractableResponse<Response> response = getMusic("https://open.spotify.com/track/aaaaaaaaaaaaaaaaaaaaaa");
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 }

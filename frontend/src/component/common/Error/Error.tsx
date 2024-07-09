@@ -21,11 +21,10 @@ import { mediaQueryMobileState } from '@store/mediaQuery';
 
 export interface ErrorProps {
   statusCode?: number;
-  errorCode?: number;
   resetError?: () => void;
 }
 
-const Error = ({ statusCode = HTTP_STATUS_CODE.NOT_FOUND, errorCode, resetError }: ErrorProps) => {
+const Error = ({ statusCode = HTTP_STATUS_CODE.NOT_FOUND, resetError }: ErrorProps) => {
   const currentStatusCode =
     statusCode === HTTP_STATUS_CODE.CONTENT_TOO_LARGE ? HTTP_STATUS_CODE.BAD_REQUEST : statusCode;
 

@@ -8,6 +8,7 @@ import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.exceptions.detailed.BadRequestException;
 import se.michaelthelin.spotify.exceptions.detailed.NotFoundException;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
@@ -39,6 +40,8 @@ public class SpotifyApi {
                     .build()
                     .execute();
         } catch (NotFoundException exception) {
+            throw new com.musicinaballoon.common.exception.NotFoundException(ErrorCode.SPOTIFY_MUSIC_NOT_FOUND);
+        } catch (BadRequestException exception) {
             throw new com.musicinaballoon.common.exception.BadRequestException(ErrorCode.INVALID_SPOTIFY_MUSIC_ID);
         } catch (IOException | ParseException | SpotifyWebApiException exception) {
             throw new ServiceUnavailableException(ErrorCode.SPOTIFY_API_SERVICE_UNAVAILABLE, exception);

@@ -14,6 +14,7 @@ export const END_POINTS = {
   BALLOON_REACTION: (balloonId: number) => `/balloon/${balloonId}/reaction`,
   BALLOON_CREATE: '/balloon',
   BALLOON: (balloonId: number) => `/balloon/${balloonId}`,
+  MUSIC: '/music',
   WAVE: '/wave',
   USER: '/user',
   USER_ME: '/user/me',

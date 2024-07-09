@@ -133,8 +133,8 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
               // eslint-disable-next-line react/jsx-no-useless-fragment
               <></>
             )}
-            {balloonData.spotifyeMusic ? (
-              <SpotifyButton musicUrl={balloonData.spotifyeMusic.url} />
+            {balloonData.spotifyMusic ? (
+              <SpotifyButton musicUrl={balloonData.spotifyMusic.url} />
             ) : (
               // eslint-disable-next-line react/jsx-no-useless-fragment
               <></>

@@ -1,22 +1,19 @@
 import type { Marker as LeafletMarker } from 'leaflet';
 import { icon } from 'leaflet';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Marker } from 'react-leaflet';
 import { useSetRecoilState } from 'recoil';
 
 import { usePickBalloonMutation } from '@/hook/api/usePickBalloonMutation';
 import { pickedBalloonIdState } from '@/store/balloon';
+import { createBalloonIconImage } from '@/util/balloon';
 
-import balloonPinIconImage1 from '@asset/svg/balloon-pin-icon-1.svg?url';
-import balloonPinIconImage2 from '@asset/svg/balloon-pin-icon-2.svg?url';
-import balloonPinIconImage3 from '@asset/svg/balloon-pin-icon-3.svg?url';
 import outRangedBalloonPinIconImage from '@asset/svg/outranged-balloon-pin-icon.svg?url';
-
-const balloonPinIconImages = [balloonPinIconImage1, balloonPinIconImage2, balloonPinIconImage3];
 
 interface BalloonMarkerProps {
   id: number;
   name: string;
+  colorCode: string;
   lat: number;
   lon: number;
   isInRange: boolean;
@@ -27,6 +24,7 @@ interface BalloonMarkerProps {
 const BalloonMarker = ({
   id,
   name,
+  colorCode,
   lat,
   lon,
   isInRange,
@@ -56,9 +54,7 @@ const BalloonMarker = ({
   };
 
   const markerIcon = icon({
-    iconUrl: isInRange
-      ? balloonPinIconImages[id % balloonPinIconImages.length]
-      : outRangedBalloonPinIconImage,
+    iconUrl: isInRange ? createBalloonIconImage(colorCode) : outRangedBalloonPinIconImage,
     iconSize: isZoomedIn ? [57, 75] : [19, 25],
   });
 
@@ -72,9 +68,7 @@ const BalloonMarker = ({
       eventHandlers={{
         click: onClick,
       }}
-    >
-      {/* {isSelected ? <Fireworks css={fireworksStyling} autorun={{ speed: 3 }} /> : <></>} */}
-    </Marker>
+    />
   );
 };
 

@@ -63,6 +63,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
       style={{ height: '100vh' }}
       maxZoom={MAP_MAX_ZOOM_SIZE}
       minZoom={MAP_MIN_ZOOM_SIZE}
+      zoomControl={false}
       worldCopyJump
     >
       <TileLayer

@@ -16,6 +16,7 @@ import {
   wrapperStyling,
 } from '@component/balloon/BalloonCreateModal/BalloonCreateModal.style';
 
+import BalloonColorPicker from './BalloonColorPicker/BalloonColorPicker';
 import MusicPreview from './MusicPreview/MusicPreview';
 
 interface BalloonCreateModalProps {
@@ -28,8 +29,9 @@ const BalloonCreateModal = ({ isOpen = true, onClose }: BalloonCreateModalProps)
     balloonInfo,
     updateMusicUrl,
     canSumitMusicUrl,
-    canSubmitBalloon,
     updateMessage,
+    updateColorCode,
+    canSubmitBalloon,
     musicData,
   } = useBalloonForm();
   const createBalloonMutation = useCreateBalloonMutation();
@@ -107,6 +109,7 @@ const BalloonCreateModal = ({ isOpen = true, onClose }: BalloonCreateModalProps)
           <Button size="small" css={backButtonStyling} onClick={() => setPage(0)}>
             <Text size="xSmall">{'<'} Back</Text>
           </Button>
+          <BalloonColorPicker onSelect={updateColorCode} />
           <Input
             key="message"
             required

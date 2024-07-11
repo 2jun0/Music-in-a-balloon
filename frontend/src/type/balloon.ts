@@ -37,6 +37,7 @@ export interface BalloonFormData {
   latitude: number | null;
   longitude: number | null;
   message: string | null;
+  colorCode: string | null;
 }
 
 export interface BalloonReactData {

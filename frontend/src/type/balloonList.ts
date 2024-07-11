@@ -5,6 +5,7 @@ export interface BalloonListData {
 export interface BalloonListItemData {
   id: number;
   title: string;
+  colorCode: string;
   baseLat: number;
   baseLon: number;
   basedAt: string;

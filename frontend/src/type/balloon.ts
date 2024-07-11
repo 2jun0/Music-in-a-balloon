@@ -4,13 +4,14 @@ import type { ReactionKeyType } from './reaction';
 export interface BalloonData {
   id: number;
   title: string;
+  message: string;
+  colorCode: string;
   uploadedStreamingMusicType: string;
   albumImageUrl: string;
   youtubeMusic: YoutubeMusicData | null;
   spotifyMusic: SpotifyMusicData | null;
   baseLat: number;
   baseLon: number;
-  message: string;
   basedAt: string;
   createdAt: string;
   updatedAt: string;
@@ -21,6 +22,7 @@ export interface BalloonPosition {
   name: string;
   lat: number;
   lon: number;
+  color: string;
 }
 
 export interface BalloonInfo {
@@ -35,6 +37,7 @@ export interface BalloonFormData {
   latitude: number | null;
   longitude: number | null;
   message: string | null;
+  colorCode: string | null;
 }
 
 export interface BalloonReactData {

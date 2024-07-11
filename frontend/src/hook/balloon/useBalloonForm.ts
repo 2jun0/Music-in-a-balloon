@@ -15,6 +15,7 @@ const defaultBalloonFormData: BalloonFormData = {
   latitude: null,
   longitude: null,
   message: null,
+  colorCode: null,
 };
 
 export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
@@ -39,9 +40,11 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
   }, [balloonInfo]);
 
   useEffect(() => {
-    const { streamingMusicUrl, latitude, longitude, message } = balloonInfo;
+    const { streamingMusicUrl, latitude, longitude, message, colorCode } = balloonInfo;
 
-    setCanSubmit(!!streamingMusicUrl && !!latitude && !!longitude && !!message && !!musicData);
+    setCanSubmit(
+      !!streamingMusicUrl && !!latitude && !!longitude && !!message && !!musicData && !!colorCode,
+    );
   }, [balloonInfo]);
 
   const YOUTUBE_URL_REGEX =
@@ -81,10 +84,15 @@ export const useBalloonForm = (initialBalloonFormData?: BalloonFormData) => {
     setBalloonInfo((prev) => ({ ...prev, message }));
   };
 
+  const updateColorCode = (colorCode: string) => {
+    setBalloonInfo((prev) => ({ ...prev, colorCode }));
+  };
+
   return {
     balloonInfo,
     updateMusicUrl,
     updateMessage,
+    updateColorCode,
     canSumitMusicUrl,
     canSubmitBalloon,
     musicData,

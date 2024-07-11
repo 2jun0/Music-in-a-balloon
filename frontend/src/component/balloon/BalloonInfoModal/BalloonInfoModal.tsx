@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { useReactBalloonMutation } from '@/hook/api/useReactBalloonMutation';
 import { useUndoReactBalloonMutation } from '@/hook/api/useUndoReactBalloonMutation';
 import type { ReactionKeyType } from '@/type/reaction';
+import { blendColors } from '@/util/color';
 
 import Flex from '@component/Flex/Flex';
 import Heading from '@component/Heading/Heading';
@@ -63,48 +64,16 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
     }
   };
 
-  // 색종이 커스터마이징
   useEffect(() => {
-    switch (balloonId % 3) {
-      case 0:
-        jsConfetti.addConfetti({
-          confettiColors: [
-            Theme.color.pink100,
-            Theme.color.pink200,
-            Theme.color.pink300,
-            Theme.color.pink400,
-          ],
-          confettiRadius: 5,
-          confettiNumber: 500,
-        });
-        break;
-      case 1:
-        jsConfetti.addConfetti({
-          confettiColors: [
-            Theme.color.blue100,
-            Theme.color.blue200,
-            Theme.color.blue300,
-            Theme.color.blue400,
-          ],
-          confettiRadius: 5,
-          confettiNumber: 500,
-        });
-        break;
-      case 2:
-        jsConfetti.addConfetti({
-          confettiColors: [
-            Theme.color.orange100,
-            Theme.color.orange200,
-            Theme.color.orange300,
-            Theme.color.orange400,
-          ],
-          confettiRadius: 5,
-          confettiNumber: 500,
-        });
-        break;
-      default:
-        break;
-    }
+    jsConfetti.addConfetti({
+      confettiColors: [
+        balloonData.colorCode,
+        blendColors(balloonData.colorCode, '#ffffff', 0.5),
+        blendColors(balloonData.colorCode, '#ffffff', 0.75),
+      ],
+      confettiRadius: 5,
+      confettiNumber: 500,
+    });
   }, []);
 
   return (

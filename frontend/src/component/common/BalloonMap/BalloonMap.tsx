@@ -41,6 +41,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
         return {
           id: balloon.id,
           name: balloon.title,
+          color: balloon.colorCode,
           lat: normalizeLatitude(lat),
           lon: normalizeLongitude(lon),
         };
@@ -62,6 +63,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
       style={{ height: '100vh' }}
       maxZoom={MAP_MAX_ZOOM_SIZE}
       minZoom={MAP_MIN_ZOOM_SIZE}
+      zoomControl={false}
       worldCopyJump
     >
       <TileLayer

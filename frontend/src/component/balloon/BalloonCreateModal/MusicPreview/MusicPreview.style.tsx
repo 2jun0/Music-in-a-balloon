@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 
+import { SMALL_MAX_WIDTH_PX } from '@/constant/ui';
 import { Theme } from '@/style/Theme';
 
 export const containerStyling = css({
@@ -7,6 +8,10 @@ export const containerStyling = css({
   padding: '0 20px',
   align: 'center',
   gap: Theme.spacer.spacing4,
+
+  [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
+    flexDirection: 'column',
+  },
 });
 
 export const albumImageStyling = css({
@@ -18,4 +23,5 @@ export const detailStyling = css({
   flexDirection: 'column',
   flexGrow: 1,
   margin: 'auto 0',
+  flexShrink: 'initial',
 });

@@ -38,6 +38,7 @@ import org.springframework.data.domain.Pageable;
 class BalloonServiceTest {
 
     private final static int BALLOON_LIST_PAGE_SIZE = 5;
+    private final static int BALLOON_PICKED_LIST_PAGE_SIZE = 5;
 
     private BalloonService balloonService;
 
@@ -46,7 +47,7 @@ class BalloonServiceTest {
 
     @BeforeEach
     void setUp() {
-        balloonService = new BalloonService(balloonRepository, BALLOON_LIST_PAGE_SIZE);
+        balloonService = new BalloonService(balloonRepository, BALLOON_LIST_PAGE_SIZE, BALLOON_PICKED_LIST_PAGE_SIZE);
     }
 
     @DisplayName("유튜브 뮤직으로 풍선을 생성한다")
@@ -147,6 +148,28 @@ class BalloonServiceTest {
 
         // when
         List<Balloon> gotten = balloonService.getNotPickedBalloonList(user, 0);
+
+        // then
+        assertThat(gotten).isEqualTo(balloons);
+    }
+
+    @DisplayName("getPickedBalloonList 는 유효한 입력을 받으면 풍선 리스트를 반환한다.")
+    @Test
+    void getPickedBalloonList_ValidInputs_ReturnsBalloonList() {
+        // given
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
+        User creator = userBuilder().build();
+
+        List<Balloon> balloons = new ArrayList<>();
+        for (int i = 0; i < BALLOON_LIST_PAGE_SIZE; i++) {
+            balloons.add(youtubeMusicBalloonBuilder(youtubeMusic, creator).build());
+        }
+
+        given(balloonRepository.findPickedByPickerIdOrderByBalloonPickedCratedAtDesc(anyLong(), any(Pageable.class))).willReturn(
+                balloons);
+
+        // when
+        List<Balloon> gotten = balloonService.getPickedBalloonList(1L, 0);
 
         // then
         assertThat(gotten).isEqualTo(balloons);

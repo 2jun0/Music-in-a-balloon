@@ -87,4 +87,9 @@ public class BalloonFacade {
         List<Balloon> balloons = balloonService.getNotPickedBalloonList(user, page);
         return BalloonListResponse.from(balloons);
     }
+
+    public BalloonListResponse getPickedBalloonList(Long pickerId, int page) {
+        List<Balloon> balloonList = balloonService.getPickedBalloonList(pickerId, page);
+        return BalloonListResponse.from(balloonList);
+    }
 }

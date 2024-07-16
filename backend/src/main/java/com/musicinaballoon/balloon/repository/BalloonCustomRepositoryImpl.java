@@ -30,4 +30,16 @@ public class BalloonCustomRepositoryImpl implements BalloonCustomRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
     }
+
+    @Override
+    public List<Balloon> findPickedByPickerIdOrderByBalloonPickedCratedAtDesc(Long pickerId, Pageable pageable) {
+        return jpaQueryFactory.selectFrom(balloon)
+                .join(balloonPicked)
+                .on(balloon.eq(balloonPicked.balloon)
+                        .and(balloonPicked.picker.id.eq(pickerId)))
+                .orderBy(balloonPicked.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
 }

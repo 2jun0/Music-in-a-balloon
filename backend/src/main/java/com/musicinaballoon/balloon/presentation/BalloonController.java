@@ -39,6 +39,13 @@ public class BalloonController {
         return ResponseEntity.ok(balloon);
     }
 
+    @GetMapping(path = "/balloon/picked")
+    public ResponseEntity<BalloonListResponse> getPickedBalloonList(@UserId Long userId,
+            @RequestParam(value = "page") Integer page) {
+        BalloonListResponse pickedBalloonList = balloonFacade.getPickedBalloonList(userId, page);
+        return ResponseEntity.ok(pickedBalloonList);
+    }
+
     @PutMapping(path = "/balloon/{balloonId}/reaction")
     public ResponseEntity<BalloonResponse> reactBalloon(@PathVariable("balloonId") Long balloonId,
             @Valid @RequestBody ReactBalloonRequest request, @UserId Long userId) {

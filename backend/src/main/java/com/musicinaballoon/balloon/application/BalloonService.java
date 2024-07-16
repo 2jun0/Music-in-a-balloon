@@ -23,11 +23,14 @@ public class BalloonService {
 
     private final BalloonRepository balloonRepository;
     private final int balloonListPageSize;
+    private final int balloonPickedListPageSize;
 
     public BalloonService(BalloonRepository balloonRepository,
-            @Value("${balloon.list-page-size}") int balloonListPageSize) {
+            @Value("${balloon.list-page-size}") int balloonListPageSize,
+            @Value("${balloon.picked-list-page-size}") int balloonPickedListPageSizes) {
         this.balloonRepository = balloonRepository;
         this.balloonListPageSize = balloonListPageSize;
+        this.balloonPickedListPageSize = balloonPickedListPageSizes;
     }
 
     public Balloon createBalloon(StreamingMusic streamingMusic, BigDecimal latitude, BigDecimal longitude, User creator
@@ -62,5 +65,10 @@ public class BalloonService {
     public List<Balloon> getNotPickedBalloonList(User user, int page) {
         return balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, PageRequest.of(page,
                 balloonListPageSize));
+    }
+
+    public List<Balloon> getPickedBalloonList(Long pickerId, int page) {
+        return balloonRepository.findPickedByPickerIdOrderByBalloonPickedCratedAtDesc(pickerId, PageRequest.of(page,
+                balloonPickedListPageSize));
     }
 }

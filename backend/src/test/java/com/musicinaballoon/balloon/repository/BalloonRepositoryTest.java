@@ -102,6 +102,26 @@ class BalloonRepositoryTest {
         assertThat(founds).isEqualTo(otherBalloons);
     }
 
+    @Test
+    @DisplayName("findPickedByPickerIdOrderByBalloonPickedCratedAtDesc 는 유효한 입력을 받으면 풍선리스트를 반환한다.")
+    void findPickedByPickerIdOrderByBalloonPickedCratedAtDesc_InvalidInputs_ReturnsBalloons() {
+        // given
+        List<Balloon> balloons = balloons();
+        List<Balloon> pickedBalloons = balloons.subList(0, 5);
+        User user = userRepository.save(userBuilder().build());
+        Pageable pageable = PageRequest.of(0, balloons.size());
+
+        for (Balloon balloon : pickedBalloons) {
+            balloonPickedRepository.save(balloonPickedBuilder(balloon, user).build());
+        }
+
+        // when
+        List<Balloon> founds = balloonRepository.findPickedByPickerIdOrderByBalloonPickedCratedAtDesc(user.getId(), pageable);
+
+        // then
+        assertThat(founds).isEqualTo(pickedBalloons.reversed());
+    }
+
     List<Balloon> balloons() {
         User creator = userRepository.save(userBuilder().build());
         YoutubeMusic youtubeMusic = youtubeMusicRepository.save(youtubeMusicBuilder().build());

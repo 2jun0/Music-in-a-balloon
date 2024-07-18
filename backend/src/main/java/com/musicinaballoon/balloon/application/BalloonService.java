@@ -62,8 +62,8 @@ public class BalloonService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BALLOON_NOT_FOUND));
     }
 
-    public List<Balloon> getNotPickedBalloonList(User user, int page) {
-        return balloonRepository.findNotPickedNotCreatedByUserOrderByCreatedAtDesc(user, PageRequest.of(page,
+    public List<Balloon> getNotPickedBalloonList(Long pickerId, int page) {
+        return balloonRepository.findNotPickedByPickerIdOrderByCreatedAtDesc(pickerId, PageRequest.of(page,
                 balloonListPageSize));
     }
 

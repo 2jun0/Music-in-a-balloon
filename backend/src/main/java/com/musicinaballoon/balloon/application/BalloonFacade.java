@@ -83,8 +83,7 @@ public class BalloonFacade {
     }
 
     public BalloonListResponse getBalloonList(Long userId, int page) {
-        User user = userService.getUser(userId);
-        List<Balloon> balloons = balloonService.getNotPickedBalloonList(user, page);
+        List<Balloon> balloons = balloonService.getNotPickedBalloonList(userId, page);
         return BalloonListResponse.from(balloons);
     }
 

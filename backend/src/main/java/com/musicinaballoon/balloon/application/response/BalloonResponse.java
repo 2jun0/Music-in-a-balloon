@@ -3,6 +3,7 @@ package com.musicinaballoon.balloon.application.response;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.music.application.response.SpotifyMusicResponse;
 import com.musicinaballoon.music.application.response.YoutubeMusicResponse;
+import com.musicinaballoon.user.application.response.UserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -10,14 +11,15 @@ import lombok.Builder;
 
 @Builder
 public record BalloonResponse(
+        @Schema(example = "1")
         Long id,
-
         @Schema(example = "Super Shy")
         String title,
         @Schema(example = "I love this song 🥰")
         String message,
         @Schema(example = "#F06292")
         String colorCode,
+        UserResponse creator,
 
         @Schema(example = "youtube")
         String uploadedStreamingMusicType,
@@ -40,6 +42,7 @@ public record BalloonResponse(
 ) {
 
     public static BalloonResponse from(Balloon balloon) {
+        UserResponse userResponse = UserResponse.from(balloon.getCreator());
         YoutubeMusicResponse youtubeMusicResponse = getYoutubeMusicResponse(balloon);
         SpotifyMusicResponse spotifyMusicResponse = getSpotifyMusicResponse(balloon);
 
@@ -48,6 +51,7 @@ public record BalloonResponse(
                 .title(balloon.getMusicTitle())
                 .message(balloon.getMessage())
                 .colorCode(balloon.getColorCode())
+                .creator(userResponse)
 
                 .uploadedStreamingMusicType(balloon.getUploadedStreamingMusicType().name())
                 .albumImageUrl(balloon.getAlbumImageUrl())

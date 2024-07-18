@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const pickedBalloonIdState = atom<number>({
-  key: 'pickedBalloonId',
+export const selectedBalloonIdState = atom<number>({
+  key: 'selectedBalloonId',
   default: 0,
 });

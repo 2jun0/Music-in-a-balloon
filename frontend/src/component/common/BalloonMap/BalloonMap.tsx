@@ -42,6 +42,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
           id: balloon.id,
           name: balloon.title,
           color: balloon.colorCode,
+          creatorId: balloon.creatorId,
           lat: normalizeLatitude(lat),
           lon: normalizeLongitude(lon),
         };

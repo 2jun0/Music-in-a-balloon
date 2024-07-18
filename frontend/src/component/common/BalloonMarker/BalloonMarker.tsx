@@ -2,10 +2,11 @@ import type { Marker as LeafletMarker } from 'leaflet';
 import { icon } from 'leaflet';
 import { useRef, useState } from 'react';
 import { Marker } from 'react-leaflet';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { usePickBalloonMutation } from '@/hook/api/usePickBalloonMutation';
-import { pickedBalloonIdState } from '@/store/balloon';
+import { selectedBalloonIdState } from '@/store/balloon';
+import { meState } from '@/store/user';
 import { createBalloonIconImage } from '@/util/balloon';
 
 import outRangedBalloonPinIconImage from '@asset/svg/outranged-balloon-pin-icon.svg?url';
@@ -14,6 +15,7 @@ interface BalloonMarkerProps {
   id: number;
   name: string;
   colorCode: string;
+  creatorId: number;
   lat: number;
   lon: number;
   isInRange: boolean;
@@ -25,6 +27,7 @@ const BalloonMarker = ({
   id,
   name,
   colorCode,
+  creatorId,
   lat,
   lon,
   isInRange,
@@ -32,25 +35,30 @@ const BalloonMarker = ({
   userLat,
   userLon,
 }: BalloonMarkerProps) => {
-  const setPickedBalloonId = useSetRecoilState(pickedBalloonIdState);
+  const setSelectedBalloonId = useSetRecoilState(selectedBalloonIdState);
   const markerRef = useRef<LeafletMarker | null>(null);
   const pickBalloonMutation = usePickBalloonMutation();
   const [isPicked, setIsPicked] = useState<boolean>(false);
+  const me = useRecoilValue(meState);
 
   if (isPicked) return null;
 
   const onClick = () => {
     if (!isInRange) return;
 
-    pickBalloonMutation.mutate(
-      { balloonId: id, data: { userLatitude: userLat, userLongitude: userLon } },
-      {
-        onSuccess: () => {
-          setIsPicked(true);
-          setPickedBalloonId(id);
+    if (creatorId === me.id) {
+      setSelectedBalloonId(id);
+    } else {
+      pickBalloonMutation.mutate(
+        { balloonId: id, data: { userLatitude: userLat, userLongitude: userLon } },
+        {
+          onSuccess: () => {
+            setIsPicked(true);
+            setSelectedBalloonId(id);
+          },
         },
-      },
-    );
+      );
+    }
   };
 
   const markerIcon = icon({

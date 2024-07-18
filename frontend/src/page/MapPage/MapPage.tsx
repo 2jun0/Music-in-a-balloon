@@ -16,7 +16,7 @@ import BalloonInfoModal from '@component/balloon/BalloonInfoModal/BalloonInfoMod
 import BalloonMap from '@component/common/BalloonMap/BalloonMap';
 import LeafletWrapper from '@component/common/LeafletWrapper/LeafletWrapper';
 
-import { pickedBalloonIdState } from '@store/balloon';
+import { selectedBalloonIdState } from '@store/balloon';
 
 const MapPage = () => {
   const {
@@ -26,15 +26,15 @@ const MapPage = () => {
   const { coordinates } = useGeolocation();
   const { isOpen: isAddModalOpen, open: openAddModal, close: closeAddModal } = useOverlay();
   const { isOpen: isInfoModalOpen, open: openInfoModal, close: closeInfoModal } = useOverlay();
-  const pickedBalloonId = useRecoilValue(pickedBalloonIdState);
-  const setPickedBalloonId = useSetRecoilState(pickedBalloonIdState);
+  const selectedBalloonId = useRecoilValue(selectedBalloonIdState);
+  const setSelectedBalloonId = useSetRecoilState(selectedBalloonIdState);
 
   useEffect(() => {
-    if (pickedBalloonId !== 0) openInfoModal();
-  }, [openInfoModal, pickedBalloonId]);
+    if (selectedBalloonId !== 0) openInfoModal();
+  }, [openInfoModal, selectedBalloonId]);
 
   const closeInfoModalProxy = () => {
-    setPickedBalloonId(0);
+    setSelectedBalloonId(0);
     closeInfoModal();
   };
 

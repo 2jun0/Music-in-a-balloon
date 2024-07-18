@@ -1,11 +1,13 @@
 import type { SpotifyMusicData, YoutubeMusicData } from './music';
 import type { ReactionKeyType } from './reaction';
+import type { UserData } from './user';
 
 export interface BalloonData {
   id: number;
   title: string;
   message: string;
   colorCode: string;
+  creator: UserData;
   uploadedStreamingMusicType: string;
   albumImageUrl: string;
   youtubeMusic: YoutubeMusicData | null;
@@ -23,6 +25,7 @@ export interface BalloonPosition {
   lat: number;
   lon: number;
   color: string;
+  creatorId: number;
 }
 
 export interface BalloonInfo {

@@ -7,18 +7,20 @@ import { PATH } from '@/constant/path';
 
 import { getMe } from '@api/user/getMe';
 
-import { isRegisteredState } from '@store/user';
+import { isRegisteredState, meState } from '@store/user';
 
 type RegisterProps = PropsWithChildren;
 
 const Register = ({ children }: RegisterProps) => {
   const setIsRegistered = useSetRecoilState(isRegisteredState);
+  const setMe = useSetRecoilState(meState);
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
     getMe()
-      .then(() => {
+      .then((me) => {
         setIsRegistered(true);
+        setMe(me);
       })
       .catch(() => {
         setIsRegistered(false);

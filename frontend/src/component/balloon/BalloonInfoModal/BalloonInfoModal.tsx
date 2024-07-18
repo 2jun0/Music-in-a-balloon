@@ -26,9 +26,7 @@ import SpotifyButton from '@component/common/SpotifyButton/SpotifyButton';
 import YTMusicButton from '@component/common/YTMusicButton/YTMusicButton';
 import YouTubeButton from '@component/common/YouTubeButton/YouTubeButton';
 
-import { Theme } from '@style/Theme';
-
-import { pickedBalloonIdState } from '@store/balloon';
+import { selectedBalloonIdState } from '@store/balloon';
 
 interface BalloonInfoModalProps {
   isOpen?: boolean;
@@ -36,7 +34,7 @@ interface BalloonInfoModalProps {
 }
 
 const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => {
-  const balloonId = useRecoilValue(pickedBalloonIdState);
+  const balloonId = useRecoilValue(selectedBalloonIdState);
   const { balloonData } = useBalloonQuery(balloonId);
   const reactBalloonMutation = useReactBalloonMutation();
   const undoReactBalloonMutation = useUndoReactBalloonMutation();
@@ -95,7 +93,12 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
         <Flex css={listenMusicContainerStyling}>
           <Text size="large">🎧 Go to listen this music 🎧</Text>
           <Flex css={linkContainerStyling}>
-            <YouTubeButton videoUrl="https://www.youtube.com/watch?v=Y25LDO6OLzQ" />
+            {balloonData.youtubeMusic ? (
+              <YouTubeButton videoUrl={balloonData.youtubeMusic.youtubeUrl} />
+            ) : (
+              // eslint-disable-next-line react/jsx-no-useless-fragment
+              <></>
+            )}
             {balloonData.youtubeMusic ? (
               <YTMusicButton musicUrl={balloonData.youtubeMusic.url} />
             ) : (

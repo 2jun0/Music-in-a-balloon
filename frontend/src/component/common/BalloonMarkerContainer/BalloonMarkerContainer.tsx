@@ -59,6 +59,7 @@ const BalloonMarkerContainer = ({
           isZoomedIn={isZoomedIn}
           name={position.name}
           colorCode={position.color}
+          creatorId={position.creatorId}
           lat={position.lat}
           lon={position.lon}
           isInRange={distanceFromCenter(position.lat, position.lon) <= MAP_PICK_REACH_LIMIT}

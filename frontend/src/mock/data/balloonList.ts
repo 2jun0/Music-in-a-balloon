@@ -6,6 +6,7 @@ const balloonListItems: BalloonListItemData[] = balloons.map((balloon) => ({
   id: balloon.id,
   colorCode: balloon.colorCode,
   title: balloon.title,
+  creatorId: balloon.creator.id,
   baseLon: balloon.baseLon,
   baseLat: balloon.baseLat,
   basedAt: balloon.basedAt,

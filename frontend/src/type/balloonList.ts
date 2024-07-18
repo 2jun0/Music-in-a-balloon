@@ -6,6 +6,7 @@ export interface BalloonListItemData {
   id: number;
   title: string;
   colorCode: string;
+  creatorId: number;
   baseLat: number;
   baseLon: number;
   basedAt: string;

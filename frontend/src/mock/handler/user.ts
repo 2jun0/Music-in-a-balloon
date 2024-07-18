@@ -1,7 +1,7 @@
 import { END_POINTS, HTTP_STATUS_CODE } from '@constant/api';
 import { HttpResponse, http } from 'msw';
 
-import { user } from '@mock/data/user';
+import { users } from '@mock/data/user';
 
 export const userHandlers = [
   http.post(`${END_POINTS.USER}`, ({ request }) => {
@@ -9,7 +9,7 @@ export const userHandlers = [
   }),
 
   http.get(`${END_POINTS.USER_ME}`, ({ request }) => {
-    return HttpResponse.json(user, { status: HTTP_STATUS_CODE.SUCCESS });
+    return HttpResponse.json(users[0], { status: HTTP_STATUS_CODE.SUCCESS });
   }),
 
   // http.get(`${END_POINTS.USER_ME}`, ({ request }) => {

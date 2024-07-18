@@ -93,7 +93,12 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
         <Flex css={listenMusicContainerStyling}>
           <Text size="large">🎧 Go to listen this music 🎧</Text>
           <Flex css={linkContainerStyling}>
-            <YouTubeButton videoUrl="https://www.youtube.com/watch?v=Y25LDO6OLzQ" />
+            {balloonData.youtubeMusic ? (
+              <YouTubeButton videoUrl={balloonData.youtubeMusic.youtubeUrl} />
+            ) : (
+              // eslint-disable-next-line react/jsx-no-useless-fragment
+              <></>
+            )}
             {balloonData.youtubeMusic ? (
               <YTMusicButton musicUrl={balloonData.youtubeMusic.url} />
             ) : (

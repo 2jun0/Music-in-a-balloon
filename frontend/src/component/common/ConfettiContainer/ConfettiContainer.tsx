@@ -1,3 +1,5 @@
+import { Theme } from '@/style/Theme';
+
 const ConfettiContainer = () => {
   return (
     <canvas
@@ -8,7 +10,7 @@ const ConfettiContainer = () => {
         height: '100%',
         top: '0',
         left: '0',
-        zIndex: '1',
+        zIndex: Theme.zIndex.overlayTop,
         pointerEvents: 'none',
       }}
     />

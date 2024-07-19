@@ -9,6 +9,8 @@ import {
 import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import Box from '@/component/Box/Box';
+
 import Flex from '@component/Flex/Flex';
 import FloatingButton from '@component/FloatingButton/FloatingButton';
 import BalloonCreateModal from '@component/balloon/BalloonCreateModal/BalloonCreateModal';
@@ -40,7 +42,7 @@ const MapPage = () => {
 
   return (
     <Flex css={containerStyling}>
-      <section css={mapContainerStyling}>
+      <Box css={mapContainerStyling}>
         <LeafletWrapper isReady={!!coordinates.lat && !!coordinates.lon}>
           <BalloonMap
             centerLat={Number(coordinates.lat)}
@@ -49,14 +51,14 @@ const MapPage = () => {
             wave={waveData}
           />
         </LeafletWrapper>
-        <FloatingButton
-          css={addButtonStyling}
-          aria-label="Fly a music balloon"
-          onClick={openAddModal}
-        />
         {isAddModalOpen && <BalloonCreateModal onClose={closeAddModal} />}
         {isInfoModalOpen && <BalloonInfoModal onClose={closeInfoModalProxy} />}
-      </section>
+      </Box>
+      <FloatingButton
+        css={addButtonStyling}
+        aria-label="Fly a music balloon"
+        onClick={openAddModal}
+      />
     </Flex>
   );
 };

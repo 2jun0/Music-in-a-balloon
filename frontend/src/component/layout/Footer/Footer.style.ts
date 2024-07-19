@@ -6,6 +6,7 @@ export const footerStyling = css({
   position: 'absolute',
   bottom: 0,
 
+  zIndex: Theme.zIndex.overlayTop,
   width: '100%',
 
   '& *': {

@@ -7,7 +7,7 @@ export const headerStyling = css({
   position: 'absolute',
   top: 0,
 
-  zIndex: Theme.zIndex.overlayMiddle,
+  zIndex: Theme.zIndex.overlayTop,
   width: '100%',
   padding: `0 ${Theme.spacer.spacing9}`,
 

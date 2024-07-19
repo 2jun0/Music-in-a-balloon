@@ -9,6 +9,8 @@ import type L from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { Circle, MapContainer, TileLayer } from 'react-leaflet';
 
+import { getCountry, getLanguage } from '@/util/language';
+
 import BalloonMarkerContainer from '@component/common/BalloonMarkerContainer/BalloonMarkerContainer';
 
 import type { BalloonPosition } from '@type/balloon';
@@ -31,6 +33,8 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
   const [positions, setPositions] = useState<BalloonPosition[] | null>();
   const { current } = useCurrentMs(100);
   const mapRef = useRef<L.Map | null>(null);
+  const language = getLanguage();
+  const country = getCountry();
 
   useEffect(() => {
     setPositions(
@@ -69,7 +73,7 @@ const BalloonMap = ({ centerLat, centerLon, balloons, wave }: BalloonMapProps) =
     >
       <TileLayer
         attribution='&copy; <a href="https://maps.google.com">GoogleMaps</a>'
-        url="http://{s}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
+        url={`http://{s}.google.com/vt/lyrs=m&hl=${language}&x={x}&y={y}&z={z}&gl=${country}`}
         subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
         maxZoom={20}
       />

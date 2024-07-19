@@ -1,14 +1,16 @@
 import { css } from '@emotion/react';
 
+import { Theme } from '@/style/Theme';
+
 export const containerStyling = css({
   position: 'relative',
 });
 
 export const mapContainerStyling = css({
-  position: 'sticky',
-  // borderRadius: '16px',
+  zIndex: Theme.zIndex.overlayMiddle,
   overflow: 'hidden',
-  flexGrow: 1,
+  width: '100%',
+  maxHeight: '100vh',
 });
 
 export const addButtonStyling = css({

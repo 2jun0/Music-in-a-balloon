@@ -49,14 +49,14 @@ const MapPage = () => {
             wave={waveData}
           />
         </LeafletWrapper>
-        <FloatingButton
-          css={addButtonStyling}
-          aria-label="Fly a music balloon"
-          onClick={openAddModal}
-        />
         {isAddModalOpen && <BalloonCreateModal onClose={closeAddModal} />}
         {isInfoModalOpen && <BalloonInfoModal onClose={closeInfoModalProxy} />}
       </section>
+      <FloatingButton
+        css={addButtonStyling}
+        aria-label="Fly a music balloon"
+        onClick={openAddModal}
+      />
     </Flex>
   );
 };

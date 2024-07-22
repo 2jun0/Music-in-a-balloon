@@ -32,6 +32,14 @@ const AppRouter = () => {
           ),
         },
         {
+          path: PATH.HISTORY,
+          element: (
+            <Suspense>
+              <Lazy.HistoryPage />
+            </Suspense>
+          ),
+        },
+        {
           path: PATH.REGISTER,
           element: (
             <Suspense>

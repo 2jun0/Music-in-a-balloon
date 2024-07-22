@@ -4,6 +4,8 @@ import type { PropsWithChildren } from 'react';
 import Flex from '@component/Flex/Flex';
 import Spinner from '@component/Spinner/Spinner';
 
+import { loadingConatinerStyling } from './LeafletWrapper.style';
+
 interface LeafletWrapperProps extends PropsWithChildren {
   isReady?: boolean;
 }
@@ -13,14 +15,7 @@ const LeafletWrapper = ({ isReady, children }: LeafletWrapperProps) => {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>{children}</>
   ) : (
-    <Flex
-      styles={{
-        width: '100%',
-        height: '100%',
-        justify: 'center',
-        align: 'center',
-      }}
-    >
+    <Flex css={loadingConatinerStyling}>
       <Spinner />
     </Flex>
   );

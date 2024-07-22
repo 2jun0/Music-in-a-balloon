@@ -7,3 +7,7 @@ export const MapPage = lazy(
 export const RegisterPage = lazy(
   () => import(/* webpackChunkName: "RegisterPage" */ '@page/RegisterPage/RegisterPage'),
 );
+
+export const HistoryPage = lazy(
+  () => import(/* webpackChunkName: "HistoryPage" */ '@page/HistoryPage/HistoryPage'),
+);

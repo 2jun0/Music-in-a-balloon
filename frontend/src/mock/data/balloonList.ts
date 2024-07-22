@@ -17,3 +17,7 @@ const balloonListItems: BalloonListItemData[] = balloons.map((balloon) => ({
 export const balloonList = {
   balloons: balloonListItems,
 };
+
+export const getBalloonPicked = (page: number) => ({
+  balloons: balloonListItems.slice(page * 100, (page + 1) * 100),
+});

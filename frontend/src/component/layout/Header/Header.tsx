@@ -2,30 +2,31 @@ import { PATH } from '@constant/path';
 import { Link } from 'react-router-dom';
 
 import Flex from '@component/Flex/Flex';
-import Text from '@component/Text/Text';
 import {
-  containerStyling,
+  centerStyling,
   headerStyling,
-  tapNavigateLogoButtonStyling,
-  titleStyling,
+  iconStyling,
+  menuContainerStyling,
 } from '@component/layout/Header/Header.style';
 
-import { Theme } from '@style/Theme';
-
+import HistoryIconImage from '@asset/svg/history-icon.svg';
 import LogoImage from '@asset/svg/logo-horizontal.svg';
 
 const Header = () => {
   return (
     <header css={headerStyling}>
-      <Flex css={containerStyling}>
-        <Link to={PATH.ROOT}>
-          <Flex style={{ gap: Theme.spacer.spacing3 }}>
-            <LogoImage css={tapNavigateLogoButtonStyling} aria-label="Logo" />
-            <Text size="large" css={titleStyling}>
-              Music in a balloon
-            </Text>
+      <Flex>
+        <Flex css={menuContainerStyling}>
+          <Link to={PATH.HISTORY}>
+            <HistoryIconImage css={iconStyling} aria-label="History" />
+          </Link>
+          <Flex css={centerStyling}>
+            <Link to={PATH.ROOT}>
+              <LogoImage css={iconStyling} aria-label="Logo" />
+            </Link>
           </Flex>
-        </Link>
+          <HistoryIconImage css={iconStyling} fill="transparent" aria-label="History" />
+        </Flex>
       </Flex>
     </header>
   );

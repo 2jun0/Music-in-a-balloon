@@ -32,6 +32,10 @@ const MapPage = () => {
   const setSelectedBalloonId = useSetRecoilState(selectedBalloonIdState);
 
   useEffect(() => {
+    setSelectedBalloonId(0);
+  }, []);
+
+  useEffect(() => {
     if (selectedBalloonId !== 0) openInfoModal();
   }, [openInfoModal, selectedBalloonId]);
 

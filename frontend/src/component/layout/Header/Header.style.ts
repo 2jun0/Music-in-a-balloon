@@ -9,35 +9,32 @@ export const headerStyling = css({
 
   zIndex: Theme.zIndex.overlayTop,
   width: '100%',
-  padding: `0 ${Theme.spacer.spacing9}`,
 
   [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
     padding: `0 ${Theme.spacer.spacing7}`,
   },
 });
 
-export const containerStyling = css({
-  width: 'fit-content',
+export const menuContainerStyling = css({
+  // width: 'fit-content',
+  width: '100%',
   justify: 'space-between',
   align: 'center',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: Theme.color.whiteOpaque,
-  borderRadius: '0 0 12px 12px',
-  padding: '5px 15px',
   boxShadow: Theme.boxShadow.shadow3,
+  padding: '10px 10px',
+  gap: '10px',
 });
 
-export const tapNavigateLogoButtonStyling = css({
-  display: 'block',
-
-  height: '32px',
-
-  // [`@media screen and (max-width: ${SMALL_MAX_WIDTH_PX})`]: {
-  //   height: `calc(${HEADER_HEIGHT_SMALL_PX} - 2* ${Theme.spacer.spacing2})`,
-  // },
-
+export const iconStyling = css({
   cursor: 'pointer',
 });
 
-export const titleStyling = css({ color: Theme.color.pink300, fontWeight: 550 });
+export const centerStyling = css({
+  flexGrow: 1,
+  align: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+});

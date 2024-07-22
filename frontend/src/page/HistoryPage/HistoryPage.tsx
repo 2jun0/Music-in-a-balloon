@@ -29,6 +29,10 @@ const HistoryPage = () => {
   const [balloons, setBalloons] = useState<BalloonListItemData[]>([]);
   const [lastPage, setLastPage] = useState<number>(0);
 
+  useEffect(() => {
+    setSelectedBalloonId(0);
+  }, []);
+
   const openBalloon = (balloonId: number) => {
     setSelectedBalloonId(balloonId);
     openInfoModal();

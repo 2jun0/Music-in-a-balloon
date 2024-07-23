@@ -9,6 +9,7 @@ import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonReaction;
 import com.musicinaballoon.music.application.MusicService;
 import com.musicinaballoon.music.domain.StreamingMusic;
+import com.musicinaballoon.notification.application.ReactionNotificationFacade;
 import com.musicinaballoon.user.application.UserService;
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.wave.application.WaveService;
@@ -30,6 +31,7 @@ public class BalloonFacade {
     private final MusicService musicService;
     private final UserService userService;
     private final WaveService waveService;
+    private final ReactionNotificationFacade reactionNotificationFacade;
 
     public BalloonResponse getBalloon(Long balloonId) {
         Balloon balloon = balloonService.getBalloon(balloonId);
@@ -49,16 +51,24 @@ public class BalloonFacade {
     }
 
     public void reactBalloon(Long balloonId, ReactBalloonRequest request, Long userId) {
+        User user = userService.getUser(userId);
+
         if (balloonReactionService.existsBalloonReaction(balloonId, userId)) {
             BalloonReaction balloonReaction = balloonReactionService.getBalloonReaction(balloonId, userId);
             balloonReaction.setType(request.balloonReactionType());
+            notifyReaction(user, balloonReaction);
         } else {
             balloonPickService.validatePicked(balloonId, userId);
             Balloon balloon = balloonService.getBalloon(balloonId);
-            User user = userService.getUser(userId);
 
-            balloonReactionService.createBalloonReaction(balloon, user, request.balloonReactionType());
+            BalloonReaction balloonReaction = balloonReactionService.createBalloonReaction(balloon, user,
+                    request.balloonReactionType());
+            notifyReaction(user, balloonReaction);
         }
+    }
+
+    private void notifyReaction(User receiver, BalloonReaction balloonReaction) {
+        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
     }
 
     public void deleteBalloonReaction(Long balloonId, Long userId) {

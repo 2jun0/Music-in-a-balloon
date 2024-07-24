@@ -50,16 +50,19 @@ public class ReactionNotificationFacade {
 
     public SseEmitter subscribe(Long userId, String lastEventId) {
         userService.validateUserExisted(userId);
-        ZonedDateTime lastReactionNotificationCreatedAt = parseLastReactionNotificationCreatedAt(lastEventId);
 
         SseEmitter sseEmitter = sseEmitterService.createSseEmitter(userId);
         sendDummyEvent(sseEmitter);
 
-        List<ReactionNotification> lostNotifications = reactionNotificationService.getLostNotifications(userId,
-                lastReactionNotificationCreatedAt);
+        if (!lastEventId.isEmpty()) {
+            ZonedDateTime lastReactionNotificationCreatedAt = parseLastReactionNotificationCreatedAt(lastEventId);
 
-        for (ReactionNotification lostNotification : lostNotifications) {
-            sendEvent(sseEmitter, lostNotification);
+            List<ReactionNotification> lostNotifications = reactionNotificationService.getLostNotifications(userId,
+                    lastReactionNotificationCreatedAt);
+
+            for (ReactionNotification lostNotification : lostNotifications) {
+                sendEvent(sseEmitter, lostNotification);
+            }
         }
 
         return sseEmitter;

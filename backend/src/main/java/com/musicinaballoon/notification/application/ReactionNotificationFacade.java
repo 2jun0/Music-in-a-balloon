@@ -68,11 +68,12 @@ public class ReactionNotificationFacade {
         return sseEmitter;
     }
 
-    public void sendNotification(User receiver, BalloonReaction balloonReaction) {
+    public void sendNotification(Long receiverId, BalloonReaction balloonReaction) {
+        User receiver = userService.getUser(receiverId);
         ReactionNotification reactionNotification = reactionNotificationService.createReactionNotification(receiver,
                 balloonReaction);
 
-        if (sseEmitterService.existsEmitter(receiver.getId())) {
+        if (sseEmitterService.existsEmitter(receiverId)) {
             SseEmitter sseEmitter = sseEmitterService.getSseEmitter(receiver.getId());
             sendEvent(sseEmitter, reactionNotification);
         }

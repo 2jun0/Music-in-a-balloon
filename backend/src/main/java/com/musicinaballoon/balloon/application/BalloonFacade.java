@@ -51,24 +51,25 @@ public class BalloonFacade {
     }
 
     public void reactBalloon(Long balloonId, ReactBalloonRequest request, Long userId) {
-        User user = userService.getUser(userId);
-
         if (balloonReactionService.existsBalloonReaction(balloonId, userId)) {
             BalloonReaction balloonReaction = balloonReactionService.getBalloonReaction(balloonId, userId);
             balloonReaction.setType(request.balloonReactionType());
-            notifyReaction(user, balloonReaction);
+
+            notifyReaction(userId, balloonReaction);
         } else {
             balloonPickService.validatePicked(balloonId, userId);
             Balloon balloon = balloonService.getBalloon(balloonId);
 
+            User user = userService.getUser(userId);
             BalloonReaction balloonReaction = balloonReactionService.createBalloonReaction(balloon, user,
                     request.balloonReactionType());
-            notifyReaction(user, balloonReaction);
+
+            notifyReaction(userId, balloonReaction);
         }
     }
 
-    private void notifyReaction(User receiver, BalloonReaction balloonReaction) {
-        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
+    private void notifyReaction(Long receiverId, BalloonReaction balloonReaction) {
+        reactionNotificationFacade.sendNotification(receiverId, balloonReaction);
     }
 
     public void deleteBalloonReaction(Long balloonId, Long userId) {

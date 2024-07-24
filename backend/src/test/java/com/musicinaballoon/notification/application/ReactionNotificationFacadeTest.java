@@ -139,6 +139,8 @@ class ReactionNotificationFacadeTest {
     void sendNotification_SseEmitterSubscribed_SendNotificationEvent() throws IOException {
         // given
         User receiver = receiver();
+        given(userService.getUser(anyLong())).willReturn(receiver);
+
         BalloonReaction balloonReaction = balloonReaction(receiver);
         ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
 
@@ -149,7 +151,7 @@ class ReactionNotificationFacadeTest {
                 reactionNotification);
 
         // when
-        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
+        reactionNotificationFacade.sendNotification(1L, balloonReaction);
 
         // then
         ArgumentCaptor<SseEventBuilder> argumentCaptor = ArgumentCaptor.forClass(SseEventBuilder.class);
@@ -168,11 +170,12 @@ class ReactionNotificationFacadeTest {
         BalloonReaction balloonReaction = balloonReaction(receiver);
         ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
 
+        given(userService.getUser(anyLong())).willReturn(receiver);
         given(sseEmitterService.existsEmitter(anyLong())).willReturn(false);
         given(reactionNotificationService.createReactionNotification(any(User.class), any(BalloonReaction.class))).willReturn(
                 reactionNotification);
 
         // when & then
-        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
+        reactionNotificationFacade.sendNotification(1L, balloonReaction);
     }
 }

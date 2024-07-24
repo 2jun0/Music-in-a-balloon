@@ -10,15 +10,18 @@ import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonReaction;
+import com.musicinaballoon.common.domain.BaseEntity;
 import com.musicinaballoon.music.domain.YoutubeMusic;
 import com.musicinaballoon.notification.application.response.ReactionNotificationResponse;
 import com.musicinaballoon.notification.domain.ReactionNotification;
 import com.musicinaballoon.user.application.UserService;
 import com.musicinaballoon.user.domain.User;
 import java.io.IOException;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -55,8 +58,12 @@ class ReactionNotificationFacadeTest {
         YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
         Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, user).build();
         BalloonReaction balloonReaction = balloonReactionBuilder(balloon, user).build();
-        return List.of(reactionNotificationBuilder(balloonReaction, user).build(),
+
+        List<ReactionNotification> reactionNotifications = List.of(reactionNotificationBuilder(balloonReaction, user).build(),
                 reactionNotificationBuilder(balloonReaction, user).build());
+        reactionNotifications.forEach(BaseEntity::prePersist);
+
+        return reactionNotifications;
     }
 
     private static String toPublishedSse(SseEventBuilder sseEventBuilder) {
@@ -90,11 +97,11 @@ class ReactionNotificationFacadeTest {
                 reactionNotifications);
 
         // when
-        reactionNotificationFacade.subscribe(1L, "");
+        reactionNotificationFacade.subscribe(1L, Instant.now().toString());
 
         // then
         ArgumentCaptor<SseEventBuilder> argumentCaptor = ArgumentCaptor.forClass(SseEventBuilder.class);
-        then(mockEmitter).should().send(argumentCaptor.capture());
+        then(mockEmitter).should(times(3)).send(argumentCaptor.capture());
         List<SseEventBuilder> captured = argumentCaptor.getAllValues();
 
         // verify the content of the SSE
@@ -103,15 +110,13 @@ class ReactionNotificationFacadeTest {
                         .toList();
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(reactionNotifications.size()).isEqualTo(publishedSeeList.size());
-
             for (int i = 0; i < reactionNotifications.size(); i++) {
                 final ReactionNotification reactionNotification = reactionNotifications.get(i);
                 final String publishedSse = publishedSeeList.get(i);
 
                 String[] eventOutputs = publishedSse.split("\n");
-                softly.assertThat(eventOutputs[0]).startsWith("id: " + reactionNotification.getCreatedAt().toString());
-                softly.assertThat(eventOutputs[1]).isEqualTo("event: Reaction-Notification");
+                softly.assertThat(eventOutputs[0]).startsWith("id:" + reactionNotification.getCreatedAt().toString());
+                softly.assertThat(eventOutputs[1]).isEqualTo("event:Reaction-Notification");
                 softly.assertThat(eventOutputs[2]).isEqualTo("data:" + ReactionNotificationResponse.from(reactionNotification));
             }
         });

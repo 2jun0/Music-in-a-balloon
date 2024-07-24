@@ -9,7 +9,6 @@ import com.musicinaballoon.IntegrationTest;
 import com.musicinaballoon.balloon.domain.Balloon;
 import com.musicinaballoon.balloon.domain.BalloonPicked;
 import com.musicinaballoon.balloon.domain.BalloonReaction;
-import com.musicinaballoon.balloon.domain.BalloonReactionType;
 import com.musicinaballoon.balloon.repository.BalloonPickedRepository;
 import com.musicinaballoon.balloon.repository.BalloonReactionRepository;
 import com.musicinaballoon.balloon.repository.BalloonRepository;
@@ -44,6 +43,6 @@ abstract class BalloonControllerTest extends IntegrationTest {
     }
 
     protected BalloonReaction createBalloonReaction(Balloon balloon) {
-        return balloonReactionRepository.save(balloonReactionBuilder(balloon, defaultUser, BalloonReactionType.BALLOON).build());
+        return balloonReactionRepository.save(balloonReactionBuilder(balloon, defaultUser).build());
     }
 }

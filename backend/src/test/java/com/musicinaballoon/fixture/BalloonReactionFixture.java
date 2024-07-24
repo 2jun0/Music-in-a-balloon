@@ -8,10 +8,12 @@ import com.musicinaballoon.user.domain.User;
 
 public final class BalloonReactionFixture {
 
-    public static BalloonReactionBuilder balloonReactionBuilder(Balloon balloon, User user, BalloonReactionType type) {
+    public final static BalloonReactionType DEFAULT_BALLOON_REACTION_TYPE = BalloonReactionType.BALLOON;
+
+    public static BalloonReactionBuilder balloonReactionBuilder(Balloon balloon, User user) {
         return BalloonReaction.builder()
                 .balloon(balloon)
                 .user(user)
-                .type(type);
+                .type(DEFAULT_BALLOON_REACTION_TYPE);
     }
 }

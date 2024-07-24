@@ -54,10 +54,8 @@ class ReactionNotificationFacadeTest {
     UserService userService;
 
     private static List<ReactionNotification> reactionNotifications() {
-        User user = userBuilder().build();
-        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
-        Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, user).build();
-        BalloonReaction balloonReaction = balloonReactionBuilder(balloon, user).build();
+        User user = receiver();
+        BalloonReaction balloonReaction = balloonReaction(user);
 
         List<ReactionNotification> reactionNotifications = List.of(reactionNotificationBuilder(balloonReaction, user).build(),
                 reactionNotificationBuilder(balloonReaction, user).build());
@@ -66,12 +64,34 @@ class ReactionNotificationFacadeTest {
         return reactionNotifications;
     }
 
+    private static BalloonReaction balloonReaction(User user) {
+        YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
+        Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, user).build();
+        BalloonReaction balloonReaction = balloonReactionBuilder(balloon, user).build();
+        return balloonReaction;
+    }
+
+    private static User receiver() {
+        User user = userBuilder().build();
+        return user;
+    }
+
     private static String toPublishedSse(SseEventBuilder sseEventBuilder) {
         Set<DataWithMediaType> properties = sseEventBuilder.build();
         return properties.stream()
                 .map(DataWithMediaType::getData)
                 .map(Object::toString)
                 .collect(Collectors.joining());
+    }
+
+    private static void verifySseContent(SoftAssertions softly, SseEventBuilder sseEventBuilder,
+            ReactionNotification reactionNotification) {
+        String publishedSse = toPublishedSse(sseEventBuilder);
+        String[] eventOutputs = publishedSse.split("\n");
+
+        softly.assertThat(eventOutputs[0]).startsWith("id:" + reactionNotification.getCreatedAt().toString());
+        softly.assertThat(eventOutputs[1]).isEqualTo("event:Reaction-Notification");
+        softly.assertThat(eventOutputs[2]).isEqualTo("data:" + ReactionNotificationResponse.from(reactionNotification));
     }
 
     @Test
@@ -104,26 +124,55 @@ class ReactionNotificationFacadeTest {
         then(mockEmitter).should(times(3)).send(argumentCaptor.capture());
         List<SseEventBuilder> captured = argumentCaptor.getAllValues();
 
-        // verify the content of the SSE
-        List<String> publishedSeeList =
-                captured.subList(1, captured.size()).stream().map(ReactionNotificationFacadeTest::toPublishedSse)
-                        .toList();
-
         SoftAssertions.assertSoftly(softly -> {
             for (int i = 0; i < reactionNotifications.size(); i++) {
-                final ReactionNotification reactionNotification = reactionNotifications.get(i);
-                final String publishedSse = publishedSeeList.get(i);
+                ReactionNotification reactionNotification = reactionNotifications.get(i);
+                SseEventBuilder sseEventBuilder = captured.get(i + 1);
 
-                String[] eventOutputs = publishedSse.split("\n");
-                softly.assertThat(eventOutputs[0]).startsWith("id:" + reactionNotification.getCreatedAt().toString());
-                softly.assertThat(eventOutputs[1]).isEqualTo("event:Reaction-Notification");
-                softly.assertThat(eventOutputs[2]).isEqualTo("data:" + ReactionNotificationResponse.from(reactionNotification));
+                verifySseContent(softly, sseEventBuilder, reactionNotification);
             }
         });
     }
 
     @Test
-    void sendNotification() {
-        // TODO
+    @DisplayName("sendNotification 은 SseEmitter 가 구독되었을때 알림 이벤트를 보낸다.")
+    void sendNotification_SseEmitterSubscribed_SendNotificationEvent() throws IOException {
+        // given
+        User receiver = receiver();
+        BalloonReaction balloonReaction = balloonReaction(receiver);
+        ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
+
+        SseEmitter mockedEmitter = mock(SseEmitter.class);
+        given(sseEmitterService.existsEmitter(anyLong())).willReturn(true);
+        given(sseEmitterService.getSseEmitter(anyLong())).willReturn(mockedEmitter);
+        given(reactionNotificationService.createReactionNotification(any(User.class), any(BalloonReaction.class))).willReturn(
+                reactionNotification);
+
+        // when
+        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
+
+        // then
+        ArgumentCaptor<SseEventBuilder> argumentCaptor = ArgumentCaptor.forClass(SseEventBuilder.class);
+        then(mockedEmitter).should().send(argumentCaptor.capture());
+
+        SoftAssertions.assertSoftly(softly -> {
+            verifySseContent(softly, argumentCaptor.getValue(), reactionNotification);
+        });
+    }
+
+    @Test
+    @DisplayName("sendNotification 은 SseEmitter 가 구독되지 않았을 때 알림 이벤트를 보내지 않는다.")
+    void sendNotification_SseEmitterNotSubscribed_SendNotificationEvent() {
+        // given
+        User receiver = receiver();
+        BalloonReaction balloonReaction = balloonReaction(receiver);
+        ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
+
+        given(sseEmitterService.existsEmitter(anyLong())).willReturn(false);
+        given(reactionNotificationService.createReactionNotification(any(User.class), any(BalloonReaction.class))).willReturn(
+                reactionNotification);
+
+        // when & then
+        reactionNotificationFacade.sendNotification(receiver, balloonReaction);
     }
 }

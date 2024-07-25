@@ -76,7 +76,7 @@ public class ReactionNotificationFacade {
                 balloonReaction);
 
         if (sseEmitterService.existsEmitter(receiverId)) {
-            SseEmitter sseEmitter = sseEmitterService.getSseEmitter(receiver.getId());
+            SseEmitter sseEmitter = sseEmitterService.getSseEmitter(receiverId);
             sendEvent(sseEmitter, reactionNotification);
         }
     }

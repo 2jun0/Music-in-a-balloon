@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public void validateUserExisted(Long userId) {
-        if (userRepository.existsById(userId)) {
+        if (!userRepository.existsById(userId)) {
             throw new NotFoundException(ErrorCode.USER_NOT_FOUND);
         }
     }

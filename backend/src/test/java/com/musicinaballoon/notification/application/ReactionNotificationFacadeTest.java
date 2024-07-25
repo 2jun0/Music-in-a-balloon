@@ -143,6 +143,7 @@ class ReactionNotificationFacadeTest {
 
         BalloonReaction balloonReaction = balloonReaction(receiver);
         ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
+        reactionNotification.prePersist();
 
         SseEmitter mockedEmitter = mock(SseEmitter.class);
         given(sseEmitterService.existsEmitter(anyLong())).willReturn(true);

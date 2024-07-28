@@ -1,4 +1,6 @@
-const color = {
+import { createTheme } from '@mui/material';
+
+export const color = {
   transparent: 'transparent',
   /** heading text */
   black: 'black',
@@ -51,7 +53,7 @@ const color = {
   green: '#2FC56E',
 } as const;
 
-const text = {
+export const text = {
   large: {
     fontSize: '18px',
     lineHeight: '28px',
@@ -71,7 +73,7 @@ const text = {
   },
 } as const;
 
-const heading = {
+export const heading = {
   xxLarge: {
     fontSize: '40px',
     lineHeight: '52px',
@@ -99,7 +101,7 @@ const heading = {
   },
 } as const;
 
-const spacer = {
+export const spacer = {
   spacing0: '0',
   spacing1: '4px',
   spacing2: '8px',
@@ -112,14 +114,14 @@ const spacer = {
   spacing9: '128px',
 } as const;
 
-const borderRadius = {
+export const borderRadius = {
   small: '4px',
   /** default border radius */
   medium: '8px',
   large: '16px',
 } as const;
 
-const boxShadow = {
+export const boxShadow = {
   shadow1: '0px 0px 0px 1px rgba(0, 0, 0, 0.05)',
   shadow2: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
   shadow3: '0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.10)',
@@ -132,7 +134,7 @@ const boxShadow = {
   shadow10: '0px 2px 4px 0px rgba(0, 0, 0, 0.06) inset',
 } as const;
 
-const zIndex = {
+export const zIndex = {
   overlayPeak: 4,
   overlayTop: 3,
   overlayMiddle: 2,
@@ -148,3 +150,11 @@ export const Theme = {
   boxShadow,
   zIndex,
 };
+
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: color.pink300,
+    },
+  },
+});

@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     // 500
     INTERNAL_SERVER_ERROR("Internal server has a problem"),
+    FAIL_TO_MAP_REACTION_NOTIFICATION("Fail to map reaction notification"),
 
     // 503
     YOUTUBE_API_SERVICE_UNAVAILABLE("The YouTube API service is unavailable"),

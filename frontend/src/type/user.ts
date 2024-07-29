@@ -4,4 +4,5 @@ export interface RegisterData {
 
 export interface UserData {
   id: number;
+  name: string;
 }

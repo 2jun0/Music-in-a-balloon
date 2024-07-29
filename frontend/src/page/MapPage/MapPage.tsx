@@ -1,6 +1,8 @@
 import { useMapPageQueries } from '@hook/api/useMapPageQueries';
 import useGeolocation from '@hook/common/useGeolocation';
 import { useOverlay } from '@hook/common/useOverlay';
+import AddIcon from '@mui/icons-material/Add';
+import { Fab } from '@mui/material';
 import {
   addButtonStyling,
   containerStyling,
@@ -12,7 +14,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Box from '@/component/Box/Box';
 
 import Flex from '@component/Flex/Flex';
-import FloatingButton from '@component/FloatingButton/FloatingButton';
 import BalloonCreateModal from '@component/balloon/BalloonCreateModal/BalloonCreateModal';
 import BalloonInfoModal from '@component/balloon/BalloonInfoModal/BalloonInfoModal';
 import BalloonMap from '@component/common/BalloonMap/BalloonMap';
@@ -58,11 +59,14 @@ const MapPage = () => {
         {isAddModalOpen && <BalloonCreateModal onClose={closeAddModal} />}
         {isInfoModalOpen && <BalloonInfoModal onClose={closeInfoModalProxy} />}
       </Box>
-      <FloatingButton
+      <Fab
+        color="primary"
         css={addButtonStyling}
         aria-label="Fly a music balloon"
         onClick={openAddModal}
-      />
+      >
+        <AddIcon />
+      </Fab>
     </Flex>
   );
 };

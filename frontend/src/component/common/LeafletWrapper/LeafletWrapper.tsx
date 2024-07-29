@@ -1,8 +1,8 @@
+import { CircularProgress } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 import type { PropsWithChildren } from 'react';
 
-import Flex from '@component/Flex/Flex';
-import Spinner from '@component/Spinner/Spinner';
+import Flex from '@/component/Flex/Flex';
 
 import { loadingConatinerStyling } from './LeafletWrapper.style';
 
@@ -16,7 +16,7 @@ const LeafletWrapper = ({ isReady, children }: LeafletWrapperProps) => {
     <>{children}</>
   ) : (
     <Flex css={loadingConatinerStyling}>
-      <Spinner />
+      <CircularProgress sx={{ margin: 'auto auto' }} />
     </Flex>
   );
 };

@@ -1,15 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { getBalloonPicked } from '@/api/balloon/getBalloonPicked';
-import Box from '@/component/Box/Box';
 import Flex from '@/component/Flex/Flex';
 import Heading from '@/component/Heading/Heading';
 import Text from '@/component/Text/Text';
 import BalloonInfoModal from '@/component/balloon/BalloonInfoModal/BalloonInfoModal';
 import MenuItem from '@/component/common/MenuItem/MenuItem';
 import MenuList from '@/component/common/MenuList/MenuList';
-import { useBalloonPickedQuery } from '@/hook/api/useBalloonPickedQuery';
 import { useOverlay } from '@/hook/common/useOverlay';
 import { selectedBalloonIdState } from '@/store/balloon';
 import type { BalloonListItemData } from '@/type/balloonList';

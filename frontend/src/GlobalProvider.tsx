@@ -1,16 +1,14 @@
-import { Global, ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import type { PropsWithChildren } from 'react';
 
 import ToastProvider from '@component/ToastProvider/ToastProvider';
 
-import { GlobalStyle } from '@style/GlobalStyle';
-import { Theme } from '@style/Theme';
+import { theme } from './style/Theme';
 
 type GlobalProviderProps = PropsWithChildren;
 
 const GlobalProvider = ({ children }: GlobalProviderProps) => (
-  <ThemeProvider theme={Theme}>
-    <Global styles={GlobalStyle} />
+  <ThemeProvider theme={theme}>
     {children}
     <ToastProvider />
   </ThemeProvider>

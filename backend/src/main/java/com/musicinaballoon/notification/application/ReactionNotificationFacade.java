@@ -39,12 +39,15 @@ public class ReactionNotificationFacade {
         }
     }
 
-    private static void sendEvent(SseEmitter sseEmitter, ReactionNotification reactionNotification) {
+    private void sendEvent(SseEmitter sseEmitter, ReactionNotification reactionNotification) {
+        ReactionNotificationResponse notificationResponse = ReactionNotificationResponse.from(reactionNotification);
+        String data = NotificationMapper.convertReactionNotificationResponseToString(notificationResponse);
+
         try {
             sseEmitter.send(SseEmitter.event()
                     .id(makeEventId(reactionNotification))
                     .name("Reaction-Notification")
-                    .data(ReactionNotificationResponse.from(reactionNotification)));
+                    .data(data));
         } catch (IOException e) {
             sseEmitter.complete();
         }

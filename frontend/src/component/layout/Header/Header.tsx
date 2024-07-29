@@ -1,34 +1,27 @@
 import { PATH } from '@constant/path';
-import { Link } from 'react-router-dom';
+import HistoryIcon from '@mui/icons-material/History';
+import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material';
 
-import Flex from '@component/Flex/Flex';
-import {
-  centerStyling,
-  headerStyling,
-  iconStyling,
-  menuContainerStyling,
-} from '@component/layout/Header/Header.style';
+import { headerStyling, toolbarStyling } from '@component/layout/Header/Header.style';
 
-import HistoryIconImage from '@asset/svg/history-icon.svg';
 import LogoImage from '@asset/svg/logo-horizontal.svg';
+
+import Notifications from './Notifications/Notifications';
 
 const Header = () => {
   return (
-    <header css={headerStyling}>
-      <Flex>
-        <Flex css={menuContainerStyling}>
-          <Link to={PATH.HISTORY}>
-            <HistoryIconImage css={iconStyling} aria-label="History" />
-          </Link>
-          <Flex css={centerStyling}>
-            <Link to={PATH.ROOT}>
-              <LogoImage css={iconStyling} aria-label="Logo" />
-            </Link>
-          </Flex>
-          <HistoryIconImage css={iconStyling} fill="transparent" aria-label="History" />
-        </Flex>
-      </Flex>
-    </header>
+    <AppBar position="static" css={headerStyling}>
+      <Toolbar css={toolbarStyling} sx={{ minHeight: 56, height: 56 }}>
+        <Button aria-label="Logo" href={PATH.ROOT}>
+          <LogoImage aria-label="Logo" />
+        </Button>
+        <Box sx={{ marginLeft: 'auto' }} />
+        <IconButton aria-label="History" href={PATH.HISTORY}>
+          <HistoryIcon />
+        </IconButton>
+        <Notifications />
+      </Toolbar>
+    </AppBar>
   );
 };
 

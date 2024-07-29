@@ -5,6 +5,7 @@ import static com.musicinaballoon.fixture.BalloonReactionFixture.balloonReaction
 import static com.musicinaballoon.fixture.MusicFixture.youtubeMusicBuilder;
 import static com.musicinaballoon.fixture.ReactionNotificationFixture.reactionNotificationBuilder;
 import static com.musicinaballoon.fixture.UserFixture.userBuilder;
+import static com.musicinaballoon.notification.application.NotificationMapper.convertReactionNotificationResponseToString;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -88,10 +89,11 @@ class ReactionNotificationFacadeTest {
             ReactionNotification reactionNotification) {
         String publishedSse = toPublishedSse(sseEventBuilder);
         String[] eventOutputs = publishedSse.split("\n");
+        ReactionNotificationResponse notificationResponse = ReactionNotificationResponse.from(reactionNotification);
 
         softly.assertThat(eventOutputs[0]).startsWith("id:" + reactionNotification.getCreatedAt().toString());
         softly.assertThat(eventOutputs[1]).isEqualTo("event:Reaction-Notification");
-        softly.assertThat(eventOutputs[2]).isEqualTo("data:" + ReactionNotificationResponse.from(reactionNotification));
+        softly.assertThat(eventOutputs[2]).isEqualTo("data:" + convertReactionNotificationResponseToString(notificationResponse));
     }
 
     @Test
@@ -106,7 +108,7 @@ class ReactionNotificationFacadeTest {
     }
 
     @Test
-    @DisplayName("subscribe 는 lastEventId 를 밭으면 지난 리엑션 알림 이벤트들을 전송한다.")
+    @DisplayName("subscribe 는 lastEventId 를 받으면 지난 리엑션 알림 이벤트들을 전송한다.")
     void subscribe_InputsLastEventId_SendLostReactionNotificationEvents() throws IOException {
         // given
         SseEmitter mockEmitter = mock(SseEmitter.class);

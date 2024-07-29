@@ -11,5 +11,6 @@ export const meState = atom<UserData>({
   key: 'me',
   default: {
     id: 0,
+    name: '',
   },
 });

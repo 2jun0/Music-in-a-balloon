@@ -20,6 +20,7 @@ export const END_POINTS = {
   USER: '/user',
   USER_ME: '/user/me',
   GEOLOCATION: '/geolocation',
+  REACTION_NOTIFICATION_SUBSCRIBE: '/notification/reaction/subscribe',
 } as const;
 
 export const NETWORK = {

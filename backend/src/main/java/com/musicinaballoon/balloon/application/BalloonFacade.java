@@ -55,7 +55,7 @@ public class BalloonFacade {
             BalloonReaction balloonReaction = balloonReactionService.getBalloonReaction(balloonId, userId);
             balloonReaction.setType(request.balloonReactionType());
 
-            notifyReaction(userId, balloonReaction);
+            notifyReaction(balloonReaction.getBalloon().getCreator().getId(), balloonReaction);
         } else {
             balloonPickService.validatePicked(balloonId, userId);
             Balloon balloon = balloonService.getBalloon(balloonId);
@@ -64,7 +64,7 @@ public class BalloonFacade {
             BalloonReaction balloonReaction = balloonReactionService.createBalloonReaction(balloon, user,
                     request.balloonReactionType());
 
-            notifyReaction(userId, balloonReaction);
+            notifyReaction(balloon.getCreator().getId(), balloonReaction);
         }
     }
 

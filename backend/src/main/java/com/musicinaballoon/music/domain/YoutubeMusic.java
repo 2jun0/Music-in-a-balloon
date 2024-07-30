@@ -30,7 +30,8 @@ public class YoutubeMusic extends StreamingMusic {
     private String thumbnailUrl;
 
     @Builder
-    public YoutubeMusic(@NonNull String youtubeId, @NonNull String title, String thumbnailUrl) {
+    public YoutubeMusic(Long id, @NonNull String youtubeId, @NonNull String title, String thumbnailUrl) {
+        this.id = id;
         this.youtubeId = youtubeId;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;

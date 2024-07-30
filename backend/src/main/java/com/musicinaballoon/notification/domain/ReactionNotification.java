@@ -36,7 +36,8 @@ public class ReactionNotification extends BaseEntity {
     private User receiver;
 
     @Builder
-    public ReactionNotification(@NonNull BalloonReaction balloonReaction, @NonNull User receiver) {
+    public ReactionNotification(Long id, @NonNull BalloonReaction balloonReaction, @NonNull User receiver) {
+        this.id = id;
         this.balloonReaction = balloonReaction;
         this.receiver = receiver;
     }

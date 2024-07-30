@@ -33,7 +33,8 @@ public class BalloonPicked extends BaseEntity {
     private User picker;
 
     @Builder
-    public BalloonPicked(@NonNull Balloon balloon, @NonNull User picker) {
+    public BalloonPicked(Long id, @NonNull Balloon balloon, @NonNull User picker) {
+        this.id = id;
         this.balloon = balloon;
         this.picker = picker;
     }

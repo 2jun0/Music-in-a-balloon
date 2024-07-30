@@ -120,7 +120,7 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
         <Flex css={bottomContainerStyling}>
           <ReactionSelector selectedKey={selectedReactionKey} onSelect={onReact} />
           <Text css={creatorNameStyling} size="small">
-            From. username
+            From. {balloonData.creator.name}
           </Text>
         </Flex>
       </Flex>

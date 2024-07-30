@@ -44,6 +44,10 @@ const BalloonInfoModal = ({ isOpen = true, onClose }: BalloonInfoModalProps) => 
   const jsConfetti = new JSConfetti({ canvas: confettiCanvas as unknown as HTMLCanvasElement });
 
   const onReact = (reactionKey: ReactionKeyType | null) => {
+    if (selectedReactionKey === reactionKey) {
+      return;
+    }
+
     if (reactionKey) {
       reactBalloonMutation.mutate(
         { balloonId, data: { balloonReactionType: reactionKey } },

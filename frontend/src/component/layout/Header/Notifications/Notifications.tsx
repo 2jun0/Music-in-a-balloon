@@ -28,6 +28,10 @@ const Notifications = () => {
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (reactionNofitications.length === 0) {
+      return;
+    }
+
     setAnchorEl(event.currentTarget);
   };
 

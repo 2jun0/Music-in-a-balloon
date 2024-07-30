@@ -54,27 +54,21 @@ class ReactionNotificationFacadeTest {
     @Mock
     UserService userService;
 
-    private static List<ReactionNotification> reactionNotifications() {
-        User user = receiver();
-        BalloonReaction balloonReaction = balloonReaction(user);
+    private static List<ReactionNotification> reactionNotifications(User receiver, User responder) {
+        BalloonReaction balloonReaction = balloonReaction(receiver, responder);
 
-        List<ReactionNotification> reactionNotifications = List.of(reactionNotificationBuilder(balloonReaction, user).build(),
-                reactionNotificationBuilder(balloonReaction, user).build());
+        List<ReactionNotification> reactionNotifications = List.of(reactionNotificationBuilder(balloonReaction, receiver).build(),
+                reactionNotificationBuilder(balloonReaction, receiver).build());
         reactionNotifications.forEach(BaseEntity::prePersist);
 
         return reactionNotifications;
     }
 
-    private static BalloonReaction balloonReaction(User user) {
+    private static BalloonReaction balloonReaction(User receiver, User responder) {
         YoutubeMusic youtubeMusic = youtubeMusicBuilder().build();
-        Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, user).build();
-        BalloonReaction balloonReaction = balloonReactionBuilder(balloon, user).build();
+        Balloon balloon = youtubeMusicBalloonBuilder(youtubeMusic, receiver).build();
+        BalloonReaction balloonReaction = balloonReactionBuilder(balloon, responder).build();
         return balloonReaction;
-    }
-
-    private static User receiver() {
-        User user = userBuilder().build();
-        return user;
     }
 
     private static String toPublishedSse(SseEventBuilder sseEventBuilder) {
@@ -112,7 +106,9 @@ class ReactionNotificationFacadeTest {
     void subscribe_InputsLastEventId_SendLostReactionNotificationEvents() throws IOException {
         // given
         SseEmitter mockEmitter = mock(SseEmitter.class);
-        List<ReactionNotification> reactionNotifications = reactionNotifications();
+        User receiver = userBuilder().build();
+        User responder = userBuilder().build();
+        List<ReactionNotification> reactionNotifications = reactionNotifications(receiver, responder);
 
         given(sseEmitterService.createSseEmitter(anyLong())).willReturn(mockEmitter);
         given(reactionNotificationService.getLostNotifications(anyLong(), any(ZonedDateTime.class))).willReturn(
@@ -140,10 +136,11 @@ class ReactionNotificationFacadeTest {
     @DisplayName("sendNotification 은 SseEmitter 가 구독되었을때 알림 이벤트를 보낸다.")
     void sendNotification_SseEmitterSubscribed_SendNotificationEvent() throws IOException {
         // given
-        User receiver = receiver();
+        User receiver = userBuilder().build();
+        User responder = userBuilder().build();
         given(userService.getUser(anyLong())).willReturn(receiver);
 
-        BalloonReaction balloonReaction = balloonReaction(receiver);
+        BalloonReaction balloonReaction = balloonReaction(receiver, responder);
         ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
         reactionNotification.prePersist();
 
@@ -169,8 +166,9 @@ class ReactionNotificationFacadeTest {
     @DisplayName("sendNotification 은 SseEmitter 가 구독되지 않았을 때 알림 이벤트를 보내지 않는다.")
     void sendNotification_SseEmitterNotSubscribed_SendNotificationEvent() {
         // given
-        User receiver = receiver();
-        BalloonReaction balloonReaction = balloonReaction(receiver);
+        User receiver = userBuilder().build();
+        User responder = userBuilder().build();
+        BalloonReaction balloonReaction = balloonReaction(receiver, responder);
         ReactionNotification reactionNotification = reactionNotificationBuilder(balloonReaction, receiver).build();
 
         given(userService.getUser(anyLong())).willReturn(receiver);

@@ -17,7 +17,11 @@ public class BalloonReactionService {
     private final BalloonReactionRepository balloonReactionRepository;
 
     public BalloonReaction createBalloonReaction(Balloon balloon, User user, BalloonReactionType type) {
-        return balloonReactionRepository.save(new BalloonReaction(balloon, user, type));
+        return balloonReactionRepository.save(BalloonReaction.builder()
+                .balloon(balloon)
+                .user(user)
+                .type(type)
+                .build());
     }
 
     public BalloonReaction getBalloonReaction(Long balloonId, Long userId) {

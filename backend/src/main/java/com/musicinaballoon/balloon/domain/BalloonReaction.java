@@ -46,7 +46,8 @@ public class BalloonReaction extends BaseEntity {
     private BalloonReactionType type;
 
     @Builder
-    public BalloonReaction(@NonNull Balloon balloon, @NonNull User user, @NonNull BalloonReactionType type) {
+    public BalloonReaction(Long id, @NonNull Balloon balloon, @NonNull User user, @NonNull BalloonReactionType type) {
+        this.id = id;
         this.balloon = balloon;
         this.user = user;
         this.type = type;

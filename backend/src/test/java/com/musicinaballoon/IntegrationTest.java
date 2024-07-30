@@ -1,5 +1,7 @@
 package com.musicinaballoon;
 
+import static com.musicinaballoon.fixture.UserFixture.userBuilder;
+
 import com.musicinaballoon.user.domain.User;
 import com.musicinaballoon.user.repository.UserRepository;
 import com.musicinaballoon.wave.config.WaveDataLoader;
@@ -45,7 +47,7 @@ public abstract class IntegrationTest {
     }
 
     void setAuthentication() {
-        defaultUser = new User("username");
+        defaultUser = userBuilder().name("username").build();
         userRepository.save(defaultUser);
     }
 }

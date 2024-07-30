@@ -71,6 +71,7 @@ public class Balloon extends BaseEntity {
 
     @Builder
     protected Balloon(
+            Long id,
             @NonNull StreamingMusicType uploadedStreamingMusicType,
             YoutubeMusic youtubeMusic,
             SpotifyMusic spotifyMusic,
@@ -80,6 +81,7 @@ public class Balloon extends BaseEntity {
             @NonNull String message,
             @NonNull String colorCode
     ) {
+        this.id = id;
         this.uploadedStreamingMusicType = uploadedStreamingMusicType;
         this.youtubeMusic = youtubeMusic;
         this.spotifyMusic = spotifyMusic;

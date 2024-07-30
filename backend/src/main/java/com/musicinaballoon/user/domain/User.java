@@ -25,7 +25,8 @@ public class User extends BaseEntity {
     private String name;
 
     @Builder
-    public User(@NonNull String name) {
+    public User(Long id, @NonNull String name) {
+        this.id = id;
         this.name = name;
     }
 }

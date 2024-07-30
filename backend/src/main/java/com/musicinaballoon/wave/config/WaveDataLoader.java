@@ -23,7 +23,12 @@ public class WaveDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        Wave wave = new Wave(WAVE_VELOCITY, WAVE_OFFSET_LON, WAVE_AMPLITUDE, WAVE_PERIOD);
+        Wave wave = Wave.builder()
+                .velocity(WAVE_VELOCITY)
+                .period(WAVE_PERIOD)
+                .offsetLon(WAVE_OFFSET_LON)
+                .amplitude(WAVE_AMPLITUDE)
+                .build();
         waveRepository.save(wave);
     }
 }

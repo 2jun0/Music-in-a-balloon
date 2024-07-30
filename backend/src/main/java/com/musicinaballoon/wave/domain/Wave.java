@@ -37,10 +37,12 @@ public class Wave extends BaseEntity {
 
     @Builder
     public Wave(
+            Long id,
             @NonNull Double velocity,
             @NonNull Double offsetLon,
             @NonNull Double amplitude,
             @NonNull Double period) {
+        this.id = id;
         this.velocity = velocity;
         this.offsetLongitude = offsetLon;
         this.amplitude = amplitude;

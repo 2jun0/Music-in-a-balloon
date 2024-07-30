@@ -30,7 +30,8 @@ public class SpotifyMusic extends StreamingMusic {
     private String albumImageUrl;
 
     @Builder
-    public SpotifyMusic(@NonNull String spotifyId, @NonNull String title, String albumImageUrl) {
+    public SpotifyMusic(Long id, @NonNull String spotifyId, @NonNull String title, String albumImageUrl) {
+        this.id = id;
         this.spotifyId = spotifyId;
         this.title = title;
         this.albumImageUrl = albumImageUrl;

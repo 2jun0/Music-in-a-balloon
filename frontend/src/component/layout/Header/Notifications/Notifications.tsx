@@ -15,6 +15,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { subscribeReactionNotification } from '@/api/notification/subscribeReactionNotification';
 import { selectedBalloonIdState } from '@/store/balloon';
+import { zIndex } from '@/style/Theme';
 import type { ReactionNotificationData } from '@/type/notification';
 import { createBalloonIconImage } from '@/util/balloon';
 import { reactionKeyTypeToEmoji } from '@/util/reaction';
@@ -70,6 +71,7 @@ const Notifications = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        sx={{ zIndex: zIndex.overlayTop }}
       >
         <List sx={{ width: '100%', maxWidth: 360, maxHeight: 250, bgcolor: 'background.paper' }}>
           {reactionNofitications.map((notification) => (

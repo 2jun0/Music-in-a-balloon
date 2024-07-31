@@ -15,8 +15,10 @@ import { useSetRecoilState } from 'recoil';
 
 import { subscribeReactionNotification } from '@/api/notification/subscribeReactionNotification';
 import { selectedBalloonIdState } from '@/store/balloon';
+import { zIndex } from '@/style/Theme';
 import type { ReactionNotificationData } from '@/type/notification';
 import { createBalloonIconImage } from '@/util/balloon';
+import { reactionKeyTypeToEmoji } from '@/util/reaction';
 
 const Notifications = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -26,6 +28,10 @@ const Notifications = () => {
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (reactionNofitications.length === 0) {
+      return;
+    }
+
     setAnchorEl(event.currentTarget);
   };
 
@@ -69,6 +75,7 @@ const Notifications = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        sx={{ zIndex: zIndex.overlayTop }}
       >
         <List sx={{ width: '100%', maxWidth: 360, maxHeight: 250, bgcolor: 'background.paper' }}>
           {reactionNofitications.map((notification) => (
@@ -88,11 +95,13 @@ const Notifications = () => {
                     setSelectedBalloonId(notification.balloon.id);
                   }}
                 >
-                  <Avatar sx={{ bgcolor: grey[300] }}>👍</Avatar>
+                  <Avatar sx={{ bgcolor: grey[300] }}>
+                    {reactionKeyTypeToEmoji(notification.reactionType)}
+                  </Avatar>
                 </Badge>
               </ListItemAvatar>
               <ListItemText
-                primary={`${notification.responder.name} gave a 👍`}
+                primary={`${notification.responder.name} gave a ${reactionKeyTypeToEmoji(notification.reactionType)}`}
                 secondary={`to ${notification.balloon.title} balloon`}
               />
             </ListItem>

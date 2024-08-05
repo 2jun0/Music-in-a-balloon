@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+
+balloon:
+  list-page-size: 5
+  picked-list-page-size: 5
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
+    org.springframework.orm.jpa.JpaTransactionManager: debug
+    org.hibernate.resource.transaction: debug

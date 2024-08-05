@@ -34,7 +34,13 @@ dependencies {
 
     implementation 'se.michaelthelin.spotify:spotify-web-api-java:8.4.0'
 
+    // Database
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // Migration
+    implementation 'org.flywaydb:flyway-core'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

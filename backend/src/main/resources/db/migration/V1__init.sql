@@ -1,4 +1,4 @@
-CREATE TABLE
+create TABLE IF NOT EXISTS
     users (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
@@ -8,7 +8,7 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     wave (
         amplitude FLOAT(53) NOT NULL,
         offset_longitude FLOAT(53) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     spotify_music (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
@@ -33,7 +33,7 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     youtube_music (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
@@ -45,7 +45,7 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     balloon (
         id BIGINT NOT NULL AUTO_INCREMENT,
         base_latitude DECIMAL(16, 13) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE
         FOREIGN KEY (youtube_music_id) REFERENCES youtube_music (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     balloon_picked (
         id BIGINT NOT NULL AUTO_INCREMENT,
         balloon_id BIGINT NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE
         FOREIGN KEY (picker_id) REFERENCES users (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     balloon_reaction (
         id BIGINT NOT NULL AUTO_INCREMENT,
         balloon_id BIGINT NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE
         FOREIGN KEY (user_id) REFERENCES users (id)
     );
 
-CREATE TABLE
+create TABLE IF NOT EXISTS
     notify (
         balloon_reaction BIGINT NOT NULL,
         created_at TIMESTAMP(6) NOT NULL,
@@ -110,6 +110,6 @@ CREATE TABLE
         test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         PRIMARY KEY (id),
-        FOREIGN KEY (balloon_reaction) REFERENCES balloon_reaction (id) ON DELETE CASCADE,
-        FOREIGN KEY (receiver_id) REFERENCES users (id) ON DELETE CASCADE
+        FOREIGN KEY (balloon_reaction) REFERENCES balloon_reaction (id) ON delete CASCADE,
+        FOREIGN KEY (receiver_id) REFERENCES users (id) ON delete CASCADE
     );

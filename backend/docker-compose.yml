@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    image: 2jun0/miab-backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - DATASOURCE_URL=jdbc:mysql://db:3306/miab
+      - DATASOURCE_USERNAME=${MYSQL_USER}
+      - DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=miab
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

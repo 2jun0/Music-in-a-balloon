@@ -1,12 +1,12 @@
 export const PROD = process.env.NODE_ENV === 'production';
 
+export const PROD_BASE_URL = 'api.musicinaballoon.site';
+
 export const BASE_URL = PROD
-  ? `${window.location.protocol}//${process.env.REACT_APP_PROD_BASE_URL}`
+  ? `${window.location.protocol}//${PROD_BASE_URL}`
   : 'http://localhost:3000';
 
-export const AXIOS_BASE_URL = PROD
-  ? `${window.location.protocol}//${process.env.REACT_APP_AXIOS_PROD_BASE_URL}`
-  : '/';
+export const AXIOS_BASE_URL = PROD ? `${window.location.protocol}//${PROD_BASE_URL}` : '/';
 
 export const END_POINTS = {
   BALLOON_LIST: '/balloon/list',

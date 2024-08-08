@@ -2,7 +2,6 @@ create TABLE IF NOT EXISTS
     users (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         name VARCHAR(255) NOT NULL,
         PRIMARY KEY (id)
@@ -16,7 +15,6 @@ create TABLE IF NOT EXISTS
         velocity FLOAT(53) NOT NULL,
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         PRIMARY KEY (id)
     );
@@ -25,7 +23,6 @@ create TABLE IF NOT EXISTS
     spotify_music (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         album_image_url VARCHAR(255),
         spotify_id VARCHAR(255) NOT NULL UNIQUE,
@@ -37,7 +34,6 @@ create TABLE IF NOT EXISTS
     youtube_music (
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         thumbnail_url VARCHAR(255),
         title VARCHAR(255) NOT NULL,
@@ -54,7 +50,6 @@ create TABLE IF NOT EXISTS
         created_at TIMESTAMP(6) NOT NULL,
         creator_id BIGINT NOT NULL,
         spotify_music_id BIGINT,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         youtube_music_id BIGINT,
         color_code VARCHAR(255) NOT NULL,
@@ -72,7 +67,6 @@ create TABLE IF NOT EXISTS
         balloon_id BIGINT NOT NULL,
         created_at TIMESTAMP(6) NOT NULL,
         picker_id BIGINT NOT NULL,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (balloon_id) REFERENCES balloon (id),
@@ -84,7 +78,6 @@ create TABLE IF NOT EXISTS
         id BIGINT NOT NULL AUTO_INCREMENT,
         balloon_id BIGINT NOT NULL,
         created_at TIMESTAMP(6) NOT NULL,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         user_id BIGINT NOT NULL,
         type ENUM(
@@ -107,7 +100,6 @@ create TABLE IF NOT EXISTS
         created_at TIMESTAMP(6) NOT NULL,
         id BIGINT NOT NULL AUTO_INCREMENT,
         receiver_id BIGINT NOT NULL,
-        test_at TIMESTAMP(6) NOT NULL,
         updated_at TIMESTAMP(6) NOT NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (balloon_reaction) REFERENCES balloon_reaction (id) ON delete CASCADE,
